@@ -1,0 +1,151 @@
+/* @import "tailwindcss";
+@theme{
+  --color-primary: #ffbf00;
+  --color-primary-light: #ffc929;
+  --color-secondary: #00b050;
+  --color-secondary-light: #0b1a78;
+}
+
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');  
+body{
+      font-family: "Poppins", sans-serif;
+      font-weight: 100;
+      font-style: normal;
+      @apply bg-blue-50 text-neutral-700;
+}
+ /* @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/*  */
+/* @import "tailwindcss";
+
+@theme {
+  --color-primary: #ffbf00;
+  --color-primary-light: #ffc929;
+  --color-secondary: #00b050;
+  --color-secondary-light: #0b1a78;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  @apply bg-blue-50;
+} */  
+
+
+/* ===============================
+   TAILWIND BASE
+================================ */
+@import "tailwindcss";
+
+/* ===============================
+   THEME COLORS (UNCHANGED)
+================================ */
+@theme{
+  --color-primary: #ffbf00;
+  --color-primary-light: #ffc929;
+  --color-secondary: #00b050;
+  --color-secondary-light: #0b1a78;
+}
+
+/* ===============================
+   GOOGLE FONT (UNCHANGED)
+================================ */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* ===============================
+   GLOBAL BODY STYLE (UNCHANGED)
+================================ */
+body{
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  @apply bg-blue-50 text-neutral-700;
+}
+
+/* ===============================
+   PREMIUM ANIMATIONS (ADDED)
+================================ */
+@layer utilities {
+
+  /* Overlay Fade */
+  @keyframes overlayFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Modal Pop */
+  @keyframes modalPop {
+    0% {
+      opacity: 0;
+      transform: scale(0.9) translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  /* Image Fade */
+  @keyframes imageFade {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Fade + Slide Up */
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ===============================
+     ANIMATION UTILITIES
+  ================================ */
+  .animate-overlayFade {
+    animation: overlayFade 0.25s ease-out;
+  }
+
+  .animate-modalPop {
+    animation: modalPop 0.35s ease-out;
+  }
+
+  .animate-imageFade {
+    animation: imageFade 0.3s ease-in-out;
+  }
+
+  .animate-fadeUp {
+    animation: fadeUp 0.3s ease-out;
+  }
+
+  /* ===============================
+     MICRO INTERACTIONS
+  ================================ */
+  .btn-press {
+    transition: all 0.25s ease;
+  }
+
+  .btn-press:active {
+    transform: scale(0.96);
+  }
+
+  .card-hover {
+    transition: all 0.3s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+  }
+}
+

@@ -1,340 +1,138 @@
-// // import React, { useEffect, useState } from 'react'
-// // import UploadCategoryModel from '../components/UploadCategoryModel'
-// // import Loading from '../components/Loading'
-// // import NoData from '../components/NoData'
-// // import Axios from '../utils/Axios'
-// // import SummaryApi from '../common/SummaryApi'
-
-
-// // const CategoryPage = () => {
-// //     const [openUploadCategory,setOpenUploadCategory] = useState(false)
-// //     const [loading,setLoading] = useState(false)
-// //     const [categoryData,setCategoryData] = useState([])
-// //     const [openEdit,setOpenEdit] = useState(false)
-// //     const [editData,setEditData] = useState({
-// //         name : "",
-// //         image : "",
-// //     })
-// //     const [openConfimBoxDelete,setOpenConfirmBoxDelete] = useState(false)
-// //     const [deleteCategory,setDeleteCategory] = useState({
-// //         _id : ""
-// //     })
-// //     // const allCategory = useSelector(state => state.product.allCategory)
-
-
-// //     // useEffect(()=>{
-// //     //     setCategoryData(allCategory)
-// //     // },[allCategory])
-    
-// //     const fetchCategory = async()=>{
-// //         try {
-// //             setLoading(true)
-// //             const response = await Axios({
-// //                 ...SummaryApi.getCategory
-// //             })
-// //             const { data : responseData } = response
-
-// //             if(responseData.success){
-// //                 setCategoryData(responseData.data)
-// //             }
-// //         } catch (error) {
-            
-// //         }finally{
-// //             setLoading(false)
-// //         }
-// //     }
-
-// //     useEffect(()=>{
-// //         fetchCategory()
-// //     },[])
-
-// //     const handleDeleteCategory = async()=>{
-// //         try {
-// //             const response = await Axios({
-// //                 ...SummaryApi.deleteCategory,
-// //                 data : deleteCategory
-// //             })
-
-// //             const { data : responseData } = response
-
-// //             if(responseData.success){
-// //                 toast.success(responseData.message)
-// //                 fetchCategory()
-// //                 setOpenConfirmBoxDelete(false)
-// //             }
-// //         } catch (error) {
-// //             AxiosToastError(error)
-// //         }
-// //     }
-
-// //   return (
-// //     <section className=''>
-// //         <div className='p-2   bg-white shadow-md flex items-center justify-between'>
-// //             <h2 className='font-semibold'>Category</h2>
-// //             <button onClick={()=>setOpenUploadCategory(true)} className='text-sm border border-primary-200 hover:bg-primary-200 px-3 py-1 rounded'>Add Category</button>
-// //         </div>
-// //         {
-// //             !categoryData[0] && !loading && (
-// //                 <NoData/>
-// //             )
-// //         }
-
-// //         <div className='p-4 grid  grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2'>
-// //             {
-// //                 categoryData.map((category,index)=>{
-// //                     return(
-// //                         <div className='w-32 h-56 rounded shadow-md' key={category._id}>
-// //                             <img 
-// //                                 alt={category.name}
-// //                                 src={category.image}
-// //                                 className='w-full object-scale-down'
-// //                             />
-// //                             <div className='items-center h-9 flex gap-2'>
-// //                                 <button onClick={()=>{
-// //                                     setOpenEdit(true)
-// //                                     setEditData(category)
-// //                                 }} className='flex-1 bg-green-100 hover:bg-green-200 text-green-600 font-medium py-1 rounded'>
-// //                                     Edit
-// //                                 </button>
-// //                                 <button onClick={()=>{
-// //                                     setOpenConfirmBoxDelete(true)
-// //                                     setDeleteCategory(category)
-// //                                 }} className='flex-1 bg-red-100 hover:bg-red-200 text-red-600 font-medium py-1 rounded'>
-// //                                     Delete
-// //                                 </button>
-// //                             </div>
-// //                         </div>
-// //                     )
-// //                 })
-// //             }
-// //         </div>
-
-// //         {
-// //             loading && (
-// //                 <Loading/>
-// //             )
-// //         }
-
-// //         {
-// //             openUploadCategory && (
-// //                 <UploadCategoryModel fetchData={fetchCategory} close={()=>setOpenUploadCategory(false)}/>
-// //             )
-// //         }
-
-// //         {/* {
-// //             openEdit && (
-// //                 <EditCategory data={editData} close={()=>setOpenEdit(false)} fetchData={fetchCategory}/>
-// //             )
-// //         } */}
-
-// //         {/* {
-// //            openConfimBoxDelete && (
-// //             <CofirmBox close={()=>setOpenConfirmBoxDelete(false)} cancel={()=>setOpenConfirmBoxDelete(false)} confirm={handleDeleteCategory}/>
-// //            ) 
-// //         } */}
-// //     </section>
-// //   )
-// // }
-
-// // export default CategoryPage
-
-
 // import React, { useEffect, useState } from 'react'
 // import UploadCategoryModel from '../components/UploadCategoryModel'
+// import DeleteCategory from '../components/DeleteCategory'
 // import Loading from '../components/Loading'
 // import NoData from '../components/NoData'
 // import Axios from '../utils/Axios'
 // import SummaryApi from '../common/SummaryApi'
-// import toast from 'react-hot-toast'
 // import AxiosToastError from '../utils/AxiosToastError'
+// import { Edit2, Trash2, Plus, FolderOpen } from 'lucide-react'
 
 // const CategoryPage = () => {
-
 //   const [openUploadCategory, setOpenUploadCategory] = useState(false)
+//   const [editData, setEditData] = useState(null)
+
+//   const [openDelete, setOpenDelete] = useState(false)
+//   const [deleteData, setDeleteData] = useState(null)
+
 //   const [loading, setLoading] = useState(false)
 //   const [categoryData, setCategoryData] = useState([])
 
-//   const [openEdit, setOpenEdit] = useState(false)
-//   const [editData, setEditData] = useState({
-//     name: "",
-//     image: "",
-//   })
-
-//   const [openConfirmBoxDelete, setOpenConfirmBoxDelete] = useState(false)
-//   const [deleteCategory, setDeleteCategory] = useState({
-//     _id: ""
-//   })
-
-//   // ==============================
+//   // ======================
 //   // FETCH CATEGORY
-//   // ==============================
-//   // const fetchCategory = async () => {
-//   //   try {
-//   //     setLoading(true)
-
-//   //     const response = await Axios({
-//   //       ...SummaryApi.getCategory
-//   //     })
-
-//   //     const { data: responseData } = response
-
-//   //     if (responseData.success) {
-//   //       // ✅ always replace old data
-//   //       setCategoryData(responseData.data || [])
-//   //     }
-
-//   //   } catch (error) {
-//   //     AxiosToastError(error)
-//   //   } finally {
-//   //     setLoading(false)
-//   //   }
-//   // }
-
-//   // useEffect(() => {
-//   //   fetchCategory()
-//   // }, [])
+//   // ======================
 //   const fetchCategory = async () => {
-//   try {
-//     setLoading(true)
-
-//     const response = await Axios({
-//       ...SummaryApi.getCategory
-//     })
-
-//     const { data: responseData } = response
-
-//     if (responseData.success) {
-//       // ✅ ONLY show categories with VALID image URL
-//       const cleanedData = responseData.data.filter(
-//         item =>
-//           item.image &&
-//           typeof item.image === "string" &&
-//           item.image.startsWith("http")
-//       )
-
-//       setCategoryData(cleanedData)
-//     }
-
-//   } catch (error) {
-//     AxiosToastError(error)
-//   } finally {
-//     setLoading(false)
-//   }
-// }
-// useEffect(() => {
-//   fetchCategory()
-// }, [])
-
-
-
-//   // ==============================
-//   // DELETE CATEGORY
-//   // ==============================
-//   const handleDeleteCategory = async () => {
 //     try {
-//       const response = await Axios({
-//         ...SummaryApi.deleteCategory,
-//         data: deleteCategory
-//       })
+//       setLoading(true)
+//       const response = await Axios({ ...SummaryApi.getCategory })
 
-//       const { data: responseData } = response
-
-//       if (responseData.success) {
-//         toast.success(responseData.message)
-
-//         // 🔥 clear stale UI before refetch
-//         setCategoryData([])
-//         setOpenConfirmBoxDelete(false)
-
-//         fetchCategory()
+//       if (response.data.success) {
+//         setCategoryData(response.data.data)
 //       }
-
 //     } catch (error) {
 //       AxiosToastError(error)
+//     } finally {
+//       setLoading(false)
 //     }
 //   }
 
+//   useEffect(() => {
+//     fetchCategory()
+//   }, [])
+
 //   return (
-//     <section className='w-full'>
+//     <section className="min-h-screen bg-gray-50">
 
 //       {/* HEADER */}
-//       <div className='p-2 bg-white shadow-md flex items-center justify-between'>
-//         <h2 className='font-semibold'>Category</h2>
+//       <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-xl border-b px-6 py-4 flex justify-between items-center">
+//         <div className="flex items-center gap-3">
+//           <FolderOpen className="text-amber-600" />
+//           <h1 className="text-xl font-semibold">Category Collection</h1>
+//         </div>
+
+//         {/* ADD BUTTON */}
 //         <button
-//           onClick={() => setOpenUploadCategory(true)}
-//           className='text-sm border border-primary-200 hover:bg-primary-200 px-3 py-1 rounded'
+//           onClick={() => {
+//             setEditData(null)
+//             setOpenUploadCategory(true)
+//           }}
+//           className="flex items-center gap-2 px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600"
 //         >
-//           Add Category
+//           <Plus size={18} /> Add Category
 //         </button>
 //       </div>
 
-//       {/* NO DATA */}
-//       {!categoryData[0] && !loading && (
-//         <NoData />
-//       )}
+//       {/* BODY */}
+//       <div className="p-6">
+//         {loading && <Loading />}
+//         {!loading && categoryData.length === 0 && <NoData />}
 
-//       {/* CATEGORY GRID */}
-//       <div className='p-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3'>
-//         {
-//           categoryData.map((category) => (
+//         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+//           {categoryData.map((category) => (
 //             <div
 //               key={category._id}
-//               className='w-32 h-56 rounded shadow-md bg-white'
+//               className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
 //             >
-//               <img
-//   src={category.image}
-//   alt={category.name}
-//   className="w-full h-36 object-contain"
-//   onError={(e) => {
-//     e.currentTarget.style.display = "none"
-//   }}
-// />
+//               <div className="h-40 flex items-center justify-center bg-gray-100">
+//                 <img
+//                   src={category.image}
+//                   alt={category.name}
+//                   className="h-28 object-contain"
+//                 />
+//               </div>
 
+//               <div className="p-4">
+//                 <h3 className="font-semibold truncate">{category.name}</h3>
 
-//               <div className='items-center h-9 flex gap-2 px-1'>
-//                 <button
-//                   onClick={() => {
-//                     setOpenEdit(true)
-//                     setEditData(category)
-//                   }}
-//                   className='flex-1 bg-green-100 hover:bg-green-200 text-green-600 font-medium py-1 rounded text-xs'
-//                 >
-//                   Edit
-//                 </button>
+//                 <div className="flex justify-end gap-2 mt-3">
+//                   {/* EDIT */}
+//                   <button
+//                     onClick={() => {
+//                       setEditData(category)
+//                       setOpenUploadCategory(true)
+//                     }}
+//                     className="p-2 bg-gray-100 rounded hover:bg-gray-200"
+//                   >
+//                     <Edit2 size={16} />
+//                   </button>
 
-//                 <button
-//                   onClick={() => {
-//                     setOpenConfirmBoxDelete(true)
-//                     setDeleteCategory({ _id: category._id })
-//                   }}
-//                   className='flex-1 bg-red-100 hover:bg-red-200 text-red-600 font-medium py-1 rounded text-xs'
-//                 >
-//                   Delete
-//                 </button>
+//                   {/* DELETE */}
+//                   <button
+//                     onClick={() => {
+//                       setDeleteData(category)
+//                       setOpenDelete(true)
+//                     }}
+//                     className="p-2 bg-red-50 text-red-500 rounded hover:bg-red-100"
+//                   >
+//                     <Trash2 size={16} />
+//                   </button>
+//                 </div>
 //               </div>
 //             </div>
-//           ))
-//         }
+//           ))}
+//         </div>
 //       </div>
 
-//       {/* LOADING */}
-//       {loading && <Loading />}
-
-//       {/* UPLOAD MODAL */}
+//       {/* ADD / EDIT SAME MODAL */}
 //       {openUploadCategory && (
 //         <UploadCategoryModel
-//           fetchData={fetchCategory}
 //           close={() => {
 //             setOpenUploadCategory(false)
-//             fetchCategory() // 🔥 force fresh data
+//             setEditData(null)
 //           }}
+//           fetchData={fetchCategory}
+//           editData={editData}
 //         />
 //       )}
 
-//       {/* EDIT & CONFIRM BOX intentionally commented (same as your code) */}
-//       {/* {openEdit && <EditCategory />} */}
-//       {/* {openConfirmBoxDelete && <ConfirmBox confirm={handleDeleteCategory} />} */}
-
+//       {/* DELETE MODAL */}
+//       {openDelete && deleteData && (
+//         <DeleteCategory
+//           data={deleteData}
+//           close={() => setOpenDelete(false)}
+//           fetchData={fetchCategory}
+//         />
+//       )}
 //     </section>
 //   )
 // }
@@ -342,37 +140,325 @@
 // export default CategoryPage
 
 
+// import React, { useEffect, useState } from 'react'
+// import UploadCategoryModel from '../components/UploadCategoryModel'
+// import DeleteCategory from '../components/DeleteCategory'
+// import Loading from '../components/Loading'
+// import NoData from '../components/NoData'
+// import Axios from '../utils/Axios'
+// import SummaryApi from '../common/SummaryApi'
+// import AxiosToastError from '../utils/AxiosToastError'
+// import { Edit2, Trash2, Plus, FolderOpen } from 'lucide-react'
+
+// const CategoryPage = () => {
+//   const [openUploadCategory, setOpenUploadCategory] = useState(false)
+//   const [editData, setEditData] = useState(null)
+
+//   const [openDelete, setOpenDelete] = useState(false)
+//   const [deleteData, setDeleteData] = useState(null)
+
+//   const [loading, setLoading] = useState(false)
+//   const [categoryData, setCategoryData] = useState([])
+
+//   // ======================
+//   // FETCH CATEGORY
+//   // ======================
+//   const fetchCategory = async () => {
+//     try {
+//       setLoading(true)
+//       const response = await Axios({ ...SummaryApi.getCategory })
+
+//       if (response.data.success) {
+//         setCategoryData(response.data.data)
+//       }
+//     } catch (error) {
+//       AxiosToastError(error)
+//     } finally {
+//       setLoading(false)
+//     }
+//   }
+
+//   useEffect(() => {
+//     fetchCategory()
+//   }, [])
+
+//   return (
+//     <section className="min-h-screen bg-gray-50">
+
+//       {/* HEADER */}
+//       <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-xl border-b px-6 py-4 flex justify-between items-center">
+//         <div className="flex items-center gap-3">
+//           <FolderOpen className="text-amber-600" />
+//           <h1 className="text-xl font-semibold">Category Collection</h1>
+//         </div>
+
+//         {/* ADD BUTTON */}
+//         <button
+//           onClick={() => {
+//             setEditData(null)
+//             setOpenUploadCategory(true)
+//           }}
+//           className="flex items-center gap-2 px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600"
+//         >
+//           <Plus size={18} /> Add Category
+//         </button>
+//       </div>
+
+//       {/* BODY */}
+//       <div className="p-6">
+//         {loading && <Loading />}
+//         {!loading && categoryData.length === 0 && <NoData />}
+
+//         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+//           {categoryData.map((category) => (
+//             <div
+//               key={category._id}
+//               className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
+//             >
+//               <div className="h-40 flex items-center justify-center bg-gray-100">
+//                 <img
+//                   src={category.image}
+//                   alt={category.name}
+//                   className="h-28 object-contain"
+//                 />
+//               </div>
+
+//               <div className="p-4">
+//                 <h3 className="font-semibold truncate">{category.name}</h3>
+
+//                 <div className="flex justify-end gap-2 mt-3">
+//                   {/* EDIT */}
+//                   <button
+//                     onClick={() => {
+//                       setEditData(category)
+//                       setOpenUploadCategory(true)
+//                     }}
+//                     className="p-2 bg-gray-100 rounded hover:bg-gray-200"
+//                   >
+//                     <Edit2 size={16} />
+//                   </button>
+
+//                   {/* DELETE */}
+//                   <button
+//                     onClick={() => {
+//                       setDeleteData(category)
+//                       setOpenDelete(true)
+//                     }}
+//                     className="p-2 bg-red-50 text-red-500 rounded hover:bg-red-100"
+//                   >
+//                     <Trash2 size={16} />
+//                   </button>
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+
+//       {/* ADD / EDIT SAME MODAL */}
+//       {openUploadCategory && (
+//         <UploadCategoryModel
+//           close={() => {
+//             setOpenUploadCategory(false)
+//             setEditData(null)
+//           }}
+//           fetchData={fetchCategory}
+//           editData={editData}
+//         />
+//       )}
+
+//       {/* DELETE MODAL */}
+//       {openDelete && deleteData && (
+//         <DeleteCategory
+//           data={deleteData}
+//           close={() => setOpenDelete(false)}
+//           fetchData={fetchCategory}
+//         />
+//       )}
+//     </section>
+//   )
+// }
+
+// export default CategoryPage
+
+
+// import React, { useEffect, useState } from 'react'
+// import UploadCategoryModel from '../components/UploadCategoryModel'
+// import DeleteCategory from '../components/DeleteCategory'
+// import EditCategory from '../components/EditCategory'
+// import Loading from '../components/Loading'
+// import NoData from '../components/NoData'
+// import Axios from '../utils/Axios'
+// import SummaryApi from '../common/SummaryApi'
+// import AxiosToastError from '../utils/AxiosToastError'
+// import { Edit2, Trash2, Plus, FolderOpen } from 'lucide-react'
+
+// const CategoryPage = () => {
+//   const [openUploadCategory, setOpenUploadCategory] = useState(false)
+//   const [editData, setEditData] = useState(null)
+
+//   const [openDelete, setOpenDelete] = useState(false)
+//   const [deleteData, setDeleteData] = useState(null)
+
+//   const [loading, setLoading] = useState(false)
+//   const [categoryData, setCategoryData] = useState([])
+
+//   // ======================
+//   // FETCH CATEGORY
+//   // ======================
+//   const fetchCategory = async () => {
+//     try {
+//       setLoading(true)
+//       const response = await Axios({ ...SummaryApi.getCategory })
+//       if (response.data.success) {
+//         setCategoryData(response.data.data)
+//       }
+//     } catch (error) {
+//       AxiosToastError(error)
+//     } finally {
+//       setLoading(false)
+//     }
+//   }
+
+//   useEffect(() => {
+//     fetchCategory()
+//   }, [])
+
+//   return (
+//     <section className="min-h-screen bg-gray-50">
+
+//       {/* HEADER */}
+//       <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-xl border-b px-6 py-4 flex justify-between items-center">
+//         <div className="flex items-center gap-3">
+//           <FolderOpen className="text-amber-600" />
+//           <h1 className="text-xl font-semibold">Category Collection</h1>
+//         </div>
+
+//         <button
+//           onClick={() => {
+//             setEditData(null)
+//             setOpenUploadCategory(true)
+//           }}
+//           className="flex items-center gap-2 px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600"
+//         >
+//           <Plus size={18} /> Add Category
+//         </button>
+//       </div>
+
+//       {/* BODY */}
+//       <div className="p-6">
+//         {loading && <Loading />}
+//         {!loading && categoryData.length === 0 && <NoData />}
+
+//         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+//           {categoryData.map((category) => (
+//             <div
+//               key={category._id}
+//               className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
+//             >
+//               {/* IMAGE FIXED AREA */}
+//               <div className="h-40 w-full bg-gray-100 flex items-center justify-center">
+//                 <img
+//                   src={category.image}
+//                   alt={category.name}
+//                   className="
+//                     w-full h-full
+//                     object-contain
+//                     p-4
+//                   "
+//                 />
+//               </div>
+
+//               <div className="p-4">
+//                 <h3 className="font-semibold truncate">{category.name}</h3>
+
+//                 <div className="flex justify-end gap-2 mt-3">
+//                   <button
+//                     onClick={() => {
+//                       setEditData(category)
+//                       setOpenUploadCategory(true)
+//                     }}
+//                     className="p-2 bg-gray-100 rounded hover:bg-gray-200"
+//                   >
+//                     <Edit2 size={16} />
+//                   </button>
+
+//                   <button
+//                     onClick={() => {
+//                       setDeleteData(category)
+//                       setOpenDelete(true)
+//                     }}
+//                     className="p-2 bg-red-50 text-red-500 rounded hover:bg-red-100"
+//                   >
+//                     <Trash2 size={16} />
+//                   </button>
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+
+//       {/* ADD / EDIT MODAL */}
+//       {openUploadCategory && (
+//         <UploadCategoryModel
+//           close={() => {
+//             setOpenUploadCategory(false)
+//             setEditData(null)
+//           }}
+//           fetchData={fetchCategory}
+//           editData={editData}
+//         />
+//       )}
+
+//       {/* DELETE MODAL */}
+//       {openDelete && deleteData && (
+//         <DeleteCategory
+//           data={deleteData}
+//           close={() => setOpenDelete(false)}
+//           fetchData={fetchCategory}
+//         />
+//       )}
+//     </section>
+//   )
+// }
+
+// export default CategoryPage
 
 import React, { useEffect, useState } from 'react'
 import UploadCategoryModel from '../components/UploadCategoryModel'
+import DeleteCategory from '../components/DeleteCategory'
 import Loading from '../components/Loading'
 import NoData from '../components/NoData'
 import Axios from '../utils/Axios'
 import SummaryApi from '../common/SummaryApi'
-import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError'
-import { Edit2, Trash2, Plus, FolderOpen, ChevronRight } from 'lucide-react'
+import { Edit2, Trash2, Plus, FolderOpen, Search, Filter } from 'lucide-react'
 
 const CategoryPage = () => {
   const [openUploadCategory, setOpenUploadCategory] = useState(false)
+  const [editData, setEditData] = useState(null)
+
+  const [openDelete, setOpenDelete] = useState(false)
+  const [deleteData, setDeleteData] = useState(null)
+
   const [loading, setLoading] = useState(false)
   const [categoryData, setCategoryData] = useState([])
-  const [openEdit, setOpenEdit] = useState(false)
-  const [editData, setEditData] = useState({ name: "", image: "" })
-  const [openConfirmBoxDelete, setOpenConfirmBoxDelete] = useState(false)
-  const [deleteCategory, setDeleteCategory] = useState({ _id: "" })
 
+  // Search and Filter States
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filteredData, setFilteredData] = useState([])
+
+  // ======================
+  // FETCH CATEGORY
+  // ======================
   const fetchCategory = async () => {
     try {
       setLoading(true)
       const response = await Axios({ ...SummaryApi.getCategory })
-      const { data: responseData } = response
-
-      if (responseData.success) {
-        const cleanedData = responseData.data.filter(
-          item => item.image && typeof item.image === "string" && item.image.startsWith("http")
-        )
-        setCategoryData(cleanedData)
+      if (response.data.success) {
+        setCategoryData(response.data.data)
+        setFilteredData(response.data.data)
       }
     } catch (error) {
       AxiosToastError(error)
@@ -381,205 +467,263 @@ const CategoryPage = () => {
     }
   }
 
+  // ======================
+  // SEARCH FUNCTIONALITY
+  // ======================
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      setFilteredData(categoryData)
+    } else {
+      const filtered = categoryData.filter(category =>
+        category.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      setFilteredData(filtered)
+    }
+  }, [searchTerm, categoryData])
+
   useEffect(() => {
     fetchCategory()
   }, [])
 
-  const handleDeleteCategory = async () => {
-    try {
-      const response = await Axios({
-        ...SummaryApi.deleteCategory,
-        data: deleteCategory
-      })
-
-      const { data: responseData } = response
-      if (responseData.success) {
-        toast.success(responseData.message)
-        setCategoryData([])
-        setOpenConfirmBoxDelete(false)
-        fetchCategory()
-      }
-    } catch (error) {
-      AxiosToastError(error)
-    }
-  }
-
   return (
-    <section className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-      
-      {/* Luxury Header */}
-      <div className="sticky top-0 z-10 px-8 py-6 bg-white/80 backdrop-blur-xl border-b border-gray-200/50 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="p-3 rounded-2xl bg-gradient-to-r from-amber-100 to-yellow-100">
-              <FolderOpen className="w-6 h-6 text-amber-600" />
+    <section className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* HEADER */}
+      <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-xl border-b px-6 py-4 shadow-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-amber-100 rounded-lg">
+              <FolderOpen className="text-amber-600" size={24} />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Category Collection</h1>
-              <p className="text-sm text-gray-500 flex items-center gap-1">
-                <span>Manage your product categories</span>
-                <ChevronRight className="w-4 h-4" />
-                <span className="text-amber-600">{categoryData.length} categories</span>
-              </p>
+              <h1 className="text-2xl font-bold text-gray-800">Category Collection</h1>
+              <p className="text-sm text-gray-500">Manage your product categories</p>
             </div>
           </div>
-          
-          <button
-            onClick={() => setOpenUploadCategory(true)}
-            className="group relative px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 text-white font-medium hover:from-amber-600 hover:to-yellow-600 transition-all duration-300 shadow-lg shadow-amber-200 hover:shadow-xl hover:shadow-amber-300 flex items-center gap-2 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-            <Plus className="w-5 h-5" />
-            <span>Add Category</span>
-          </button>
-        </div>
-      </div>
 
-      {/* Stats Overview */}
-      <div className="px-8 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 border border-gray-200/50 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500 mb-1">Total Categories</p>
-                <p className="text-3xl font-bold text-gray-900">{categoryData.length}</p>
-              </div>
-              <div className="p-3 rounded-xl bg-amber-50">
-                <FolderOpen className="w-6 h-6 text-amber-500" />
-              </div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            {/* SEARCH BAR */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+              <input
+                type="text"
+                placeholder="Search categories..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-2.5 w-full sm:w-64 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white"
+              />
             </div>
-          </div>
-          
-          <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 border border-gray-200/50 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500 mb-1">Status</p>
-                <p className="text-lg font-semibold text-green-600">Active</p>
-              </div>
-              <div className="p-3 rounded-xl bg-green-50">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Category Grid */}
-      <div className="px-8 pb-12">
-        {!categoryData[0] && !loading && (
-          <div className="py-20">
-            <NoData />
-          </div>
-        )}
-
-        {categoryData.length > 0 && (
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">All Categories</h2>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {categoryData.map((category) => (
-            <div
-              key={category._id}
-              className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden border border-gray-200/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+            {/* ADD CATEGORY BUTTON */}
+            <button
+              onClick={() => {
+                setEditData(null)
+                setOpenUploadCategory(true)
+              }}
+              className="flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-xl hover:from-amber-600 hover:to-amber-700 transition-all duration-200 shadow-md hover:shadow-lg"
             >
-              {/* Image Container */}
-              <div className="relative h-48 bg-gradient-to-br from-amber-50 to-yellow-50 flex items-center justify-center overflow-hidden">
-                <img
-                  src={category.image}
-                  alt={category.name}
-                  className="w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-110"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none"
-                  }}
-                />
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-white/50 to-transparent" />
-              </div>
+              <Plus size={20} />
+              <span className="font-semibold">Add Category</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
-              {/* Content */}
-              <div className="p-5">
-                <h3 className="font-semibold text-gray-900 mb-2 truncate">{category.name}</h3>
-                
-                <div className="flex items-center justify-between mt-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs px-2 py-1 rounded-full bg-amber-100 text-amber-700">
-                      Active
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => {
-                        setOpenEdit(true)
-                        setEditData(category)
-                      }}
-                      className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-amber-600 transition-colors group/edit"
-                    >
-                      <Edit2 className="w-4 h-4 group-hover/edit:scale-110 transition-transform" />
-                    </button>
-                    
-                    <button
-                      onClick={() => {
-                        setOpenConfirmBoxDelete(true)
-                        setDeleteCategory({ _id: category._id })
-                      }}
-                      className="p-2 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 transition-colors group/delete"
-                    >
-                      <Trash2 className="w-4 h-4 group-hover/delete:scale-110 transition-transform" />
-                    </button>
+      {/* BODY */}
+      <div className="p-6">
+        {/* LOADING SKELETON */}
+        {loading && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {[...Array(10)].map((_, i) => (
+              <div key={i} className="bg-white rounded-2xl shadow-md animate-pulse overflow-hidden">
+                <div className="h-48 bg-gray-200"></div>
+                <div className="p-5 space-y-4">
+                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                  <div className="flex justify-end gap-3">
+                    <div className="w-10 h-10 bg-gray-200 rounded-lg"></div>
+                    <div className="w-10 h-10 bg-gray-200 rounded-lg"></div>
                   </div>
                 </div>
               </div>
-
-              {/* Hover Border Effect */}
-              <div className="absolute inset-0 border-2 border-transparent group-hover:border-amber-200 rounded-2xl transition-colors pointer-events-none" />
-            </div>
-          ))}
-        </div>
-
-        {/* Add New Category Card */}
-        {!loading && (
-          <div className="mt-6">
-            <div 
-              onClick={() => setOpenUploadCategory(true)}
-              className="group cursor-pointer bg-gradient-to-br from-gray-50 to-white rounded-2xl border-2 border-dashed border-gray-300 hover:border-amber-400 hover:bg-amber-50/30 transition-all duration-300 p-8 text-center"
-            >
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r from-amber-100 to-yellow-100 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Plus className="w-8 h-8 text-amber-500" />
-              </div>
-              <h3 className="font-semibold text-gray-700 mb-2">Add New Category</h3>
-              <p className="text-sm text-gray-500">Click to create a new product category</p>
-            </div>
+            ))}
           </div>
+        )}
+
+        {/* NO DATA STATE */}
+        {!loading && filteredData.length === 0 && searchTerm === '' && (
+          <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+            <div className="w-24 h-24 bg-amber-50 rounded-full flex items-center justify-center mb-6">
+              <FolderOpen className="w-12 h-12 text-amber-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">No Categories Yet</h3>
+            <p className="text-gray-600 max-w-md mb-8">
+              Start organizing your products by adding categories. This will help customers navigate your store better.
+            </p>
+            <button
+              onClick={() => {
+                setEditData(null)
+                setOpenUploadCategory(true)
+              }}
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-xl hover:from-amber-600 hover:to-amber-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
+            >
+              <Plus size={20} /> Add Your First Category
+            </button>
+          </div>
+        )}
+
+        {/* NO SEARCH RESULTS */}
+        {!loading && filteredData.length === 0 && searchTerm !== '' && (
+          <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+            <Search className="w-16 h-16 text-gray-300 mb-4" />
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">No Results Found</h3>
+            <p className="text-gray-600 mb-6">
+              No categories match "<span className="font-medium">{searchTerm}</span>"
+            </p>
+            <button
+              onClick={() => setSearchTerm('')}
+              className="px-5 py-2 text-amber-600 hover:text-amber-700 font-medium"
+            >
+              Clear Search
+            </button>
+          </div>
+        )}
+
+        {/* CATEGORY GRID */}
+        {!loading && filteredData.length > 0 && (
+          <>
+            {/* STATS BAR */}
+            <div className="flex items-center justify-between mb-6 px-2">
+              <div className="text-sm text-gray-600">
+                Showing <span className="font-semibold">{filteredData.length}</span> of{' '}
+                <span className="font-semibold">{categoryData.length}</span> categories
+                {searchTerm && (
+                  <span>
+                    {' '}for "<span className="font-medium">{searchTerm}</span>"
+                  </span>
+                )}
+              </div>
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm('')}
+                  className="text-sm text-amber-600 hover:text-amber-700 font-medium"
+                >
+                  Clear Search
+                </button>
+              )}
+            </div>
+
+            {/* CATEGORY CARDS */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+              {filteredData.map((category) => (
+                <div
+                  key={category._id}
+                  className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-amber-100"
+                >
+                  {/* IMAGE CONTAINER WITH HOVER EFFECT */}
+                  <div className="relative h-48 w-full bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden ">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent z-10 mx-43">
+
+                    <button
+                      onClick={() => {
+                        setDeleteData(category)
+                        setOpenDelete(true)
+                      }}
+                      className="
+        p-3
+        bg-red- text-red-600
+        rounded-lg
+       cursor-pointer
+        transition
+      "
+                      title="Delete Category"
+                    >
+                      <Trash2 size={25} />
+                    </button>
+                    </div>
+                    <img
+                      src={category.image}
+                      alt={category.name}
+                      className="
+                        w-full h-full
+                        object-contain
+                        p-5
+                        transition-transform duration-300
+                        group-hover:scale-105
+                      "
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/300x200?text=No+Image'
+                      }}
+                    />
+                  </div>
+
+                  {/* CONTENT */}
+                  {/* CONTENT */}
+                  <div className="p-2 flex items-center justify-between gap-5">
+
+                    {/* CATEGORY NAME */}
+                    <h3
+                      className="
+      flex-1
+      font-semibold text-gray-800
+      text-sm
+      leading-snug
+      line-clamp-2
+    "
+                      title={category.name}
+                    >
+                      {category.name}
+                    </h3>
+
+                    {/* ACTION BUTTONS */}
+                    <div className="flex items-center gap-8 shrink-0">
+                      <button
+                        onClick={() => {
+                          setEditData(category)
+                          setOpenUploadCategory(true)
+                        }}
+                        className="
+        p-2.5
+        bg-blue-50 text-blue-600
+        rounded-lg
+        hover:bg-blue-100
+        transition
+      "
+                        title="Edit Category"
+                      >
+                        <Edit2 size={12} />
+                      </button>
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 
-      {/* Loading Overlay */}
-      {loading && (
-        <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="text-center">
-            <Loading />
-            <p className="mt-4 text-gray-600 font-medium">Loading categories...</p>
-          </div>
-        </div>
-      )}
-
-      {/* Modals */}
+      {/* ADD / EDIT MODAL */}
       {openUploadCategory && (
         <UploadCategoryModel
-          fetchData={fetchCategory}
           close={() => {
             setOpenUploadCategory(false)
-            fetchCategory()
+            setEditData(null)
           }}
+          fetchData={fetchCategory}
+          editData={editData}
         />
       )}
 
-      {/* Edit & Delete Confirm Modals (commented as per original) */}
-      {/* {openEdit && <EditCategory />} */}
-      {/* {openConfirmBoxDelete && <ConfirmBox confirm={handleDeleteCategory} />} */}
+      {/* DELETE MODAL */}
+      {openDelete && deleteData && (
+        <DeleteCategory
+          data={deleteData}
+          close={() => setOpenDelete(false)}
+          fetchData={fetchCategory}
+        />
+      )}
     </section>
   )
 }

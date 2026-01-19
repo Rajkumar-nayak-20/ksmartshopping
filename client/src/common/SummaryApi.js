@@ -53,6 +53,14 @@ const summaryApi = {
     getCategory :{
         url:'/api/category/get',
         method:'GET'
+    },
+    updateCategory :{
+        url:'/api/category/update',
+        method:'PUT'
+    },
+    deleteCategory :{
+        url:'/api/category/delete',
+        method:'DELETE'
     }
 
 }

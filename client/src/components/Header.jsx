@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react'
-import d from '../assets/k`s.png'
+import d from '../assets/k26.png'
 import Search from './search'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaRegUserCircle } from "react-icons/fa"
@@ -157,14 +157,13 @@ const Header = () => {
   <div className="relative overflow-hidden rounded-lg p-1">
     <img
       src={d}
-      width={140}
+      width={220}
       height={50}
       alt="martk"
-      className="object-contain transition-all duration-500 
-                 group-hover:scale-105 
-                 group-hover:rotate-1
-                 animate-pulse hover:animate-none
-                 filter group-hover:drop-shadow-xl"
+      className="object-contain transition-all duration-500 scale-330 px-8
+                
+                 
+                 "
     />
     {/* Shine effect */}
     <div className="absolute top-0 -inset-x-20 h-1 bg-gradient-to-r from-transparent via-white to-transparent 
@@ -233,7 +232,7 @@ const Header = () => {
               onClick={redirectTOLoginPage}
               className="px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
             >
-              Sign In
+              Login
             </button>
           )}
 

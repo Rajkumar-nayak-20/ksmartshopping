@@ -488,7 +488,7 @@ const CategoryPage = () => {
   return (
     <section className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* HEADER */}
-      <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-xl border-b px-6 py-4 shadow-sm">
+      <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-xl border-b px-6 py-4 shadow-sm ">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-amber-100 rounded-lg">
@@ -502,8 +502,9 @@ const CategoryPage = () => {
 
           <div className="flex flex-col sm:flex-row gap-3">
             {/* SEARCH BAR */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+            <div className="relative flex
+            ">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 " size={20} />
               <input
                 type="text"
                 placeholder="Search categories..."
@@ -529,7 +530,7 @@ const CategoryPage = () => {
       </div>
 
       {/* BODY */}
-      <div className="p-6">
+      <div className="p-6 sticky">
         {/* LOADING SKELETON */}
         {loading && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
@@ -620,24 +621,24 @@ const CategoryPage = () => {
                 >
                   {/* IMAGE CONTAINER WITH HOVER EFFECT */}
                   <div className="relative h-48 w-full bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden ">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent z-10 mx-43">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent z-10 px-50 ">
 
-                    <button
-                      onClick={() => {
-                        setDeleteData(category)
-                        setOpenDelete(true)
-                      }}
-                      className="
+                      <button
+                        onClick={() => {
+                          setDeleteData(category)
+                          setOpenDelete(true)
+                        }}
+                        className="
         p-3
         bg-red- text-red-600
         rounded-lg
        cursor-pointer
-        transition
+        transition hover:cursor-pointer hover:scale-120
       "
-                      title="Delete Category"
-                    >
-                      <Trash2 size={25} />
-                    </button>
+                        title="Delete Category"
+                      >
+                        <Trash2 size={25} />
+                      </button>
                     </div>
                     <img
                       src={category.image}
@@ -666,7 +667,7 @@ const CategoryPage = () => {
       font-semibold text-gray-800
       text-sm
       leading-snug
-      line-clamp-2
+      line-clamp-2 
     "
                       title={category.name}
                     >
@@ -675,6 +676,7 @@ const CategoryPage = () => {
 
                     {/* ACTION BUTTONS */}
                     <div className="flex items-center gap-8 shrink-0">
+
                       <button
                         onClick={() => {
                           setEditData(category)
@@ -685,7 +687,7 @@ const CategoryPage = () => {
         bg-blue-50 text-blue-600
         rounded-lg
         hover:bg-blue-100
-        transition
+        transition  hover:scale-120
       "
                         title="Edit Category"
                       >
@@ -713,6 +715,7 @@ const CategoryPage = () => {
           }}
           fetchData={fetchCategory}
           editData={editData}
+          categoryList={categoryData}
         />
       )}
 
@@ -729,3 +732,6 @@ const CategoryPage = () => {
 }
 
 export default CategoryPage
+
+
+//2:55

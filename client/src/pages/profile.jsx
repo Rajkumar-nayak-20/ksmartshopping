@@ -101,6 +101,7 @@ const Profile = () => {
   }
 
  return (
+  
     <div className="max-w-xl mx-auto p-4">
 
       {/* Avatar */}

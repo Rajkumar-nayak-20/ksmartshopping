@@ -629,8 +629,7 @@ const CategoryPage = () => {
                           setOpenDelete(true)
                         }}
                         className="
-        p-3
-        bg-red- text-red-600
+        p-0.5     bg-red- text-red-600
         rounded-lg
        cursor-pointer
         transition hover:cursor-pointer hover:scale-120

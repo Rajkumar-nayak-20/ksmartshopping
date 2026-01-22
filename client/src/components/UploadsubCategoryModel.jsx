@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { IoClose } from "react-icons/io5"
+import { X, Upload, Check, Plus as PlusIcon } from "lucide-react"
 import uploadImage from "../utils/Uploadimage"
 import Axios from "../utils/Axios"
 import SummaryApi from "../common/SummaryApi"
 import toast from "react-hot-toast"
-import AxiosToastError from "../utils/AxiosToastError"
 
 const UploadSubCategoryModel = ({
   close,
@@ -12,233 +11,255 @@ const UploadSubCategoryModel = ({
   editData,
   categoryList
 }) => {
-
   const isEdit = Boolean(editData)
 
-  const [data, setData] = useState({
+  const [formData, setFormData] = useState({
     name: "",
-    categoryId: [],
+    categoryId: "", // ✅ માત્ર ID
     image: ""
   })
-
   const [loading, setLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  
+  // ✅ Selected category નામ બતાવવા
+  const [selectedCategoryName, setSelectedCategoryName] = useState("")
 
-  // ======================
-  // LOAD EDIT DATA
-  // ======================
+  // Load edit data
   useEffect(() => {
     if (editData) {
-      setData({
+      setFormData({
         name: editData.name || "",
-        categoryId: editData.categoryId
-          ? [editData.categoryId._id]
-          : [],
+        categoryId: editData.categoryId || "",
         image: editData.image || ""
       })
-    } else {
-      setData({ name: "", categoryId: [], image: "" })
+      
+      // ✅ Edit મોડમાં category નામ શોધો
+      if (editData.categoryId) {
+        const category = categoryList.find(cat => cat._id === editData.categoryId)
+        setSelectedCategoryName(category?.name || "")
+      }
     }
-  }, [editData])
+  }, [editData, categoryList])
 
-  // ======================
-  // INPUT CHANGE
-  // ======================
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target
-    setData(prev => ({ ...prev, [name]: value }))
-  }
-
-  // ======================
-  // CATEGORY SELECT
-  // ======================
-  const handleSelectCategory = (cat) => {
-    if (data.categoryId.includes(cat._id)) return
-
-    setData(prev => ({
+    setFormData(prev => ({
       ...prev,
-      categoryId: [...prev.categoryId, cat._id]
+      [name]: value
     }))
+    
+    // ✅ જો category select કર્યું હોય, તો નામ બતાવો
+    if (name === "categoryId") {
+      const category = categoryList.find(cat => cat._id === value)
+      setSelectedCategoryName(category?.name || "")
+    }
   }
 
-  const handleRemoveCategory = (id) => {
-    setData(prev => ({
-      ...prev,
-      categoryId: prev.categoryId.filter(cid => cid !== id)
-    }))
-  }
-
-  // ======================
-  // IMAGE UPLOAD
-  // ======================
-  const handleUploadImage = async (e) => {
+  // Handle image upload (સમાન)
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0]
     if (!file) return
 
     try {
-      setLoading(true)
+      setUploading(true)
       const response = await uploadImage(file)
       const imageUrl = response?.data?.url
 
-      if (!imageUrl) {
-        toast.error("Image upload failed")
-        return
+      if (imageUrl) {
+        setFormData(prev => ({
+          ...prev,
+          image: imageUrl
+        }))
+        toast.success("Image uploaded successfully")
       }
-
-      setData(prev => ({ ...prev, image: imageUrl }))
     } catch (error) {
-      AxiosToastError(error)
+      toast.error("Failed to upload image")
     } finally {
-      setLoading(false)
+      setUploading(false)
     }
   }
 
-  // ======================
-  // SUBMIT
-  // ======================
+  // Handle form submit (API માં માત્ર ID મોકલો)
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!data.name || data.categoryId.length === 0 || !data.image) {
-      toast.error("All fields required")
+    // Validation
+    if (!formData.name.trim()) {
+      toast.error("Please enter sub-category name")
+      return
+    }
+
+    if (!formData.categoryId) {
+      toast.error("Please select a category")
+      return
+    }
+
+    if (!formData.image) {
+      toast.error("Please upload an image")
       return
     }
 
     try {
       setLoading(true)
 
+      // ✅ API માં માત્ર ID મોકલો, નામ નહીં
+      const payload = {
+        name: formData.name.trim(),
+        categoryId: formData.categoryId, // માત્ર ID
+        image: formData.image
+      }
+
+      if (isEdit) {
+        payload._id = editData._id
+      }
+
       const response = await Axios({
-        ...(isEdit
-          ? SummaryApi.updateSubCategory
-          : SummaryApi.createSubCategory),
-        data: isEdit
-          ? { ...data, _id: editData._id }
-          : data
+        ...(isEdit ? SummaryApi.updateSubCategory : SummaryApi.createSubCategory),
+        data: payload
       })
 
       if (response.data.success) {
-        toast.success(
-          isEdit ? "Sub Category Updated" : "Sub Category Added"
-        )
+        toast.success(isEdit ? "Updated successfully" : "Created successfully")
         close()
         fetchData()
       }
     } catch (error) {
-      AxiosToastError(error)
+      toast.error(error.response?.data?.message || "Something went wrong")
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <section className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
-      <div className="bg-white w-full max-w-xl rounded-2xl p-6 shadow-2xl">
-
-        {/* HEADER */}
-        <div className="flex justify-between items-center border-b pb-3">
-          <h1 className="text-lg font-semibold">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg w-full max-w-md">
+        {/* Header */}
+        <div className="p-4 border-b flex justify-between items-center">
+          <h2 className="text-lg font-semibold">
             {isEdit ? "Edit Sub Category" : "Add Sub Category"}
-          </h1>
-          <button onClick={close}>
-            <IoClose size={22} />
+          </h2>
+          <button
+            onClick={close}
+            className="p-1 hover:bg-gray-100 rounded"
+          >
+            <X size={20} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-4 grid gap-4">
-
-          {/* NAME */}
-          <input
-            type="text"
-            name="name"
-            value={data.name}
-            onChange={handleChange}
-            placeholder="Sub category name"
-            className="border rounded-xl px-4 py-2"
-            required
-          />
-
-          {/* CATEGORY SELECT – TEXT + CROSS ONLY */}
-          <div className="space-y-2">
-
-            {/* Selected Categories */}
-            <div className="flex flex-wrap gap-2">
-              {data.categoryId.map(id => {
-                const cat = categoryList.find(c => c._id === id)
-                if (!cat) return null
-
-                return (
-                  <div
-                    key={id}
-                    className="flex items-center gap-2 bg-gray-100 border rounded-md px-3 py-1 text-sm"
-                  >
-                    <span>{cat.name}</span>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveCategory(id)}
-                      className="text-gray-500 hover:text-red-600"
-                    >
-                      <IoClose size={14} />
-                    </button>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* Category List */}
-            <div className="border rounded-xl max-h-40 overflow-y-auto">
-              {categoryList.map(cat => (
-                <div
-                  key={cat._id}
-                  onClick={() => handleSelectCategory(cat)}
-                  className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm"
-                >
-                  {cat.name}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* IMAGE UPLOAD */}
-          <div className="flex gap-4 items-center">
-            <div className="h-32 w-32 bg-gray-100 rounded-xl flex items-center justify-center">
-              {data.image ? (
-                <img
-                  src={data.image}
-                  alt="preview"
-                  className="max-h-full max-w-full object-contain"
-                />
-              ) : (
-                <span className="text-gray-400 text-sm">No Image</span>
-              )}
-            </div>
-
-            <label className="cursor-pointer">
-              <div className="px-5 py-2 bg-amber-200 rounded-xl">
-                Upload Image
-              </div>
-              <input
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={handleUploadImage}
-              />
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="p-4 space-y-4">
+          {/* Name */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Sub Category Name *
             </label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter name"
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
           </div>
 
-          {/* SUBMIT */}
-          <button
-            disabled={loading}
-            className="bg-amber-500 text-white py-3 rounded-xl font-semibold"
-          >
-            {loading
-              ? "Please wait..."
-              : isEdit
-              ? "Update Sub Category"
-              : "Add Sub Category"}
-          </button>
+          {/* Category Select */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Parent Category *
+            </label>
+            <select
+              name="categoryId"
+              value={formData.categoryId}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            >
+              <option value="">Select Category</option>
+              {categoryList.map(category => (
+                <option key={category._id} value={category._id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            
+            {/* ✅ Selected category નામ બતાવો */}
+            {selectedCategoryName && (
+              <p className="mt-1 text-sm text-green-600">
+                You selected: <strong>{selectedCategoryName}</strong>
+              </p>
+            )}
+          </div>
 
+          {/* Image Upload (સમાન) */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Image *
+            </label>
+            {formData.image ? (
+              <div className="space-y-2">
+                <img
+                  src={formData.image}
+                  alt="Preview"
+                  className="h-32 w-32 object-cover rounded-lg"
+                />
+                <button
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, image: "" }))}
+                  className="text-sm text-red-600 hover:text-red-700"
+                >
+                  Remove Image
+                </button>
+              </div>
+            ) : (
+              <label className="block cursor-pointer">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+                  <Upload className="mx-auto text-gray-400 mb-2" size={24} />
+                  <p className="text-sm text-gray-600">
+                    {uploading ? "Uploading..." : "Click to upload image"}
+                  </p>
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={uploading}
+                  />
+                </div>
+              </label>
+            )}
+          </div>
+
+          {/* Submit Button (સમાન) */}
+          <div className="pt-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <span>Processing...</span>
+                </>
+              ) : isEdit ? (
+                <>
+                  <Check size={18} />
+                  <span>Update Sub-Category</span>
+                </>
+              ) : (
+                <>
+                  <PlusIcon size={18} />
+                  <span>Create Sub-Category</span>
+                </>
+              )}
+            </button>
+          </div>
         </form>
       </div>
-    </section>
+    </div>
   )
 }
 

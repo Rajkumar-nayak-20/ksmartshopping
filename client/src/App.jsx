@@ -40,20 +40,23 @@ import Footer from './components/Footer'
 import { Toaster } from 'react-hot-toast'
 import fetchUserDetails from './utils/fetchUserDetails'
 
-import { setUserDetails } from './store/userslice'
+import { setUserDetails } from './store/userSlice';
+import { setAllCategory, setAllSubCategory, setLoadingCategory } from './store/productSlice';
 import { useDispatch } from 'react-redux'
+import { fetchCategory, fetchSubCategory } from './utils/fetchCategory'; // Import from new file
 
 function App() {
   const dispatch = useDispatch()
 
   const fetchUser = async () => {
     const userData = await fetchUserDetails()
-   
     dispatch(setUserDetails(userData.data))
   }
 
   useEffect(() => {
     fetchUser()
+    fetchCategory(dispatch, setLoadingCategory, setAllCategory)
+    fetchSubCategory(dispatch, setLoadingCategory, setAllSubCategory)
   }, [])
 
   return (

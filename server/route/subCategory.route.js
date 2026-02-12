@@ -24,7 +24,7 @@ const router = express.Router();
 
 // ✅ નવા નામો અનુસાર routes
 router.post('/create', createSubCategoryController);
-router.post('/get', getSubCategoryController);
+router.get('/get', getSubCategoryController);
 router.put('/update', updateSubCategoryController);
 router.delete('/delete', deleteSubCategoryController);
 

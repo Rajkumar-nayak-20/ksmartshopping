@@ -621,7 +621,7 @@ const CategoryPage = () => {
                 >
                   {/* IMAGE CONTAINER WITH HOVER EFFECT */}
                   <div className="relative h-48 w-full bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden ">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent z-10 px-50 ">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent z-10 px-41">
 
                       <button
                         onClick={() => {
@@ -629,7 +629,7 @@ const CategoryPage = () => {
                           setOpenDelete(true)
                         }}
                         className="
-        p-0.5     bg-red- text-red-600
+        p-5     bg-red- text-red-600
         rounded-lg
        cursor-pointer
         transition hover:cursor-pointer hover:scale-120
@@ -655,7 +655,7 @@ const CategoryPage = () => {
                     />
                   </div>
 
-                  {/* CONTENT */}
+                  
                   {/* CONTENT */}
                   <div className="p-2 flex items-center justify-between gap-5">
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { X, Upload, Check, Plus as PlusIcon, Image as ImageIcon, FolderTree } from "lucide-react"
-import uploadImage from "../utils/Uploadimage"
+import uploadImage  from "../utils/uploadImage"
 import Axios from "../utils/Axios"
 import SummaryApi from "../common/SummaryApi"
 import toast from "react-hot-toast"

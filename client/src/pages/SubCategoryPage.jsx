@@ -287,17 +287,17 @@ const SubCategoryPage = () => {
         );
       },
     }),
-    columnHelper.accessor("createdAt", {
-      header: "Created",
-      cell: info => {
-        const date = info.getValue();
-        return date ? new Date(date).toLocaleDateString('en-US', {
-          day: 'numeric',
-          month: 'short',
-          year: 'numeric'
-        }) : "—";
-      },
-    }),
+    // columnHelper.accessor("createdAt", {
+    //   header: "Created",
+    //   cell: info => {
+    //     const date = info.getValue();
+    //     return date ? new Date(date).toLocaleDateString('en-US', {
+    //       day: 'numeric',
+    //       month: 'short',
+    //       year: 'numeric'
+    //     }) : "—";
+    //   },
+    // }),
     columnHelper.display({
       id: "status",
       header: "Status",

@@ -1111,6 +1111,7 @@ const UploadProduct = () => {
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
+<<<<<<< HEAD
   // const handleUploadImage = async (e) => {
   //   const file = e.target.files[0];
   //   if (!file) return;
@@ -1136,9 +1137,16 @@ const UploadProduct = () => {
     if (!file) return;
 
     setUploadingImage(true);
+=======
+  const handleUploadImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+>>>>>>> 6497e552f463bcba3079b30abe5755a45bae2d64
 
+    setUploadingImage(true);
     try {
       const response = await uploadImage(file);
+<<<<<<< HEAD
 
       console.log("Upload Response:", response);
 
@@ -1241,6 +1249,94 @@ const UploadProduct = () => {
 
   return (
     <section>    <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen p-3">
+=======
+      const imageUrl = response?.data?.url || response?.data?.data?.url;
+      if (imageUrl) {
+        setData((prev) => ({ ...prev, image: [...prev.image, imageUrl] }));
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUploadingImage(false);
+      e.target.value = null;
+    }
+  };
+
+  const handleDeleteImage = (index) => {
+    const newImages = [...data.image];
+    newImages.splice(index, 1);
+    setData({ ...data, image: newImages });
+  };
+
+  const handleCategorySelect = (value) => {
+    if (!value || data.category.includes(value)) return;
+    setData((prev) => ({ ...prev, category: [...prev.category, value] }));
+    setSelectCategory("");
+  };
+
+  const handleSubCategorySelect = (value) => {
+    if (!value || data.subCategory.includes(value)) return;
+    setData((prev) => ({ ...prev, subCategory: [...prev.subCategory, value] }));
+    setSelectSubCategory("");
+  };
+
+  const handleRemoveCategory = (index) => {
+    const updated = [...data.category];
+    updated.splice(index, 1);
+    setData({ ...data, category: updated });
+  };
+
+  const handleRemoveSubCategory = (index) => {
+    const updated = [...data.subCategory];
+    updated.splice(index, 1);
+    setData({ ...data, subCategory: updated });
+  };
+
+  const handleAddField = () => {
+    if (!fieldName.trim()) return;
+    setData((prev) => ({
+      ...prev,
+      more_details: { ...prev.more_details, [fieldName]: "" },
+    }));
+    setFieldName("");
+    setOpenAddField(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (data.image.length === 0) {
+      AxiosToastError({ message: "Please upload at least one image" });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const response = await Axios({ ...SummaryApi.createProduct, data });
+      if (response.data.success) {
+        successAlert(response.data.message);
+        setData({
+          name: "",
+          image: [],
+          category: [],
+          subCategory: [],
+          unit: "",
+          stock: "",
+          price: "",
+          discount: "",
+          description: "",
+          more_details: {},
+        });
+      }
+    } catch (error) {
+      AxiosToastError(error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen p-3">
+>>>>>>> 6497e552f463bcba3079b30abe5755a45bae2d64
       {/* Header - Ultra Compact */}
       <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm border border-gray-100 p-3 mb-3 sticky top-0 z-10">
         <div className="flex items-center gap-2">
@@ -1436,6 +1532,7 @@ const UploadProduct = () => {
                   required
                 >
                   <option value="">Select Unit</option>
+<<<<<<< HEAD
 
                   <option value="kg">Kilogram (kg)</option>
                   <option value="g">Gram (g)</option>
@@ -1591,3 +1688,153 @@ export default UploadProduct;
 
 
 
+=======
+
+                  <option value="kg">Kilogram (kg)</option>
+                  <option value="g">Gram (g)</option>
+                  <option value="L">Litre (L)</option>
+                  <option value="ml">Millilitre (ml)</option>
+                  <option value="pcs">Pieces (pcs)</option>
+                  <option value="pack">Pack</option>
+                  <option value="box">Box</option>
+                  <option value="bottle">Bottle</option>
+                  <option value="dozen">Dozen</option>
+                </select>
+              </div>
+              <div>
+                <input
+                  type="number"
+                  placeholder="Stock"
+                  name="stock"
+                  value={data.stock}
+                  onChange={handleChange}
+                  className="w-full px-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <input
+                  type="number"
+                  placeholder="Price"
+                  name="price"
+                  value={data.price}
+                  onChange={handleChange}
+                  className="w-full px-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <input
+                  type="number"
+                  placeholder="Discount %"
+                  name="discount"
+                  value={data.discount}
+                  onChange={handleChange}
+                  className="w-full px-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Fields - Minimal */}
+          <div className="bg-white/60 backdrop-blur-sm rounded-xl shadow-sm border border-gray-100 p-4">
+            <div className="space-y-2">
+              <AnimatePresence>
+                {Object.entries(data.more_details).map(([key, value]) => (
+                  <motion.div
+                    key={key}
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -5 }}
+                    className="flex gap-1.5"
+                  >
+                    <input
+                      type="text"
+                      placeholder={key.replace(/_/g, " ")}
+                      value={value}
+                      onChange={(e) =>
+                        setData((prev) => ({
+                          ...prev,
+                          more_details: {
+                            ...prev.more_details,
+                            [key]: e.target.value,
+                          },
+                        }))
+                      }
+                      className="flex-1 px-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const { [key]: _, ...rest } = data.more_details;
+                        setData((prev) => ({ ...prev, more_details: rest }));
+                      }}
+                      className="px-2 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100"
+                    >
+                      <MdDelete size={14} />
+                    </button>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+
+              <button
+                type="button"
+                onClick={() => setOpenAddField(true)}
+                className="w-full py-2 px-3 border border-dashed border-gray-300 rounded-lg text-xs text-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors flex items-center justify-center gap-1"
+              >
+                <MdOutlineAddCircleOutline size={14} />
+                Add Field
+              </button>
+            </div>
+          </div>
+
+          {/* Submit Button - Compact */}
+          <motion.button
+            type="submit"
+            disabled={submitting}
+            whileTap={{ scale: 0.98 }}
+            className={`w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium rounded-lg shadow-sm hover:shadow transition-all flex items-center justify-center gap-1.5 ${
+              submitting ? "opacity-75 cursor-not-allowed" : ""
+            }`}
+          >
+            {submitting ? (
+              <>
+                <FaSpinner className="animate-spin" size={14} />
+                Creating...
+              </>
+            ) : (
+              <>
+                <FaPlus size={14} />
+                Create Product
+              </>
+            )}
+          </motion.button>
+        </motion.form>
+      </div>
+
+      {/* Modals */}
+      <AnimatePresence>
+        {ViewImageURL && (
+          <ViewImage url={ViewImageURL} close={() => setViewImageURL("")} />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {openAddField && (
+          <AddFieldComponent
+            value={fieldName}
+            onChange={(e) => setFieldName(e.target.value)}
+            submit={handleAddField}
+            close={() => {
+              setOpenAddField(false);
+              setFieldName("");
+            }}
+          />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default UploadProduct;
+>>>>>>> 6497e552f463bcba3079b30abe5755a45bae2d64

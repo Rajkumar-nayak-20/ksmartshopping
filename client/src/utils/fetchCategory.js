@@ -8,7 +8,7 @@ export const fetchCategory = async (
 ) => {
   try {
     dispatch(setLoadingCategory(true));
-    const response = await Axios(SummaryApi.getAllCategory);
+    const response = await Axios(SummaryApi.getCategory);
 
     if (response.data.success) {
       dispatch(setAllCategory(response.data.data));
@@ -27,7 +27,7 @@ export const fetchSubCategory = async (
 ) => {
   try {
     dispatch(setLoadingCategory(true));
-    const response = await Axios(SummaryApi.getAllSubCategory);
+    const response = await Axios(SummaryApi.getSubCategory);
 
     if (response.data.success) {
       dispatch(setAllSubCategory(response.data.data));

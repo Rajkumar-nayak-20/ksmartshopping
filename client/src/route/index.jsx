@@ -18,6 +18,7 @@ import SubCategoryPage from '../pages/SubCategoryPage';
 import UploadProduct from '../pages/UploadProduct';
 import ProductAdmin from '../pages/ProductAdmin';
 import AdminPermision from '../layouts/AdminPermision';
+import ProductListPage from '../pages/ProductListPage';
 
 
 const router = createBrowserRouter([
@@ -99,7 +100,18 @@ const router = createBrowserRouter([
                         element: <AdminPermision><ProductAdmin/></AdminPermision>
                     }
                 ]
+            },
+            {
+                path:":category",
+                children:[
+                    {
+                        path: ":subCategory",
+                        element:<ProductListPage/>
+                    }
+
+                ]
             }
+
 
         ]
     }]//ka mtlb ye sare routes hain

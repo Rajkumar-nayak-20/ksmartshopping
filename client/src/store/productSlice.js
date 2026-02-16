@@ -4,6 +4,7 @@ const initialState = {
   allCategory: [],
   allSubCategory: [],
   loadingCategory: false,
+  products: [],
 };
 
 const productSlice = createSlice({

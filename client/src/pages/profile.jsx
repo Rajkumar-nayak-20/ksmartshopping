@@ -549,31 +549,7 @@ const Profile = () => {
 
           {/* Action Buttons */}
           <div className="flex items-center justify-end gap-4 pt-6 border-t border-gray-100">
-            <button
-              type="button"
-              onClick={() => {
-                setUserData({
-                  name: user.name,
-                  email: user.email,
-                  mobile: user.mobile
-                })
-                setErrors({
-                  name: "",
-                  email: "",
-                  mobile: ""
-                })
-              }}
-              className="
-                px-8 py-3 rounded-xl
-                border-2 border-gray-300
-                text-gray-700 font-semibold
-                hover:bg-gray-50
-                active:scale-[0.98]
-                transition-all duration-300
-              "
-            >
-              Cancel
-            </button>
+         
             <button
               type="submit"
               form="profileForm"

@@ -66,34 +66,41 @@ import React from "react";
 import banner from "../assets/banner.jpg";
 import bannerMobile from "../assets/banner-mobile.jpg";
 import { useSelector } from "react-redux";
+import { valideURLConvert } from "../utils/valideURLConvert";
+import { Link, useNavigate } from "react-router-dom";
+import CategoryWiseProductDisplay from "../components/CategoryWiseProductDisplay";
 
 const Home = () => {
   const loadingCategory = useSelector(
     (state) => state.product?.loadingCategory,
   );
   const categoryData = useSelector((state) => state.product?.allCategory || []);
-  const subcategoryData = useSelector((state) => state.product?.allSubCategory || []);
-  const handleRedirectProductListpage = (id,cat) => {
+  const subcategoryData = useSelector(
+    (state) => state.product?.allSubCategory || [],
+  );
+  const navigate = useNavigate();
+  const handleRedirectProductListpage = (id, cat) => {
     console.log("redirect to product list page with category id ", id, cat);
     // const subcategory =subcategoryData.find(sub =>{
     //    const filterData = sub.category.some(c =>{
     //     return c._id == id
-    //    })   
-    //    return filterData ? true : null   
+    //    })
+    //    return filterData ? true : null
     // })
     const subcategory = subcategoryData.find((sub) => {
+      if (Array.isArray(sub.category)) {
+        return sub.category.some((c) => c._id === id);
+      }
 
-  if (Array.isArray(sub.category)) {
-    return sub.category.some(c => c._id === id);
-  }
-
-  return sub.category?._id === id;
-})
-const url ="/"+cat+"-"+id
-
-    console.log("subcategory ",subcategory);
+      return sub.category?._id === id;
+    })
     
-  };
+    const url = `/${valideURLConvert(cat)}-${id}/${valideURLConvert(subcategory.name)}-${subcategory._id}`;
+      navigate(url);
+    console.log(url);
+  }
+  
+   
   return (
     <section className="bg-gray-50 min-h-screen">
       {/* Banner Section */}
@@ -144,6 +151,17 @@ const url ="/"+cat+"-"+id
               ))}
         </div>
       </div>
+{/* 
+      display category product */}
+      {
+        categoryData.map((c,index)=>{
+          return(
+            
+                <CategoryWiseProductDisplay  key={c?._id+"categoryWiseProduct"} id={c._id}name={c.name}/>
+
+          )
+        })
+      }
     </section>
   );
 };

@@ -308,24 +308,28 @@ const UploadProduct = () => {
               <div className="grid gap-1">
  
 
-  <select
-    name="unit"
-    value={data.unit}
-    onChange={handleChange}
-    required
-    className="w-full px-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-blue-500"
-  >
-    <option value="">Select Unit</option>
-    <option value="kg">Kilogram (kg)</option>
-    <option value="g">Gram (g)</option>
-    <option value="L">Litre (L)</option>
-    <option value="ml">Millilitre (ml)</option>
-    <option value="pcs">Pieces (pcs)</option>
-    <option value="pack">Pack</option>
-    <option value="box">Box</option>
-    <option value="bottle">Bottle</option>
-    <option value="dozen">Dozen</option>
-  </select>
+ <input
+  list="unit-options"
+  name="unit"
+  value={data.unit}
+  onChange={handleChange}
+  placeholder="Select or type unit"
+  required
+  className="w-full px-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-blue-500"
+/>
+
+<datalist id="unit-options">
+  <option value="kg" />
+  <option value="g" />
+  <option value="L" />
+  <option value="ml" />
+  <option value="pcs" />
+  <option value="pack" />
+  <option value="box" />
+  <option value="bottle" />
+  <option value="dozen" />
+</datalist>
+
 </div>
 
               <div>

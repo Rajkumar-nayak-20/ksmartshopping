@@ -311,6 +311,9 @@ return (
 
           {/* Price / Stock / Discount Grid */}
           <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+              <input name='unit' value={data.unit} onChange={handleChange}
+              placeholder='Unit (e.g., kg, pcs)'
+              className='border rounded-xl px-4 py-2 focus:ring-2 focus:ring-primary-200' />
             <input name='price' value={data.price} onChange={handleChange}
               placeholder='Price'
               className='border rounded-xl px-4 py-2 focus:ring-2 focus:ring-primary-200' />
@@ -318,6 +321,7 @@ return (
             <input name='stock' value={data.stock} onChange={handleChange}
               placeholder='Stock'
               className='border rounded-xl px-4 py-2 focus:ring-2 focus:ring-primary-200' />
+              
 
             <input name='discount' value={data.discount} onChange={handleChange}
               placeholder='Discount'

@@ -5,6 +5,10 @@ import Axios from '../utils/Axios'
 import summaryApi from '../common/SummaryApi'
 import CardLoading from './CardLoading'
 import CardProduct from './CardProduct'
+import { FaAngleLeft } from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa";
+
+
 
 const CategoryWiseProductDisplay = ({id,name}) => {
     const [data,setData] = useState([])
@@ -72,6 +76,15 @@ const CategoryWiseProductDisplay = ({id,name}) => {
               <CardProduct data={p} />
             </div>
           ))}
+          <div className='w-full  left-0 right-0 container absolute hidden mx-auto px-2 flex justify-between'>
+            <button className='z-10 relative bg-white hover:bg-gray-100  shadow-lg text-lg p-4 rounded-full'>
+          <FaAngleLeft />
+
+            </button>
+            <button className='z-10 relative bg-white  hover:bg-gray-100 shadow-lg text-lg p-4 rounded-full'>
+              <FaAngleRight />
+            </button>
+          </div>
       </div>
     </div>
   </section>

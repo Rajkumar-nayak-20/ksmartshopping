@@ -116,7 +116,7 @@ const Home = () => {
       </div>
 
       {/* Category Section */}
-      <div className="container mx-auto px-4 my-6">
+      {/* <div className="container mx-auto px-4 my-6">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {loadingCategory
             ? new Array(12).fill(null).map((_, index) => (
@@ -150,7 +150,53 @@ const Home = () => {
                 </div>
               ))}
         </div>
+      </div> */}
+      
+      
+      {/* Unique Category Section */}
+<div className="container mx-auto px-4 my-8">
+  <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 gap-4">
+
+    {categoryData.map((cat) => (
+      <div
+        key={cat._id}
+        onClick={() =>
+          handleRedirectProductListpage(cat._id, cat.name)
+        }
+        className="group relative flex flex-col items-center justify-center 
+                   bg-gradient-to-br from-white to-gray-50 
+                   rounded-2xl p-3 
+                   shadow-sm hover:shadow-xl 
+                   transition-all duration-300 
+                   cursor-pointer 
+                   overflow-hidden"
+      >
+
+        {/* Soft Glow Background */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 
+                        bg-gradient-to-br from-green-100 to-emerald-50 
+                        transition duration-300 rounded-2xl"></div>
+
+        {/* Image */}
+        <div className="relative z-10 flex items-center justify-center h-20">
+          <img
+            src={cat.image}
+            alt={cat.name}
+            className="h-16 object-contain 
+                       transition-transform duration-300 
+                       group-hover:scale-110"
+          />
+        </div>
+
+        {/* Title */}
+        <h3 className="relative z-10 mt-2 text-xs font-semibold text-gray-700 text-center">
+          {cat.name}
+        </h3>
+
       </div>
+    ))}
+  </div>
+</div>
 {/* 
       display category product */}
       {

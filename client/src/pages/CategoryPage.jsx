@@ -621,24 +621,33 @@ const CategoryPage = () => {
                 >
                   {/* IMAGE CONTAINER WITH HOVER EFFECT */}
                   <div className="relative h-48 w-full bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden ">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent z-10 px-41">
+                    
+                    
+                    <div className="absolute inset-0 z-20 pointer-events-none">
 
-                      <button
-                        onClick={() => {
-                          setDeleteData(category)
-                          setOpenDelete(true)
-                        }}
-                        className="
-        p-5     bg-red- text-red-600
-        rounded-lg
-       cursor-pointer
-        transition hover:cursor-pointer hover:scale-120
-      "
-                        title="Delete Category"
-                      >
-                        <Trash2 size={25} />
-                      </button>
-                    </div>
+  <button
+    onClick={() => {
+      setDeleteData(category)
+      setOpenDelete(true)
+    }}
+    className="
+      absolute top-3 right-3
+      p-2
+      bg-red-50 text-red-600
+      rounded-lg
+      shadow-md
+      hover:bg-red-100
+      hover:scale-110
+      transition-all duration-200
+      pointer-events-auto
+    "
+    title="Delete Category"
+  >
+    <Trash2 size={18} />
+  </button>
+
+</div>
+
                     <img
                       src={category.image}
                       alt={category.name}

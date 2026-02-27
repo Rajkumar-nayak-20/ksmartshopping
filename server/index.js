@@ -58,6 +58,7 @@ dotenv.config()
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import helmet from 'helmet'
+import sendEmail from './config/sendEmail.js'
 
 import connectDB from './config/connectDB.js'
 import userRouter from './route/user.route.js'

@@ -92,7 +92,6 @@ const Dashboard = () => {
           className={`
             absolute left-0
             top-[200px]
-                         
             h-[calc(100vh-px)]    
             w-[75%] max-w-[280px]
             bg-white shadow-xl

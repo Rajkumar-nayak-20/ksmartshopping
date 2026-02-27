@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
         default : null
     },
     refresh_token : {
+        
         type : String,
         default : ""
     },
@@ -30,6 +31,7 @@ const userSchema = new mongoose.Schema({
         type : Boolean,
         default : false
     },
+    
     last_login_date : {
         type : Date,
         default : ""

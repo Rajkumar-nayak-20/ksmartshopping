@@ -217,7 +217,7 @@
 //         const image = request.file  // multer middleware
 
 //         const upload = await uploadImageClodinary(image)
-        
+
 //         const updateUser = await UserModel.findByIdAndUpdate(userId,{
 //             avatar : upload.url
 //         })
@@ -373,7 +373,7 @@
 //             forgot_password_otp : "",
 //             forgot_password_expiry : ""
 //         })
-        
+
 //         return response.json({
 //             message : "Verify otp successfully",
 //             error : false,
@@ -535,7 +535,7 @@ import jwt from 'jsonwebtoken'
 // ================= REGISTER =================
 export async function registerUserController(request, response) {
     try {
-        const { name, email, password,mobile } = request.body
+        const { name, email, password, mobile } = request.body
 
         if (!name || !email || !password || !mobile) {
             return response.status(400).json({
@@ -584,7 +584,18 @@ export async function registerUserController(request, response) {
                 url: VerifyEmailUrl
             })
         })
+    
+  const accessToken = generatedAccessToken(newUser._id)
+        const refreshToken = await genertedRefreshToken(newUser._id)
 
+        const cookiesOption = {
+            httpOnly: true,
+            secure: false, // true in production
+            sameSite: "Lax"
+        }
+
+        response.cookie("accessToken", accessToken, cookiesOption)
+        response.cookie("refreshToken", refreshToken, cookiesOption)
         // 🔹 OTP Email (ONLY ADDITION)
         await sendEmail({
             sendTo: email,
@@ -967,9 +978,56 @@ export async function resetpassword(request, response) {
 }
 
 // ================= REFRESH TOKEN =================
+// export async function refreshToken(request, response) {
+//     try {
+//         const refreshToken = request.cookies.refreshToken ||
+//             request?.headers?.authorization?.split(" ")[1]
+
+//         if (!refreshToken) {
+//             return response.status(401).json({
+//                 message: "Invalid token",
+//                 error: true,
+//                 success: false
+//             })
+//         }
+
+//         const verifyToken = jwt.verify(
+//             refreshToken,
+//             process.env.SECRET_KEY_REFRESH_TOKEN
+//         )
+
+//         const userId = verifyToken._id
+//         const newAccessToken = await generatedAccessToken(userId)
+
+//         const cookiesOption = {
+//             httpOnly: true,
+//             secure: true,
+//             sameSite: "None"
+//         }
+
+//         response.cookie('accessToken', newAccessToken, cookiesOption)
+
+//         return response.json({
+//             message: "New Access token generated",
+//             error: false,
+//             success: true,
+//             data: {
+//                 accessToken: newAccessToken
+//             }
+//         })
+
+//     } catch (error) {
+//         return response.status(500).json({
+//             message: error.message || error,
+//             error: true,
+//             success: false
+//         })
+//     }
+// }
 export async function refreshToken(request, response) {
     try {
-        const refreshToken = request.cookies.refreshToken ||
+        const refreshToken =
+            request.cookies.refreshToken ||
             request?.headers?.authorization?.split(" ")[1]
 
         if (!refreshToken) {
@@ -979,41 +1037,35 @@ export async function refreshToken(request, response) {
                 success: false
             })
         }
-
         const verifyToken = jwt.verify(
             refreshToken,
             process.env.SECRET_KEY_REFRESH_TOKEN
         )
 
-        const userId = verifyToken._id
+        // 🔥 FIXED FIELD NAME
+        const userId = verifyToken.id
+
         const newAccessToken = await generatedAccessToken(userId)
 
-        const cookiesOption = {
-            httpOnly: true,
-            secure: true,
-            sameSite: "None"
-        }
-
-        response.cookie('accessToken', newAccessToken, cookiesOption)
+        response.cookie("accessToken", newAccessToken, cookiesOption)
 
         return response.json({
-            message: "New Access token generated",
-            error: false,
+            message: "New access token generated",
             success: true,
+            error: false,
             data: {
                 accessToken: newAccessToken
             }
         })
 
     } catch (error) {
-        return response.status(500).json({
-            message: error.message || error,
+        return response.status(401).json({
+            message: "Token expired or invalid",
             error: true,
             success: false
         })
     }
 }
-
 // ================= USER DETAILS =================
 export async function userDetails(request, response) {
     try {

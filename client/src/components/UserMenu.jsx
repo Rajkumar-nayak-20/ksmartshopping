@@ -324,7 +324,9 @@ return (
         >
           <Package size={18} className="text-orange-500 group-hover:scale-110 transition" />
           <span>Product</span>
+           
         </Link>
+        
       )}
 
       <Link

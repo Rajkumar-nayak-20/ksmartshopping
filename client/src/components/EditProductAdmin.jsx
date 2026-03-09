@@ -3,7 +3,7 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadImage from '../utils/UploadImage';
 import Loading from '../components/Loading';
 import ViewImage from '../components/ViewImage';
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdOutlineAddCircleOutline } from "react-icons/md";
 import { useSelector } from 'react-redux'
 import { IoClose } from "react-icons/io5";
 import AddFieldComponent from '../components/AddFieldComponent';
@@ -12,6 +12,7 @@ import SummaryApi from '../common/SummaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
 import successAlert from '../utils/SuccessAlert';
 import { useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
 
 const EditProductAdmin = ({ close ,data : propsData,fetchProductData}) => {
   const [data, setData] = useState({
@@ -326,6 +327,51 @@ return (
             <input name='discount' value={data.discount} onChange={handleChange}
               placeholder='Discount'
               className='border rounded-xl px-4 py-2 focus:ring-2 focus:ring-primary-200' />
+              <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm border border-gray-100 p-4">
+                          <div className="space-y-2">
+                            <AnimatePresence>
+                              {Object.entries(data.more_details).map(([key, value]) => (
+                                <motion.div
+                                  key={key}
+                                  initial={{ opacity: 0, y: -5 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: -5 }}
+                                  className="flex gap-1.5"
+                                >
+                                  <input
+                                    type="text"
+                                    placeholder={key.replace(/_/g, ' ')}
+                                    value={value}
+                                    onChange={(e) => setData(prev => ({
+                                      ...prev,
+                                      more_details: { ...prev.more_details, [key]: e.target.value }
+                                    }))}
+                                    className="flex-1 px-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg"
+                                  />
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const { [key]: _, ...rest } = data.more_details
+                                      setData(prev => ({ ...prev, more_details: rest }))
+                                    }}
+                                    className="px-2 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100"
+                                  >
+                                    <MdDelete size={14} />
+                                  </button>
+                                </motion.div>
+                              ))}
+                            </AnimatePresence>
+              
+                            <button
+                              type="button"
+                              onClick={() => setOpenAddField(true)}
+                              className="w-full py-2 px-3 border border-dashed border-gray-300 rounded-lg text-xs text-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors flex items-center justify-center gap-1"
+                            >
+                              <MdOutlineAddCircleOutline size={14} />
+                              Add Field
+                            </button>
+                          </div>
+                        </div>
           </div>
 
           {/* Submit */}

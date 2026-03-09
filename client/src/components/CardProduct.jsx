@@ -68,9 +68,20 @@ const CardProduct = ({ data }) => {
           )}
         </div>
 
-        <button className="bg-green-700 hover:bg-green-800 text-white text-xs px-4 py-1.5 rounded-lg transition-all duration-200">
+       <div >
+        {
+          data.stock == 0 ? (
+            <p className='text-red-500 text-sm text-center'>
+              Out of Stock
+            </p>
+          ):(
+ <button className="bg-green-700 hover:bg-green-800 text-white text-xs px-4 py-1.5 rounded-lg transition-all duration-200">
           Add
         </button>
+          )
+        }
+        
+       </div>
       </div>
 
     </div>

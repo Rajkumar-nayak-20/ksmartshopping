@@ -7,6 +7,8 @@ import { DisplayPriceInRupees } from "../utils/DisplayPriceRupees";
 import Divider from "../components/Divider";
 import image1 from "../assets/minute_delivery.png"
 import image2 from "../assets/Best_Prices_Offers.png"
+import image3 from "../assets/image.png"
+import { pricewithDiscount } from "../utils/PriceWithDiscount";
 const ProductDisplayPage = () => {
   const { product } = useParams();
 
@@ -16,6 +18,8 @@ const ProductDisplayPage = () => {
     name: "",
     image: [],
   });
+  const [rating, setRating] = useState(0);
+const [hover, setHover] = useState(null);
   const [image, setImage] = useState(0);
 
   const [loading, setLoading] = useState(false);
@@ -52,6 +56,13 @@ const ProductDisplayPage = () => {
   useEffect(() => {
     fetchProductDetails();
   }, [productId]);
+
+  useEffect(() => {
+  const savedRating = localStorage.getItem(`rating-${data._id}`);
+  if (savedRating) {
+    setRating(Number(savedRating));
+  }
+}, [data._id]);
 
   console.log("product details page", data);
 
@@ -93,13 +104,13 @@ const ProductDisplayPage = () => {
   //   </section>
   // );
 return (
-  <section className="container mx-auto p-4 grid lg:grid-cols-2 gap-8">
+  <section className="container mx-auto px-4 py-4 grid lg:grid-cols-2 gap-6">
 
     {/* LEFT SIDE */}
     <div>
 
       {/* Main Image */}
-      <div className="lg:h-[65vh] h-64 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+      <div className="lg:h-[55vh] h-56 bg-white rounded-xl shadow-sm overflow-hidden flex items-center justify-center">
         {data.image.length > 0 && (
           <img
             src={data.image[image]}
@@ -109,27 +120,30 @@ return (
         )}
       </div>
 
-      {/* Dots Indicator */}
+      {/* Dots */}
       <div className="flex justify-center gap-2 mt-3">
         {data.image.map((_, index) => (
           <div
-            key={index} onClick={() => setImage(index)}
-            className={`w-3 h-3 cursor-pointer rounded-full transition ${
+            key={index}
+            onClick={() => setImage(index)}
+            className={`w-2.5 h-2.5 rounded-full cursor-pointer transition ${
               index === image ? "bg-green-600" : "bg-gray-300"
             }`}
           />
         ))}
       </div>
 
-      {/* Thumbnail Images */}
-      <div className="flex gap-3 mt-4 justify-center flex-wrap">
+      {/* Thumbnails */}
+      <div className="flex gap-2 mt-3 justify-center flex-wrap">
         {data.image.map((img, index) => (
           <div
             key={img + index}
-            className={`w-20 h-20 border rounded-md overflow-hidden cursor-pointer ${
-              index === image ? "border-green-600" : "border-gray-300"
-            }`}
             onClick={() => setImage(index)}
+            className={`w-14 h-14 rounded-lg overflow-hidden cursor-pointer border transition ${
+              index === image
+                ? "border-green-600"
+                : "border-gray-200"
+            }`}
           >
             <img
               src={img}
@@ -139,89 +153,190 @@ return (
           </div>
         ))}
       </div>
-
+      <div className="my-6 grid gap-3">
+        <div>
+          <p className="font-semibold">Description</p>
+        <p className="text-base tex">{data.description}</p>
+        </div>
+         <div>
+          <p className="font-semibold">Unit</p>
+        <p className="text-base tex">{data.unit}</p>
+        </div>
+      </div>
     </div>
-    <div className=" lg:p1-7 p-4">
-      <p className="bg-green-300 w-fit px-2 rounded-full">
-        10 Min
+
+    {/* RIGHT SIDE */}
+    <div className="lg:p-5 p-3 bg-white rounded-xl shadow-sm">
+
+      {/* Delivery Badge */}
+      <p className="bg-green-100 text-green-700 text-xs font-medium w-fit px-2 py-1 rounded-full mb-2">
+        ⚡ 10 Min
       </p>
-      <h2 className="text-l font-semibold mb-4 lg:text-3xl">
+
+      {/* Product Name */}
+      <h2 className="text-lg lg:text-xl font-semibold text-gray-800 mb-1">
         {data.name}
       </h2>
-      <p className="">
-        {
-          data.unit
-        }
-      </p>
-      <Divider/>
-      <div>
-        <p>
-          Price
-        </p>
-       <div>
-        <p> {DisplayPriceInRupees(data.price)}
-      </p>
-         </div>
-      </div>
-      <button>
-        Add
-      </button>
-      <h2>Why Shop from K`s Mart?</h2>
-      <div>
-        <div>
-          <img 
-          src={image1} 
-          alt="" 
-          className="w-20 h-20 "
-          />
-        </div>
-        <div>
-          <div>
-            Superfast Delivery
-          </div>
-          <p>Get your order deliverd to your doorstep at the earliest from dark stores near you. </p>
-        </div>
-      </div>
-       <div>
-        <div>
-          <img 
-          src={image2} 
-          alt="Best Prices Offers" 
-          className="w-20 h-20 "
-          />
-        </div>
-        <div>
-          <div>
-            Best Prices & Offers
-          </div>
-          <p>Best Price destination with offers directly from the manufacturers. </p>
-        </div>
-      </div>
 
-         <div>
-        <div>
-          <img 
-          src={image2} 
-          alt="Best Prices Offers" 
-          className="w-20 h-20 "
-          />
-        </div>
-        <div>
+      {/* Unit */}
+      <p className="text-sm text-gray-500 mb-3">
+        {data.unit}
+      </p>
+      {/* Price */}
+      {/* <div className="mb-4">
+        <p className="text-xs text-gray-500">Price</p>
+       <div className="flex items-center gap-4">
+         <p className="text-xl font-bold text-green-600">
+          {DisplayPriceInRupees(data.price)}
+        </p>
+        {
+          data.discount &&(
+            <p>
+              {
+                DisplayPriceInRupees(data.price)
+              }
+            </p>
+          )
+        }
+         {
+          data.discount  && (
+            <p className="font-bold text-green-600 lg:text-2xl">
+          {pricewithDiscount(data.discount)}%discount
+        </p>
+          )
+       }
+        
+       </div>
+      
+       
+      </div> */}
+      <div className="mb-4">
+  <p className="text-xs text-gray-500">Price</p>
+
+  <div className="flex items-center gap-4">
+
+    {/* Discounted Price */}
+    <p className="text-xl font-bold text-green-600">
+      {DisplayPriceInRupees(pricewithDiscount(data.price, data.discount))}
+    </p>
+
+    {/* Original Price */}
+    {
+      data.discount && (
+        <p className="line-through text-gray-500">
+          {DisplayPriceInRupees(data.price)}
+        </p>
+      )
+    }
+
+    {/* Discount Percentage */}
+    {
+      data.discount && (
+        <p className="font-bold text-red-500 lg:text-xl">
+          {data.discount}% OFF
+        </p>
+      )
+    }
+
+  </div>
+</div>
+        {
+          data.stock === 0 ?(
+            <p className="text-lg text-red-50">Out of Stock</p>
+          ):(
+ <button className="w-20 h-10 bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 rounded-lg transition">
+        Add 
+      </button>
+          )
+        }
+      {/* Add Button */}
+     
+
+      {/* Why Shop */}
+      <h2 className="text-base font-semibold mt-6 mb-3">
+        Why Shop?
+      </h2>
+
+      <div className="space-y-4 text-sm">
+
+        <div className="flex gap-3 items-start">
+          <img src={image1} alt="" className="w-10 h-10 object-contain" />
           <div>
-            Best Prices & Offers
+            <div className="font-medium">Superfast Delivery</div>
+            <p className="text-gray-500 text-xs">
+              Fast doorstep delivery from nearby stores.
+            </p>
           </div>
-          <p>Best Price destination with offers directly from the manufacturers. </p>
         </div>
+
+        <div className="flex gap-3 items-start">
+          <img src={image2} alt="" className="w-10 h-10 object-contain" />
+          <div>
+            <div className="font-medium">Best Prices</div>
+            <p className="text-gray-500 text-xs">
+              Direct manufacturer offers.
+            </p>
+          </div>
+        </div>
+
+
+
+
+        <div className="flex gap-3 items-start">
+          <img src={image3} alt="Wide Assortment" className="w-10 h-10 object-contain" />
+          <div>
+            <div className="font-medium">Wide Assortment</div>
+            <p className="text-gray-500 text-xs">
+              Choose from 5000+  product across food personal care , household &  other categories.
+            </p>
+          </div>
+        </div>
+
       </div>
+      <div className="mb-4">
+  <p className="text-xs text-gray-500 mb-1">Rate this product</p>
+
+  <div className="flex items-center gap-1">
+    {[1, 2, 3, 4, 5].map((star) => (
+      <button
+        key={star}
+        onClick={() => setRating(star)}
+        onMouseEnter={() => setHover(star)}
+        onMouseLeave={() => setHover(null)}
+        className="text-lg transition"
+      >
+        <span
+          className={
+            star <= (hover || rating)
+              ? "text-yellow-400"
+              : "text-gray-300"
+          }
+        >
+          ★
+        </span>
+      </button>
+    ))}
+  </div>
+
+  {/* Show Given Rating */}
+  {rating > 0 && (
+    <p className="text-xs text-gray-500 mt-1">
+      You rated this product {rating} out of 5 ⭐
+    </p>
+  )}
+</div>
+
     </div>
 
+    {/* Price */}
 
-  
+
+{/* Rating Section */}
 
   </section>
-);
+)
 
-
+//4:25
 };
 
 

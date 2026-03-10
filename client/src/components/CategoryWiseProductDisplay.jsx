@@ -225,12 +225,17 @@ import CardLoading from "./CardLoading";
 import CardProduct from "./CardProduct";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { valideURLConvert } from "../utils/valideURLConvert";
 
 const CategoryWiseProductDisplay = ({ id, name }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(true);
+  const subcategoryData = useSelector(
+    (state) => state.product?.allSubCategory || [],
+  );
+  const loadingCardNumber = new Array(5).fill(null);
 
   const scrollRef = useRef(null);
 
@@ -286,8 +291,30 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
     return () => el?.removeEventListener("scroll", handleScroll);
   }, [data]);
 
-  const loadingCardNumber = new Array(5).fill(null);
+  
 
+  
+  
+  const handleRedirectProductListpage = () => {
+
+  const subcategory = subcategoryData.find((sub) => {
+    if (Array.isArray(sub.category)) {
+      return sub.category.some((c) => c._id === id);
+    }
+    return sub.category?._id === id;
+  });
+
+  if (!subcategory) return "";
+
+  const categoryName = name || "category";
+
+  const url = `/${valideURLConvert(categoryName)}-${id}/${valideURLConvert(subcategory.name)}-${subcategory._id}`;
+
+  return url
+};
+
+const redirect6URL = handleRedirectProductListpage();
+ 
   return (
     <section className="py-8 bg-gradient-to-b from-white to-gray-50">
       
@@ -298,8 +325,8 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
           <span className="absolute -bottom-1 left-0 w-10 h-1 bg-green-500 rounded"></span>
         </h3>
 
-        <Link
-          to=""
+        <Link 
+          to={redirect6URL }
           className="text-sm font-medium px-4 py-2 border border-green-500 text-green-600 rounded-full hover:bg-green-500 hover:text-white transition-all duration-300"
         >
           See All →

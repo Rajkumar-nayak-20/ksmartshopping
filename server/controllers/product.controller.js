@@ -360,47 +360,230 @@ export const deleteProductDetails = async(request,response)=>{
 }
 
 //search product
-export const searchProduct = async(request,response)=>{
+// export const searchProduct = async(request,response)=>{
+//     try {
+//         let { search, page , limit } = request.body 
+
+//         if(!page){
+//             page = 1
+//         }
+//         if(!limit){
+//             limit  = 10
+//         }
+
+//         const query = search ? {
+//             $text : {
+//                 $search : search
+//             }
+//         } : {}
+
+//         const skip = ( page - 1) * limit
+
+//         const [data,dataCount] = await Promise.all([
+//             ProductModel.find(query).sort({ createdAt  : -1 }).skip(skip).limit(limit).populate('category subCategory'),
+//             ProductModel.countDocuments(query)
+//         ])
+
+//         return response.json({
+//             message : "Product data",
+//             error : false,
+//             success : true,
+//             data : data,
+//             totalCount :dataCount,
+//             totalPage : Math.ceil(dataCount/limit),
+//             page : page,
+//             limit : limit 
+//         })
+
+
+//     } catch (error) {
+//         return response.status(500).json({
+//             message : error.message || error,
+//             error : true,
+//             success : false
+//         })
+//     }
+// }
+
+export const searchProduct = async (request, response) => {
     try {
-        let { search, page , limit } = request.body 
 
-        if(!page){
-            page = 1
-        }
-        if(!limit){
-            limit  = 10
-        }
+        let { search, page, limit } = request.body
 
-        const query = search ? {
-            $text : {
-                $search : search
-            }
-        } : {}
+        page = Number(page) || 1
+        limit = Number(limit) || 10
 
-        const skip = ( page - 1) * limit
+        const skip = (page - 1) * limit
 
-        const [data,dataCount] = await Promise.all([
-            ProductModel.find(query).sort({ createdAt  : -1 }).skip(skip).limit(limit).populate('category subCategory'),
+        const query = search
+            ? { $text: { $search: search } }
+            : {}
+
+        const [data, dataCount] = await Promise.all([
+            ProductModel.find(query)
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit)
+                .populate("category subCategory"),
+
             ProductModel.countDocuments(query)
         ])
 
         return response.json({
-            message : "Product data",
-            error : false,
-            success : true,
-            data : data,
-            totalCount :dataCount,
-            totalPage : Math.ceil(dataCount/limit),
-            page : page,
-            limit : limit 
+            message: "Product data",
+            error: false,
+            success: true,
+            data: data,
+            totalCount: dataCount,
+            totalPage: Math.ceil(dataCount / limit),
+            page: page,
+            limit: limit
         })
-
 
     } catch (error) {
         return response.status(500).json({
-            message : error.message || error,
-            error : true,
-            success : false
+            message: error.message || error,
+            error: true,
+            success: false
         })
     }
 }
+
+
+
+
+export const addProductReview = async (req,res)=>{
+  try{
+
+    const { productId, rating, comment } = req.body
+    const user = req.userId
+
+    const product = await ProductModel.findById(productId)
+
+    if(!product){
+      return res.status(404).json({
+        success:false,
+        message:"Product not found"
+      })
+    }
+
+    if(!product.reviews){
+      product.reviews = []
+    }
+
+    const review = {
+      userId:user,
+      userName:req.userName,
+      rating,
+      comment
+    }
+
+    product.reviews.push(review)
+
+    await product.save()
+
+    res.json({
+      success:true,
+      message:"Review added"
+    })
+
+  }catch(err){
+    res.status(500).json({
+      success:false,
+      message:err.message
+    })
+  }
+}
+
+
+
+
+export const updateProductReview = async (req,res)=>{
+  try{
+
+    const { productId, reviewId, rating, comment } = req.body;
+
+    const product = await ProductModel.findById(productId);
+
+    const review = product.reviews.id(reviewId);
+
+    if(!review){
+      return res.json({
+        success:false,
+        message:"Review not found"
+      })
+    }
+
+    if(review.userId.toString() !== req.userId){
+      return res.json({
+        success:false,
+        message:"Unauthorized"
+      })
+    }
+
+    review.rating = rating;
+    review.comment = comment;
+
+    await product.save();
+
+    res.json({
+      success:true,
+      message:"Review updated"
+    });
+
+  }catch(err){
+    res.status(500).json({
+      success:false,
+      message:err.message
+    })
+  }
+}
+
+
+
+
+
+export const deleteProductReview = async (req,res)=>{
+  try{
+
+    const { productId, reviewId } = req.body;
+
+    const product = await ProductModel.findById(productId);
+
+    const review = product.reviews.id(reviewId);
+
+    if(!review){
+      return res.json({
+        success:false,
+        message:"Review not found"
+      })
+    }
+
+    if(review.userId.toString() !== req.userId){
+      return res.json({
+        success:false,
+        message:"Unauthorized"
+      })
+    }
+
+    review.deleteOne();
+
+    await product.save();
+
+    res.json({
+      success:true,
+      message:"Review deleted"
+    });
+
+  }catch(err){
+    res.status(500).json({
+      success:false,
+      message:err.message
+    })
+  }
+}
+
+
+
+
+

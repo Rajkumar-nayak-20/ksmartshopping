@@ -331,7 +331,7 @@ return (
                           <div className="space-y-2">
                             <AnimatePresence>
                               {Object.entries(data.more_details).map(([key, value]) => (
-                                <motion.div
+                                <div
                                   key={key}
                                   initial={{ opacity: 0, y: -5 }}
                                   animate={{ opacity: 1, y: 0 }}
@@ -358,18 +358,11 @@ return (
                                   >
                                     <MdDelete size={14} />
                                   </button>
-                                </motion.div>
+                                </div>
                               ))}
                             </AnimatePresence>
               
-                            <button
-                              type="button"
-                              onClick={() => setOpenAddField(true)}
-                              className="w-full py-2 px-3 border border-dashed border-gray-300 rounded-lg text-xs text-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors flex items-center justify-center gap-1"
-                            >
-                              <MdOutlineAddCircleOutline size={14} />
-                              Add Field
-                            </button>
+                         
                           </div>
                         </div>
           </div>

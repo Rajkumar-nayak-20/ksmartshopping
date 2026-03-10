@@ -1,345 +1,778 @@
+// import React, { useEffect, useState } from "react";
+// import { useParams } from "react-router-dom";
+// import AxiosToastError from "../utils/AxiosToastError";
+// import Axios from "../utils/Axios";
+// import summaryApi from "../common/SummaryApi";
+// import { DisplayPriceInRupees } from "../utils/DisplayPriceRupees";
+// import image1 from "../assets/minute_delivery.png";
+// import image2 from "../assets/Best_Prices_Offers.png";
+// import image3 from "../assets/image.png";
+// import { pricewithDiscount } from "../utils/PriceWithDiscount";
+
+// const ProductDisplayPage = () => {
+
+//   const { product } = useParams();
+//   const productId = product?.split("-")?.at(-1);
+
+//   const [data,setData] = useState({
+//     name:"",
+//     image:[]
+//   });
+
+//   const [image,setImage] = useState(0);
+
+//   const [loading,setLoading] = useState(false);
+
+//   const [rating,setRating] = useState(0);
+//   const [hover,setHover] = useState(null);
+//   const [comment,setComment] = useState("");
+
+//   const [reviews,setReviews] = useState([]);
+
+
+
+//   const fetchProductDetails = async()=>{
+
+//     if(!productId) return;
+
+//     setLoading(true);
+
+//     try{
+
+//       const response = await Axios({
+//         ...summaryApi.getProductDetails,
+//         data:{ productId }
+//       });
+
+//       const { data:responseData } = response;
+
+//       if(responseData.success){
+//         setData(responseData.data);
+//         setReviews(responseData.data.reviews || []);
+//       }
+
+//     }catch(error){
+//       AxiosToastError(error);
+//     }finally{
+//       setLoading(false);
+//     }
+
+//   }
+
+
+
+//   useEffect(()=>{
+//     fetchProductDetails()
+//   },[productId])
+
+
+
+//   const submitReview = async()=>{
+
+//     try{
+
+//       const response = await Axios({
+//         ...summaryApi.addReview,
+        
+//         data:{
+//           productId:data._id,
+//           rating:rating,
+//           comment:comment
+//         }
+//       });
+
+//       console.log(response) 
+
+//       const { data:responseData } = response;
+
+//       if(responseData.success){
+//         fetchProductDetails()
+//         setComment("")
+//         setRating(0)
+//       }
+
+//       console.log(responseData)
+
+//     }catch(error){
+//       AxiosToastError(error)
+//     }
+
+//   }
+
+
+
+//   return (
+
+//   <section className="container mx-auto px-4 py-6 grid lg:grid-cols-2 gap-8">
+
+//     {/* LEFT SIDE */}
+
+//     <div>
+
+//       <div className="lg:h-[60vh] h-64 bg-white rounded-xl shadow-md flex items-center justify-center">
+
+//         {
+//           data.image.length > 0 && (
+//             <img
+//               src={data.image[image]}
+//               className="w-full h-full object-contain"
+//             />
+//           )
+//         }
+
+//       </div>
+
+
+//       {/* thumbnails */}
+
+//       <div className="flex gap-3 mt-4 justify-center flex-wrap">
+
+//         {
+//           data.image.map((img,index)=>(
+//             <div
+//               key={index}
+//               onClick={()=>setImage(index)}
+//               className={`w-16 h-16 border rounded cursor-pointer
+//                 ${index===image ? "border-green-600" : "border-gray-200"}
+//               `}
+//             >
+//               <img
+//                 src={img}
+//                 className="w-full h-full object-cover"
+//               />
+//             </div>
+//           ))
+//         }
+
+//       </div>
+
+
+//       <div className="mt-6">
+
+//         <p className="font-semibold">
+//           Description
+//         </p>
+
+//         <p className="text-sm text-gray-600">
+//           {data.description}
+//         </p>
+
+//       </div>
+
+//     </div>
+
+
+
+//     {/* RIGHT SIDE */}
+
+//     <div className="bg-white p-6 rounded-xl shadow-md">
+
+//       <p className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded w-fit">
+//         ⚡ 10 Min Delivery
+//       </p>
+
+
+//       <h1 className="text-xl font-bold mt-2">
+//         {data.name}
+//       </h1>
+
+
+//       <p className="text-gray-500 text-sm">
+//         {data.unit}
+//       </p>
+
+
+
+//       {/* price */}
+
+//       <div className="flex items-center gap-4 mt-4">
+
+//         <span className="text-2xl font-bold text-green-600">
+//           {DisplayPriceInRupees(pricewithDiscount(data.price,data.discount))}
+//         </span>
+
+//         {
+//           data.discount && (
+//             <span className="line-through text-gray-400">
+//               {DisplayPriceInRupees(data.price)}
+//             </span>
+//           )
+//         }
+
+//       </div>
+
+
+
+//       {/* stock */}
+
+//       <div className="mt-3">
+
+//         {
+//           data.stock === 0 ? (
+//             <span className="text-red-500">
+//               Out of Stock
+//             </span>
+//           ) : (
+//             <span className="text-green-600">
+//               In Stock
+//             </span>
+//           )
+//         }
+
+//       </div>
+
+
+
+//       {/* Add cart */}
+
+//       <button className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg">
+//         Add to Cart
+//       </button>
+
+
+
+//       {/* why shop */}
+
+//       <h2 className="font-semibold mt-6">
+//         Why Shop With Us?
+//       </h2>
+
+//       <div className="space-y-4 mt-3">
+
+//         <div className="flex gap-3">
+//           <img src={image1} className="w-10"/>
+//           <div>
+//             <p className="font-medium">Superfast Delivery</p>
+//             <p className="text-xs text-gray-500">
+//               Get delivery in minutes
+//             </p>
+//           </div>
+//         </div>
+
+
+//         <div className="flex gap-3">
+//           <img src={image2} className="w-10"/>
+//           <div>
+//             <p className="font-medium">Best Prices</p>
+//             <p className="text-xs text-gray-500">
+//               Direct manufacturer offers
+//             </p>
+//           </div>
+//         </div>
+
+
+//         <div className="flex gap-3">
+//           <img src={image3} className="w-10"/>
+//           <div>
+//             <p className="font-medium">Wide Assortment</p>
+//             <p className="text-xs text-gray-500">
+//               5000+ products available
+//             </p>
+//           </div>
+//         </div>
+
+//       </div>
+
+
+
+//       {/* rating */}
+
+//       <div className="mt-6">
+
+//         <p className="text-sm mb-2">
+//           Rate this product
+//         </p>
+
+//         <div className="flex gap-1">
+
+//           {
+//             [1,2,3,4,5].map((star)=>(
+//               <button
+//                 key={star}
+//                 onClick={()=>setRating(star)}
+//                 onMouseEnter={()=>setHover(star)}
+//                 onMouseLeave={()=>setHover(null)}
+//                 className="text-2xl"
+//               >
+//                 <span className={
+//                   star <= (hover || rating)
+//                   ? "text-yellow-400"
+//                   : "text-gray-300"
+//                 }>
+//                   ★
+//                 </span>
+//               </button>
+//             ))
+//           }
+
+//         </div>
+
+
+//         {/* comment */}
+
+//         <textarea
+//           value={comment}
+//           onChange={(e)=>setComment(e.target.value)}
+//           placeholder="Write your review..."
+//           className="w-full border rounded p-2 text-sm mt-2"
+//         />
+
+
+//         <button
+//           onClick={submitReview}
+//           className="mt-2 bg-green-600 text-white px-4 py-2 rounded"
+//         >
+//           Submit Review
+//         </button>
+
+//       </div>
+
+//     </div>
+
+
+
+//     {/* REVIEWS SECTION */}
+
+//     <div className="lg:col-span-2 mt-10">
+
+//       <h2 className="text-lg font-semibold mb-4">
+//         Customer Reviews
+//       </h2>
+
+//       {
+//         reviews.length === 0 && (
+//           <p className="text-gray-500 text-sm">
+//             No reviews yet
+//           </p>
+//         )
+//       }
+
+
+//       {
+//         reviews.map((review,index)=>(
+//           <div
+//             key={index}
+//             className="border-b py-4"
+//           >
+
+//             <p className="font-medium">
+//               {review.userName}
+//             </p>
+
+//             <p className="text-yellow-400">
+//               {"⭐".repeat(review.rating)}
+//             </p>
+
+//             <p className="text-sm text-gray-600">
+//               {review.comment}
+//             </p>
+
+//           </div>
+//         ))
+//       }
+
+//     </div>
+
+
+//   </section>
+
+//   )
+
+// }
+
+// export default ProductDisplayPage
+
+
+
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import AxiosToastError from "../utils/AxiosToastError";
 import Axios from "../utils/Axios";
 import summaryApi from "../common/SummaryApi";
 import { DisplayPriceInRupees } from "../utils/DisplayPriceRupees";
-import Divider from "../components/Divider";
-import image1 from "../assets/minute_delivery.png"
-import image2 from "../assets/Best_Prices_Offers.png"
-import image3 from "../assets/image.png"
 import { pricewithDiscount } from "../utils/PriceWithDiscount";
-const ProductDisplayPage = () => {
-  const { product } = useParams();
+import image1 from "../assets/minute_delivery.png";
+import image2 from "../assets/Best_Prices_Offers.png";
+import image3 from "../assets/image.png";
 
+const ProductDisplayPage = () => {
+
+  const { product } = useParams();
   const productId = product?.split("-")?.at(-1);
 
-  const [data, setData] = useState({
-    name: "",
-    image: [],
-  });
-  const [rating, setRating] = useState(0);
-const [hover, setHover] = useState(null);
-  const [image, setImage] = useState(0);
+  const user = useSelector(state => state.user)
 
-  const [loading, setLoading] = useState(false);
+  const [data,setData] = useState({
+    name:"",
+    image:[]
+  })
 
-  const fetchProductDetails = async () => {
-    if (!productId) {
-      return;
-    }
+  const [image,setImage] = useState(0)
+  const [loading,setLoading] = useState(false)
 
-    setLoading(true);
+  const [rating,setRating] = useState(0)
+  const [hover,setHover] = useState(null)
+  const [comment,setComment] = useState("")
+  const [editReviewId,setEditReviewId] = useState(null)
 
-    try {
+  const [reviews,setReviews] = useState([])
+
+
+  const fetchProductDetails = async()=>{
+
+    if(!productId) return
+
+    try{
+
       const response = await Axios({
         ...summaryApi.getProductDetails,
-        data: { productId },
-      });
+        data:{ productId }
+      })
 
-      console.log("Full Response:", response);
+      const { data:responseData } = response
 
-      const { data: responseData } = response;
-
-      if (responseData.success) {
-        setData(responseData.data);
-      } else {
-        // console.log("API returned success false");
+      if(responseData.success){
+        setData(responseData.data)
+        setReviews(responseData.data.reviews || [])
       }
-    } catch (error) {
-      AxiosToastError(error);
-    } finally {
-      setLoading(false);
+
+    }catch(error){
+      AxiosToastError(error)
     }
-  };
 
-  useEffect(() => {
-    fetchProductDetails();
-  }, [productId]);
-
-  useEffect(() => {
-  const savedRating = localStorage.getItem(`rating-${data._id}`);
-  if (savedRating) {
-    setRating(Number(savedRating));
   }
-}, [data._id]);
 
-  console.log("product details page", data);
 
-  // return (
-  //   <section className="container mx-auto p-4 grid lg:grid-cols-2 ">
-  //     <div clssName="">
-  //       <div className=" lg:min-h-[65vh] lg:max-h-[65vh] rounded min-h-56 max-h-56 h-full w-full">
-  //         <img
-  //           src={data.image[image]}
-  //           className="w-full h-full object-scale-down"
-  //         />
-  //       </div>
-  //       <div className="flex items-center justify-center gap-3">
-  //         {data.image.map((img, index) => {
-  //           return (
-  //             <div key={img+index+"point"}
-  //               className={`bg-slate-200  w-5 h-5 rounded-full ${index === image && "bg-slate-200"}`}
-  //             ></div>
-  //           );
-  //         })}
-  //       </div>
-  //       <div>
-  //         <div className="flex gap-4">
-  //           {data.image.map((img, index) => {
-  //             return (
-  //               <div className="w-20 h-20" key={img+index}>
-  //                 <img src={img}
-  //                 alt="min-product"
-  //                 onclick={() => setImage(index)}
-  //                 className="w-full h-full object-cover rounded cursor-pointer"
-                  
-  //                 />
-  //               </div>
-  //             );
-  //           })}
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </section>
-  // );
-return (
-  <section className="container mx-auto px-4 py-4 grid lg:grid-cols-2 gap-6">
+  useEffect(()=>{
+    fetchProductDetails()
+  },[productId])
+
+
+
+  const submitReview = async()=>{
+
+    try{
+
+      if(editReviewId){
+
+        const response = await Axios({
+          ...summaryApi.updateReview,
+          data:{
+            productId:data._id,
+            reviewId:editReviewId,
+            rating,
+            comment
+          }
+        })
+
+        if(response.data.success){
+          setEditReviewId(null)
+        }
+
+      }else{
+
+        const response = await Axios({
+          ...summaryApi.addReview,
+          data:{
+            productId:data._id,
+            rating,
+            comment
+          }
+        })
+
+      }
+
+      fetchProductDetails()
+      setRating(0)
+      setComment("")
+
+    }catch(error){
+      AxiosToastError(error)
+    }
+
+  }
+
+
+
+  const deleteReview = async(reviewId)=>{
+
+    try{
+
+      const response = await Axios({
+        ...summaryApi.deleteReview,
+        data:{
+          productId:data._id,
+          reviewId
+        }
+      })
+
+      if(response.data.success){
+        fetchProductDetails()
+      }
+
+    }catch(error){
+      AxiosToastError(error)
+    }
+
+  }
+
+
+
+  const editReview = (review)=>{
+  setRating(review.rating)
+  setComment(review.comment)
+  setEditReviewId(review._id)
+}
+
+
+
+  return (
+
+  <section className="container mx-auto px-4 py-6 grid lg:grid-cols-2 gap-8">
 
     {/* LEFT SIDE */}
+
     <div>
 
-      {/* Main Image */}
-      <div className="lg:h-[55vh] h-56 bg-white rounded-xl shadow-sm overflow-hidden flex items-center justify-center">
+      <div className="lg:h-[60vh] h-64 bg-white rounded-xl shadow-md flex items-center justify-center">
+
         {data.image.length > 0 && (
           <img
             src={data.image[image]}
-            alt="product"
-            className="w-full h-full object-contain transition duration-300"
+            className="w-full h-full object-contain"
           />
         )}
+
       </div>
 
-      {/* Dots */}
-      <div className="flex justify-center gap-2 mt-3">
-        {data.image.map((_, index) => (
+
+      <div className="flex gap-3 mt-4 justify-center flex-wrap">
+
+        {data.image.map((img,index)=>(
           <div
             key={index}
-            onClick={() => setImage(index)}
-            className={`w-2.5 h-2.5 rounded-full cursor-pointer transition ${
-              index === image ? "bg-green-600" : "bg-gray-300"
-            }`}
-          />
-        ))}
-      </div>
-
-      {/* Thumbnails */}
-      <div className="flex gap-2 mt-3 justify-center flex-wrap">
-        {data.image.map((img, index) => (
-          <div
-            key={img + index}
-            onClick={() => setImage(index)}
-            className={`w-14 h-14 rounded-lg overflow-hidden cursor-pointer border transition ${
-              index === image
-                ? "border-green-600"
-                : "border-gray-200"
-            }`}
+            onClick={()=>setImage(index)}
+            className={`w-16 h-16 border rounded cursor-pointer
+              ${index===image ? "border-green-600" : "border-gray-200"}
+            `}
           >
             <img
               src={img}
-              alt="thumbnail"
               className="w-full h-full object-cover"
             />
           </div>
         ))}
+
       </div>
-      <div className="my-6 grid gap-3">
-        <div>
-          <p className="font-semibold">Description</p>
-        <p className="text-base tex">{data.description}</p>
-        </div>
-         <div>
-          <p className="font-semibold">Unit</p>
-        <p className="text-base tex">{data.unit}</p>
-        </div>
+
+
+      <div className="mt-6">
+        <p className="font-semibold">Description</p>
+        <p className="text-sm text-gray-600">{data.description}</p>
       </div>
+
     </div>
+
+
 
     {/* RIGHT SIDE */}
-    <div className="lg:p-5 p-3 bg-white rounded-xl shadow-sm">
 
-      {/* Delivery Badge */}
-      <p className="bg-green-100 text-green-700 text-xs font-medium w-fit px-2 py-1 rounded-full mb-2">
-        ⚡ 10 Min
+    <div className="bg-white p-6 rounded-xl shadow-md">
+
+      <p className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded w-fit">
+        ⚡ 10 Min Delivery
       </p>
 
-      {/* Product Name */}
-      <h2 className="text-lg lg:text-xl font-semibold text-gray-800 mb-1">
+      <h1 className="text-xl font-bold mt-2">
         {data.name}
-      </h2>
+      </h1>
 
-      {/* Unit */}
-      <p className="text-sm text-gray-500 mb-3">
-        {data.unit}
-      </p>
-      {/* Price */}
-      {/* <div className="mb-4">
-        <p className="text-xs text-gray-500">Price</p>
-       <div className="flex items-center gap-4">
-         <p className="text-xl font-bold text-green-600">
-          {DisplayPriceInRupees(data.price)}
-        </p>
-        {
-          data.discount &&(
-            <p>
-              {
-                DisplayPriceInRupees(data.price)
-              }
-            </p>
-          )
-        }
-         {
-          data.discount  && (
-            <p className="font-bold text-green-600 lg:text-2xl">
-          {pricewithDiscount(data.discount)}%discount
-        </p>
-          )
-       }
-        
-       </div>
-      
-       
-      </div> */}
-      <div className="mb-4">
-  <p className="text-xs text-gray-500">Price</p>
+      <p className="text-gray-500 text-sm">{data.unit}</p>
 
-  <div className="flex items-center gap-4">
 
-    {/* Discounted Price */}
-    <p className="text-xl font-bold text-green-600">
-      {DisplayPriceInRupees(pricewithDiscount(data.price, data.discount))}
-    </p>
+      <div className="flex items-center gap-4 mt-4">
 
-    {/* Original Price */}
-    {
-      data.discount && (
-        <p className="line-through text-gray-500">
-          {DisplayPriceInRupees(data.price)}
-        </p>
-      )
-    }
+        <span className="text-2xl font-bold text-green-600">
+          {DisplayPriceInRupees(pricewithDiscount(data.price,data.discount))}
+        </span>
 
-    {/* Discount Percentage */}
-    {
-      data.discount && (
-        <p className="font-bold text-red-500 lg:text-xl">
-          {data.discount}% OFF
-        </p>
-      )
-    }
+        {data.discount && (
+          <span className="line-through text-gray-400">
+            {DisplayPriceInRupees(data.price)}
+          </span>
+        )}
 
-  </div>
-</div>
-        {
-          data.stock === 0 ?(
-            <p className="text-lg text-red-50">Out of Stock</p>
-          ):(
- <button className="w-20 h-10 bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 rounded-lg transition">
-        Add 
+      </div>
+
+
+      <div className="mt-3">
+
+        {data.stock === 0 ? (
+          <span className="text-red-500">Out of Stock</span>
+        ) : (
+          <span className="text-green-600">In Stock</span>
+        )}
+
+      </div>
+
+
+      <button className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg">
+        Add to Cart
       </button>
-          )
-        }
-      {/* Add Button */}
-     
 
-      {/* Why Shop */}
-      <h2 className="text-base font-semibold mt-6 mb-3">
-        Why Shop?
-      </h2>
 
-      <div className="space-y-4 text-sm">
 
-        <div className="flex gap-3 items-start">
-          <img src={image1} alt="" className="w-10 h-10 object-contain" />
+      {/* WHY SHOP */}
+
+      <h2 className="font-semibold mt-6">Why Shop With Us?</h2>
+
+      <div className="space-y-4 mt-3">
+
+        <div className="flex gap-3">
+          <img src={image1} className="w-10"/>
           <div>
-            <div className="font-medium">Superfast Delivery</div>
-            <p className="text-gray-500 text-xs">
-              Fast doorstep delivery from nearby stores.
-            </p>
+            <p className="font-medium">Superfast Delivery</p>
+            <p className="text-xs text-gray-500">Get delivery in minutes</p>
           </div>
         </div>
 
-        <div className="flex gap-3 items-start">
-          <img src={image2} alt="" className="w-10 h-10 object-contain" />
+        <div className="flex gap-3">
+          <img src={image2} className="w-10"/>
           <div>
-            <div className="font-medium">Best Prices</div>
-            <p className="text-gray-500 text-xs">
-              Direct manufacturer offers.
-            </p>
+            <p className="font-medium">Best Prices</p>
+            <p className="text-xs text-gray-500">Direct manufacturer offers</p>
           </div>
         </div>
 
-
-
-
-        <div className="flex gap-3 items-start">
-          <img src={image3} alt="Wide Assortment" className="w-10 h-10 object-contain" />
+        <div className="flex gap-3">
+          <img src={image3} className="w-10"/>
           <div>
-            <div className="font-medium">Wide Assortment</div>
-            <p className="text-gray-500 text-xs">
-              Choose from 5000+  product across food personal care , household &  other categories.
-            </p>
+            <p className="font-medium">Wide Assortment</p>
+            <p className="text-xs text-gray-500">5000+ products available</p>
           </div>
         </div>
 
       </div>
-      <div className="mb-4">
-  <p className="text-xs text-gray-500 mb-1">Rate this product</p>
 
-  <div className="flex items-center gap-1">
-    {[1, 2, 3, 4, 5].map((star) => (
-      <button
-        key={star}
-        onClick={() => setRating(star)}
-        onMouseEnter={() => setHover(star)}
-        onMouseLeave={() => setHover(null)}
-        className="text-lg transition"
-      >
-        <span
-          className={
-            star <= (hover || rating)
-              ? "text-yellow-400"
-              : "text-gray-300"
-          }
+
+
+      {/* REVIEW FORM */}
+
+      <div className="mt-6">
+
+        <p className="text-sm mb-2">
+          {editReviewId ? "Edit your review" : "Rate this product"}
+        </p>
+
+        <div className="flex gap-1">
+
+          {[1,2,3,4,5].map((star)=>(
+            <button
+              key={star}
+              onClick={()=>setRating(star)}
+              onMouseEnter={()=>setHover(star)}
+              onMouseLeave={()=>setHover(null)}
+              className="text-2xl"
+            >
+              <span className={
+                star <= (hover || rating)
+                  ? "text-yellow-400"
+                  : "text-gray-300"
+              }>
+                ★
+              </span>
+            </button>
+          ))}
+
+        </div>
+
+
+        <textarea
+          value={comment}
+          onChange={(e)=>setComment(e.target.value)}
+          placeholder="Write your review..."
+          className="w-full border rounded p-2 text-sm mt-2"
+        />
+
+
+        <button
+          onClick={submitReview}
+          className="mt-2 bg-green-600 text-white px-4 py-2 rounded"
         >
-          ★
-        </span>
-      </button>
-    ))}
-  </div>
+          {editReviewId ? "Update Review" : "Submit Review"}
+        </button>
 
-  {/* Show Given Rating */}
-  {rating > 0 && (
-    <p className="text-xs text-gray-500 mt-1">
-      You rated this product {rating} out of 5 ⭐
-    </p>
-  )}
-</div>
+      </div>
 
     </div>
 
-    {/* Price */}
 
 
-{/* Rating Section */}
+    {/* REVIEWS LIST */}
+
+    <div className="lg:col-span-2 mt-10">
+
+      <h2 className="text-lg font-semibold mb-4">
+        Customer Reviews
+      </h2>
+
+      {reviews.length === 0 && (
+        <p className="text-gray-500 text-sm">No reviews yet</p>
+      )}
+
+      {reviews.map((review,index)=>(
+        <div key={index} className="border-b py-4">
+
+          <p className="font-medium">
+            {review.userName}
+          </p>
+
+          <p className="text-yellow-400">
+            {"⭐".repeat(review.rating)}
+          </p>
+
+          <p className="text-sm text-gray-600">
+            {review.comment}
+          </p>
+
+
+          {user?._id === review.userId && (
+
+            <div className="flex gap-4 mt-2">
+
+              <button
+                onClick={()=>editReview(review)}
+                className="text-blue-500 text-xs cursor-"
+              >
+                Edit
+              </button>
+
+              <button
+                onClick={()=>deleteReview(review._id)}
+                className="text-red-500 text-xs"
+              >
+                Delete
+              </button>
+
+            </div>
+
+          )}
+
+        </div>
+      ))}
+
+    </div>
 
   </section>
-)
 
-//4:25
-};
+  )
+
+}
+
+export default ProductDisplayPage
 
 
 
 
-export default ProductDisplayPage;

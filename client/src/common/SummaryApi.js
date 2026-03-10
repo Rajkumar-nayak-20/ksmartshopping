@@ -117,6 +117,19 @@ const summaryApi = {
         url : '/api/product/search-product',
         method : 'post'
     },
+     addReview:{
+    url:"/api/product/add-review",
+    method:"POST"
+  },
+  updateReview:{
+    url:"/api/product/update-review",
+    method:"PUT"
+  },
+
+  deleteReview:{
+    url:"/api/product/delete-review",
+    method:"DELETE"
+  }
     
 }
 export default summaryApi

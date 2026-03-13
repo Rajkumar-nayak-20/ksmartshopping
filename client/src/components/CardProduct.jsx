@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { DisplayPriceInRupees } from '../utils/DisplayPriceRupees'
 import { Link } from 'react-router-dom'
 import { valideURLConvert } from '../utils/valideURLConvert'
+import summaryApi from '../common/SummaryApi'
+import AxiosToastError from '../utils/AxiosToastError'
+import Axios from '../utils/Axios'
+import toast from 'react-hot-toast'
 
 const CardProduct = ({ data }) => {
 
@@ -11,6 +15,33 @@ const CardProduct = ({ data }) => {
     ? data.price - (data.price * data.discount) / 100
     : data.price
     const url =`/product/${valideURLConvert(data.name)}-${data._id}`
+    const  [loading,setLoading] =useState(false)
+    const handleAddToCart = async(e)=>{
+      e.preventDefault()
+      e.stopPropagation()
+      try {
+        setLoading(true)
+        const response = await Axios({
+          ...summaryApi.addTocart,
+          data : {
+           productId : data?._id, 
+            // price : discountedPrice,
+            // quantity : 1
+          }
+        })
+        const {data :responseData} = response
+        if(responseData?.success){
+          toast.success(responseData?.message)
+        }
+
+      } catch (error) {
+        AxiosToastError(error)
+        
+      }finally{
+        setLoading(false)
+      }
+
+    }
 
   return (
     <Link to={url}>
@@ -75,9 +106,12 @@ const CardProduct = ({ data }) => {
               Out of Stock
             </p>
           ):(
- <button className="bg-green-700 hover:bg-green-800 text-white text-xs px-4 py-1.5 rounded-lg transition-all duration-200">
-          Add
-        </button>
+<button 
+  onClick={handleAddToCart} 
+  className="bg-green-700 hover:bg-green-800 text-white text-xs px-4 py-1.5 rounded-lg transition-all duration-200"
+>
+  Add
+</button>
           )
         }
         

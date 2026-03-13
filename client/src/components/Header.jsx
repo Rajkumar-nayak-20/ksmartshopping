@@ -18,6 +18,9 @@ const Header = () => {
   const navigate = useNavigate() // navigation
   const user = useSelector((state) => state?.user)
   const [openUserMenu, setOpenUserMenu] = useState(false)
+  
+  console.log();
+  
 
   // redirect to login page
   const redirectTOLoginPage = () => {

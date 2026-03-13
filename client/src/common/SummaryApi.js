@@ -129,6 +129,10 @@ const summaryApi = {
   deleteReview:{
     url:"/api/product/delete-review",
     method:"DELETE"
+  }, 
+  addTocart :{
+    url : '/api/cart/create',
+    method : 'post'
   }
     
 }

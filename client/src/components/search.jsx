@@ -13,6 +13,8 @@ const Search = () => {
   const [isSearchPage, setIsSearchPage] = useState(false)
   const [isMobile] = useMobile()
   const [search, setSearch] = useState("")
+  const params = useLocation()
+  const searchText = params.search.slice(3)
 
   // detect search page
   useEffect(() => {
@@ -136,6 +138,7 @@ const Search = () => {
             value={search}
             autoFocus
             placeholder="Search for products…"
+            defaultValue={searchText}
             className="
               w-full bg-transparent
               outline-none

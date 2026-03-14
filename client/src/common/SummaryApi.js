@@ -1,139 +1,143 @@
-export  const baseURL = "http://localhost:8181"
+export const baseURL = "http://localhost:8181"
 
 const summaryApi = {
-    register : {
-    url:'api/user/register',
-    method:'POST'
+    register: {
+        url: 'api/user/register',
+        method: 'POST'
     },
-    login : {
-        url:'api/user/login',
-        method:'POST'
+    login: {
+        url: 'api/user/login',
+        method: 'POST'
     },
-    forgot_Password : {
-        url:'api/user/forgot-password',
-        method:'PUT'
+    forgot_Password: {
+        url: 'api/user/forgot-password',
+        method: 'PUT'
     },
-    forgot_Password_otp_verification:{
-        url:'api/user/verify-forgot-password-otp',
-        method:'PUT'
+    forgot_Password_otp_verification: {
+        url: 'api/user/verify-forgot-password-otp',
+        method: 'PUT'
 
-    } ,
-    resetPassword :{
-        url:'api/user/reset-password',
-        method:'PUT'
     },
-    refreshToken :{
-        url:'api/user/refresh-token',
-        method:'POST'
+    resetPassword: {
+        url: 'api/user/reset-password',
+        method: 'PUT'
     },
-    userDetails :{
-        url:'/api/user/user-details',
-        method:"GET"
+    refreshToken: {
+        url: 'api/user/refresh-token',
+        method: 'POST'
     },
-    logout :{
-        url:"/api/user/logout",
-        method:'get'
+    userDetails: {
+        url: '/api/user/user-details',
+        method: "GET"
     },
-    uploadAvatar:{
-        url:"/api/user/upload-avatar",
-        method:'PUT'
+    logout: {
+        url: "/api/user/logout",
+        method: 'get'
     },
-    updateUserDetails:{
-        url:'/api/user/update-user',
-        method:'PUT'
+    uploadAvatar: {
+        url: "/api/user/upload-avatar",
+        method: 'PUT'
     },
-    addCategory:{
-        url:'/api/category/add-category',
-        method:'POST'
+    updateUserDetails: {
+        url: '/api/user/update-user',
+        method: 'PUT'
     },
-    uploadImage :{
-        url:'/api/file/upload',
-        method:'POST'
+    addCategory: {
+        url: '/api/category/add-category',
+        method: 'POST'
     },
-    getCategory :{
-        url:'/api/category/get',
-        method:'GET'
+    uploadImage: {
+        url: '/api/file/upload',
+        method: 'POST'
     },
-    updateCategory :{
-        url:'/api/category/update',
-        method:'PUT'
+    getCategory: {
+        url: '/api/category/get',
+        method: 'GET'
     },
-    deleteCategory :{
-        url:'/api/category/delete',
-        method:'DELETE'
+    updateCategory: {
+        url: '/api/category/update',
+        method: 'PUT'
     },
-   getCategory: {
-    url: "/api/category/get",
-    method: "get"
-  },
+    deleteCategory: {
+        url: '/api/category/delete',
+        method: 'DELETE'
+    },
+    getCategory: {
+        url: "/api/category/get",
+        method: "get"
+    },
 
-    createSubCategory : {
-        url : '/api/subcategory/create',
-        method : 'post'
+    createSubCategory: {
+        url: '/api/subcategory/create',
+        method: 'post'
     },
-    getSubCategory : {
-        url : '/api/subcategory/get',
-        method : 'get'
+    getSubCategory: {
+        url: '/api/subcategory/get',
+        method: 'get'
     },
-    updateSubCategory : {
-        url : '/api/subcategory/update',
-        method : 'put'
+    updateSubCategory: {
+        url: '/api/subcategory/update',
+        method: 'put'
     },
-    deleteSubCategory : {
-        url : '/api/subcategory/delete',
-        method : 'delete'
+    deleteSubCategory: {
+        url: '/api/subcategory/delete',
+        method: 'delete'
     },
-     createProduct : {
-        url : '/api/product/create',
-        method : 'post'
+    createProduct: {
+        url: '/api/product/create',
+        method: 'post'
     },
-    getProduct : {
-        url : '/api/product/get',
-        method : 'post'
+    getProduct: {
+        url: '/api/product/get',
+        method: 'post'
     },
-  
 
-    getProductByCategory : {
-        url : '/api/product/get-product-by-category',
-        method : 'post'
-    },
-    getProductByCategoryAndSubCategory : {
-        url : '/api/product/get-pruduct-by-category-and-subcategory',
-        method : 'post'
-    },
-    getProductDetails : {
-        url : '/api/product/get-product-details',
-        method : 'post'
-    },
-    updateProductDetails : {
-        url : "/api/product/update-product-details",
-        method : 'put'
-    },
-    deleteProduct : {
-        url : "/api/product/delete-product",
-        method : 'delete'
-    },
-    searchProduct : {
-        url : '/api/product/search-product',
-        method : 'post'
-    },
-     addReview:{
-    url:"/api/product/add-review",
-    method:"POST"
-  },
-  updateReview:{
-    url:"/api/product/update-review",
-    method:"PUT"
-  },
 
-  deleteReview:{
-    url:"/api/product/delete-review",
-    method:"DELETE"
-  }, 
-  addTocart :{
-    url : '/api/cart/create',
-    method : 'post'
-  }
-    
+    getProductByCategory: {
+        url: '/api/product/get-product-by-category',
+        method: 'post'
+    },
+    getProductByCategoryAndSubCategory: {
+        url: '/api/product/get-pruduct-by-category-and-subcategory',
+        method: 'post'
+    },
+    getProductDetails: {
+        url: '/api/product/get-product-details',
+        method: 'post'
+    },
+    updateProductDetails: {
+        url: "/api/product/update-product-details",
+        method: 'put'
+    },
+    deleteProduct: {
+        url: "/api/product/delete-product",
+        method: 'delete'
+    },
+    searchProduct: {
+        url: '/api/product/search-product',
+        method: 'post'
+    },
+    addReview: {
+        url: "/api/product/add-review",
+        method: "POST"
+    },
+    updateReview: {
+        url: "/api/product/update-review",
+        method: "PUT"
+    },
+
+    deleteReview: {
+        url: "/api/product/delete-review",
+        method: "DELETE"
+    },
+    addTocart: {
+        url: '/api/cart/create',
+        method: 'post'
+    },
+    getCartItem: {
+        url: '/api/cart/get',
+        method: 'get'   
+    }
+
 }
 export default summaryApi

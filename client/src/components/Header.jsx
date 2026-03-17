@@ -45,8 +45,12 @@ useEffect(() => {
 
   },0)
   setTotalQty(qty)
-  console.log("Total qty ",qty);
+ const  tprice = cartItem.reduce((preve,curr)=>{
+  return preve + (curr.productId.price * curr.quantity)
+ },0)
+ setTotalPrice(tprice)
   
+console.log("total price",tprice);
 
 },[cartItem])
 

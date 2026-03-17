@@ -28,6 +28,7 @@
     "react-toastify": "^11.0.5",
     "react-type-animation": "^3.2.0",
     "sweetalert2": "^11.26.18",
+    "swiper": "^12.1.2",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {

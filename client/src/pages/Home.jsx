@@ -64,11 +64,22 @@
 
 import React from "react";
 import banner from "../assets/banner.jpg";
+import b1 from "../assets/b1.jpg";
+import b2 from "../assets/b2.jpg";
+import b3 from "../assets/b3.png";
+
+
 import bannerMobile from "../assets/banner-mobile.jpg";
 import { useSelector } from "react-redux";
 import { valideURLConvert } from "../utils/valideURLConvert";
 import { Link, useNavigate } from "react-router-dom";
 import CategoryWiseProductDisplay from "../components/CategoryWiseProductDisplay";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
 const Home = () => {
   const loadingCategory = useSelector(
@@ -104,7 +115,7 @@ const Home = () => {
   return (
     <section className="bg-gray-50 min-h-screen">
       {/* Banner Section */}
-      <div className="container mx-auto px-4">
+      {/* <div className="container mx-auto px-4">
         <div className="rounded-xl overflow-hidden my-4 shadow-md">
           <img src={banner} className="w-full hidden lg:block" alt="banner" />
           <img
@@ -113,7 +124,67 @@ const Home = () => {
             alt="banner mobile"
           />
         </div>
-      </div>
+      </div> */}
+
+      <div className="container mx-auto px-4">
+  <div className="rounded-xl overflow-hidden my-4 shadow-md">
+
+    <Swiper
+      modules={[Navigation, Pagination, Autoplay]}
+      navigation
+      pagination={{ clickable: true }}
+      autoplay={{ delay: 3000 }}
+      loop={true}
+      className="w-full h-full"
+    >
+
+      {/* Slide 1 */}
+      <SwiperSlide>
+        <img
+          src={b3}
+            className="w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-[450px] object-cover rounded-xl"
+
+          alt="banner"
+        />
+        <img
+          src={bannerMobile}
+          className="w-full lg:hidden"
+          alt="banner mobile"
+        />
+      </SwiperSlide>
+
+      {/* Slide 2 */}
+      <SwiperSlide>
+        <img
+          src={b1}
+          className="w-full hidden lg:block"
+          alt="banner"
+        />
+        <img
+          src={bannerMobile}
+          className="w-full lg:hidden"
+          alt="banner mobile"
+        />
+      </SwiperSlide>
+
+      {/* Slide 3 */}
+      <SwiperSlide>
+        <img
+          src={b2}
+          className="w-full hidden lg:block"
+          alt="banner"
+        />
+        <img
+          src={bannerMobile}
+          className="w-full lg:hidden"
+          alt="banner mobile"
+        />
+      </SwiperSlide>
+
+    </Swiper>
+
+  </div>
+</div>
 
       {/* Category Section */}
       {/* <div className="container mx-auto px-4 my-6">

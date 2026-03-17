@@ -137,6 +137,10 @@ const summaryApi = {
     getCartItem: {
         url: '/api/cart/get',
         method: 'get'   
+    },
+    updateCartItemQty :{
+        url: '/api/cart/update-qty',
+        method: 'put'
     }
 
 }

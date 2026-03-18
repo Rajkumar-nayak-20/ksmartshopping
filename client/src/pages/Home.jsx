@@ -141,7 +141,7 @@ const Home = () => {
       {/* Slide 1 */}
       <SwiperSlide>
         <img
-          src={b3}
+          src={b2}
             className="w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-[450px] object-cover rounded-xl"
 
           alt="banner"

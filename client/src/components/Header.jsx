@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import UserMenu from "./usermenu";
 import { DisplayPriceInRupees } from "../utils/DisplayPriceRupees";
+import { useGlobalContext } from "../provider/GlobalProvider";
+import Displaycartitem from "./Displaycartitem";
 
 const Header = () => {
   const [isMobile] = useMobile(); // device mobile hai ya nahi
@@ -18,8 +20,10 @@ const Header = () => {
   const user = useSelector((state) => state?.user);
   const [openUserMenu, setOpenUserMenu] = useState(false);
   const cartItem = useSelector((state) => state?.cartItem.cart);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [totalQty,setTotalQty] = useState(0)
+  // const [totalPrice, setTotalPrice] = useState(0);
+  // const [totalQty,setTotalQty] = useState(0)
+  const { totalPrice, totalQty}=useGlobalContext()
+  const [openCartsection, setOpenCartSection] = useState(false);
   
 
   // redirect to login page
@@ -39,20 +43,20 @@ const Header = () => {
 
   // toast; items and total price 
 
-useEffect(() => {
-  const qty = cartItem.reduce((preve,curr)=>{
-    return preve + curr.quantity
+// useEffect(() => {
+//   const qty = cartItem.reduce((preve,curr)=>{
+//     return preve + curr.quantity
 
-  },0)
-  setTotalQty(qty)
- const  tprice = cartItem.reduce((preve,curr)=>{
-  return preve + (curr.productId.price * curr.quantity)
- },0)
- setTotalPrice(tprice)
+//   },0)
+//   setTotalQty(qty)
+//  const  tprice = cartItem.reduce((preve,curr)=>{
+//   return preve + (curr.productId.price * curr.quantity)
+//  },0)
+//  setTotalPrice(tprice)
   
-console.log("total price",tprice);
+// console.log("total price",tprice);
 
-},[cartItem])
+// },[cartItem])
 
 
   return (
@@ -150,8 +154,8 @@ console.log("total price",tprice);
               )}
 
               {/* Cart Button */}
-              <button className="relative group">
-                <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
+              <button onClick={()=>setOpenCartSection(true)} className="relative group ">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
                   <BsCart4
                     size={20}
                     className="text-white/90 group-hover:scale-110 transition-transform animate-bounce"
@@ -178,6 +182,11 @@ console.log("total price",tprice);
           <Search />
         </div>
       )}
+      {
+        openCartsection && (
+          <Displaycartitem close={()=>setOpenCartSection(false)}/>
+        )
+      }
     </header>
   );
 };

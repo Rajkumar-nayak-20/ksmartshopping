@@ -22,7 +22,7 @@
 //    <Header/>
 //     <main className='min-h-[78vh]'>
 //       <Outlet/>
-     
+
 //     </main>
 //     <Footer/>
 //     <Toaster/>
@@ -32,37 +32,45 @@
 
 // export default App
 
-import React, { useEffect } from 'react'
-import './App.css'
-import { Outlet } from 'react-router-dom'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import { Toaster } from 'react-hot-toast'
-import fetchUserDetails from './utils/fetchUserDetails'
+import React, { use, useEffect } from "react";
+import "./App.css";
+import { Outlet } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import { Toaster } from "react-hot-toast";
+import fetchUserDetails from "./utils/fetchUserDetails";
 
-import { setUserDetails } from './store/userSlice';
-import { setAllCategory, setAllSubCategory, setLoadingCategory } from './store/productSlice';
-import { useDispatch } from 'react-redux'
-import { fetchCategory, fetchSubCategory } from './utils/fetchCategory'; // Import from new file
-import Axios from './utils/Axios'
-import summaryApi from './common/SummaryApi'
-import { handleAddItemCart } from './store/cartproduct'
-import GlobalProvider from './provider/GlobalProvider.jsX'
+import { setUserDetails } from "./store/userSlice";
+import {
+  setAllCategory,
+  setAllSubCategory,
+  setLoadingCategory,
+} from "./store/productSlice";
+import { useDispatch } from "react-redux";
+import { fetchCategory, fetchSubCategory } from "./utils/fetchCategory"; // Import from new file
+import Axios from "./utils/Axios";
+import summaryApi from "./common/SummaryApi";
+import { handleAddItemCart } from "./store/cartproduct";
+import GlobalProvider from "./provider/GlobalProvider.jsX";
+import { FaShoppingCart } from "react-icons/fa";
+import { useGlobalContext } from "./provider/GlobalProvider";
+import Cartmobilelink from "./components/cartmobile";
 
 function App() {
-  const dispatch = useDispatch()
-
-  const fetchUser = async () => {
-    const userData = await fetchUserDetails()
-    dispatch(setUserDetails(userData.data))
-  }
+  const dispatch = useDispatch();
  
+ 
+  const fetchUser = async () => {
+    const userData = await fetchUserDetails();
+    dispatch(setUserDetails(userData.data));
+  };
+
   useEffect(() => {
-    fetchUser()
-    fetchCategory(dispatch, setLoadingCategory, setAllCategory)
-    fetchSubCategory(dispatch, setLoadingCategory, setAllSubCategory)
+    fetchUser();
+    fetchCategory(dispatch, setLoadingCategory, setAllCategory);
+    fetchSubCategory(dispatch, setLoadingCategory, setAllSubCategory);
     // fetchCartItem()
-  }, [])
+  }, []);
 
   return (
     <GlobalProvider>
@@ -72,8 +80,11 @@ function App() {
       </main>
       <Footer />
       <Toaster />
+
+       <Cartmobilelink/>
+     
     </GlobalProvider>
-  )
+  );
 }
 
-export default App
+export default App;

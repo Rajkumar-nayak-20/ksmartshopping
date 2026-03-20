@@ -361,6 +361,7 @@ import { pricewithDiscount } from "../utils/PriceWithDiscount";
 import image1 from "../assets/minute_delivery.png";
 import image2 from "../assets/Best_Prices_Offers.png";
 import image3 from "../assets/image.png";
+import AddToCartButton from "../components/AddToCartButton";
 
 const ProductDisplayPage = () => {
   const { product } = useParams();
@@ -494,7 +495,7 @@ const ProductDisplayPage = () => {
           ))}
         </div>
 
-        <div className="mt-6">
+        <div className="mt-6 hidden lg:grid">
           <p className="font-semibold">Description</p>
           <p className="text-sm text-gray-600">{data.description}</p>
         </div>
@@ -527,13 +528,16 @@ const ProductDisplayPage = () => {
           {data.stock === 0 ? (
             <span className="text-red-500">Out of Stock</span>
           ) : (
-            <span className="text-green-600">In Stock</span>
+            // <span className="text-green-600">In Stock</span>
+        //      <button className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg">
+        //   Add to Cart
+        // </button>
+        <div className="my-4"><AddToCartButton data={data} /></div>
+        
           )}
         </div>
 
-        <button className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg">
-          Add to Cart
-        </button>
+       
 
         {/* WHY SHOP */}
 

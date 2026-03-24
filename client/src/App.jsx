@@ -34,7 +34,7 @@
 
 import React, { use, useEffect } from "react";
 import "./App.css";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
@@ -58,6 +58,7 @@ import Cartmobilelink from "./components/cartmobile";
 
 function App() {
   const dispatch = useDispatch();
+  const location =useLocation()
  
  
   const fetchUser = async () => {
@@ -72,6 +73,7 @@ function App() {
     // fetchCartItem()
   }, []);
 
+
   return (
     <GlobalProvider>
       <Header />
@@ -80,8 +82,13 @@ function App() {
       </main>
       <Footer />
       <Toaster />
+      {
+location.pathname !== 'checkout' && (
 
-       <Cartmobilelink/>
+  <Cartmobilelink/>
+)
+      }
+
      
     </GlobalProvider>
   );

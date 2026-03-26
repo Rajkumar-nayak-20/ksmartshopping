@@ -528,9 +528,10 @@ import verifyEmailTemplate from '../utils/verifyEmailTemplate.js'
 import generatedAccessToken from '../utils/generatedAccessToken.js'
 import genertedRefreshToken from '../utils/generatedRefreshToken.js'
 import uploadImageClodinary from '../utils/uploadImageClodinary.js'
-import generatedOtp from '../utils/generatedOtp.js'
 import forgotPasswordTemplate from '../utils/forgotPasswordTemplate.js'
 import jwt from 'jsonwebtoken'
+import generateOTP from '../utils/generatedOTP.js'
+import forgotPasswordOTP from '../utils/forgotPasswordTemplate.js'
 
 // ================= REGISTER =================
 export async function registerUserController(request, response) {
@@ -559,7 +560,7 @@ export async function registerUserController(request, response) {
         const hashPassword = await bcryptjs.hash(password, salt)
 
         // 🔹 OTP GENERATE (ONLY ADDITION)
-        const otp = generatedOtp()
+        const otp = generateOTP()
         const otpExpiry = new Date(Date.now() + 10 * 60 * 1000)
 
         const payload = {
@@ -831,51 +832,69 @@ export async function updateUserDetails(request, response) {
 }
 
 // ================= FORGOT PASSWORD =================
-export async function forgotPasswordController(request, response) {
+/**
+ * Controller Function to Forgot Password (When User Not Logged In)
+ * Flow -> Click on The Forgot Password -> Send The OTP to the User's email (First we had to find that if that user is existing or not!) -> Verify OTP Controller -> If OTP is Valid then Give the option to reset the password -> Reset Password Controller (Take the new password from the user and update it in the database after hashing it)
+ * @param {*} req - { email }
+ * @param {*} res - { success: true/false, data: {}, message: "OTP Sent to Email Successfully!" / "Error Sending OTP!" }
+ */
+export async function forgotPasswordController (req, res) {
     try {
-        const { email } = request.body
+        // First Take the Email For the Request Body
+        const { email } = req.body;
 
-        const user = await UserModel.findOne({ email })
+        // Find the email into the database
+        const existingUser = await UserModel.findOne({ email });
 
-        if (!user) {
-            return response.status(400).json({
-                message: "Email not available",
-                error: true,
-                success: false
-            })
+        // If the User is not Found then we had to send the Response that User Not Found with this email
+        if (!existingUser) {
+            return res.status(404).json({
+                success: false,
+                data: {},
+                message: "User Not Found with this email!",
+            });
         }
 
-        const otp = generatedOtp()
-        const expireTime = new Date(Date.now() + 60 * 60 * 1000)
+        // Now if the User is Found then we had to send the OTP to the user's email
+        const otp = generateOTP();
 
-        await UserModel.findByIdAndUpdate(user._id, {
-            forgot_password_otp: otp,
-            forgot_password_expiry: expireTime
-        })
+        // Save the OTP to the database with the user id and expired that otp in just 5 minutes
+        existingUser.forgot_password_otp = otp;
+        existingUser.forgot_password_expiry = Date.now() + 5 * 60 * 1000; // OTP expires in 5 minutes
 
-        await sendEmail({
-            sendTo: email,
-            subject: "Forgot password from Binkeyit",
-            html: forgotPasswordTemplate({
-                name: user.name,
-                otp
-            })
-        })
+        // Send the OTP to the user's email
+        await existingUser.save();
 
-        return response.json({
-            message: "check your email",
-            error: false,
-            success: true
-        })
+        // Send the email to the user after successful registration
+        try {
+            const sendOtpEmail = await sendEmail({
+                sendTo: existingUser.email,
+                subject: "Password Reset OTP",
+                html: forgotPasswordOTP({
+                    name: existingUser.name,
+                    otp,
+                }),
+            });
+            sendOtpEmail() && console.log("OTP Email Sent Successfully!");
+        } catch (error) {
+            console.error("Error sending email:", error);
+        }
 
+        // Return the response to the client
+        return res.status(200).json({
+            success: true,
+            data: {},
+            message: "OTP Sent to Email Successfully!",
+        });
     } catch (error) {
-        return response.status(500).json({
-            message: error.message || error,
-            error: true,
-            success: false
-        })
+        return res.status(500).json({
+            success: false,
+            data: {},
+            message: "Error Sending OTP!",
+            error: error.message,
+        });
     }
-}
+};
 
 // ================= VERIFY FORGOT OTP =================
 export async function verifyForgotPasswordOtp(request, response) {

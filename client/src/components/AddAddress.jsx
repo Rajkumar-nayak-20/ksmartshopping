@@ -41,76 +41,58 @@ const AddAddress = ({close}) => {
             AxiosToastError(error)
         }
     }
-  return (
-    <section className='bg-black fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-70 h-screen overflow-auto'>
-        <div className='bg-white p-4 w-full max-w-lg mt-8 mx-auto rounded'>
-            <div className='flex justify-between items-center gap-4'>
-                <h2 className='font-semibold'>Add Address</h2>
-                <button onClick={close} className='hover:text-red-500'>
-                    <IoClose  size={25}/>
-                </button>
-            </div>
-            <form className='mt-4 grid gap-4' onSubmit={handleSubmit(onSubmit)}>
-                <div className='grid gap-1'>
-                    <label htmlFor='addressline'>Address Line :</label>
-                    <input
-                        type='text'
-                        id='addressline' 
-                        className='border bg-blue-50 p-2 rounded'
-                        {...register("addressline",{required : true})}
-                    />
-                </div>
-                <div className='grid gap-1'>
-                    <label htmlFor='city'>City :</label>
-                    <input
-                        type='text'
-                        id='city' 
-                        className='border bg-blue-50 p-2 rounded'
-                        {...register("city",{required : true})}
-                    />
-                </div>
-                <div className='grid gap-1'>
-                    <label htmlFor='state'>State :</label>
-                    <input
-                        type='text'
-                        id='state' 
-                        className='border bg-blue-50 p-2 rounded'
-                        {...register("state",{required : true})}
-                    />
-                </div>
-                <div className='grid gap-1'>
-                    <label htmlFor='pincode'>Pincode :</label>
-                    <input
-                        type='text'
-                        id='pincode' 
-                        className='border bg-blue-50 p-2 rounded'
-                        {...register("pincode",{required : true})}
-                    />
-                </div>
-                <div className='grid gap-1'>
-                    <label htmlFor='country'>Country :</label>
-                    <input
-                        type='text'
-                        id='country' 
-                        className='border bg-blue-50 p-2 rounded'
-                        {...register("country",{required : true})}
-                    />
-                </div>
-                <div className='grid gap-1'>
-                    <label htmlFor='mobile'>Mobile No. :</label>
-                    <input
-                        type='text'
-                        id='mobile' 
-                        className='border bg-blue-50 p-2 rounded'
-                        {...register("mobile",{required : true})}
-                    />
-                </div>
+ return (
+  <section className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-3">
 
-                <button type='submit' className='bg-primary-200 w-full  py-2 font-semibold mt-4 hover:bg-primary-100'>Submit</button>
-            </form>
-        </div>
-    </section>
-  )
+    {/* Modal Card */}
+    <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 animate-fadeIn">
+
+      {/* Header */}
+      <div className="flex justify-between items-center mb-5">
+        <h2 className="text-lg font-semibold">Add New Address</h2>
+        <button
+          onClick={close}
+          className="p-2 rounded-full hover:bg-red-100 hover:text-red-500 transition"
+        >
+          <IoClose size={22} />
+        </button>
+      </div>
+
+      {/* Form */}
+      <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
+
+        {[
+          { label: "Address Line", name: "addressline" },
+          { label: "City", name: "city" },
+          { label: "State", name: "state" },
+          { label: "Pincode", name: "pincode" },
+          { label: "Country", name: "country" },
+          { label: "Mobile No.", name: "mobile" },
+        ].map((field, index) => (
+          <div key={index} className="flex flex-col gap-1">
+            <label className="text-sm text-gray-600">
+              {field.label}
+            </label>
+
+            <input
+              type="text"
+              className="border rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-200 transition"
+              {...register(field.name, { required: true })}
+            />
+          </div>
+        ))}
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="bg-primary-200 text-black py-2.5 rounded-lg font-semibold mt-3 hover:bg-primary-300 transition shadow-sm"
+        >
+          Save Address
+        </button>
+      </form>
+    </div>
+  </section>
+);
 }
 
 export default AddAddress

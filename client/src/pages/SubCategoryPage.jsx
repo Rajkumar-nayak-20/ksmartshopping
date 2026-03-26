@@ -23,6 +23,12 @@ const SubCategoryPage = () => {
   const [selectedImage, setSelectedImage] = useState(null) // ✅ New state for image modal
 
   const columnHelper = createColumnHelper()
+  const [currentPage, setCurrentPage] = useState(1)
+const itemsPerPage = 10
+const totalPages = Math.ceil(filteredData.length / itemsPerPage)
+
+const startIndex = (currentPage - 1) * itemsPerPage
+const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
 
   // Image Modal Component
   const ImageModal = ({ imageUrl, onClose }) => {
@@ -528,14 +534,14 @@ const SubCategoryPage = () => {
             
             <div className="overflow-x-auto">
               <DisplayTable 
-                data={filteredData} 
+                data={paginatedData}
                 column={columns}
                 className="min-w-full"
                 rowClassName="hover:bg-orange-50/50 transition-colors duration-150"
               />
             </div>
             
-            <div className="p-6 border-t border-gray-200 bg-gray-50/50">
+            {/* <div className="p-6 border-t border-gray-200 bg-gray-50/50">
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="text-sm text-gray-600">
                   Page 1 of 1 • {filteredData.length} items
@@ -552,7 +558,52 @@ const SubCategoryPage = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
+            <div className="p-6 border-t border-gray-200 bg-gray-50/50">
+  <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+
+    <div className="text-sm text-gray-600">
+      Page {currentPage} of {totalPages} • {filteredData.length} items
+    </div>
+
+    <div className="flex items-center gap-2">
+
+      {/* Previous */}
+      <button
+        disabled={currentPage === 1}
+        onClick={() => setCurrentPage(prev => prev - 1)}
+        className="px-4 py-2 border rounded-lg text-sm disabled:opacity-50"
+      >
+        Previous
+      </button>
+
+      {/* Numbers */}
+      {[...Array(totalPages)].map((_, i) => (
+        <button
+          key={i}
+          onClick={() => setCurrentPage(i + 1)}
+          className={`px-4 py-2 rounded-lg text-sm ${
+            currentPage === i + 1
+              ? "bg-orange-500 text-white"
+              : "border"
+          }`}
+        >
+          {i + 1}
+        </button>
+      ))}
+
+      {/* Next */}
+      <button
+        disabled={currentPage === totalPages}
+        onClick={() => setCurrentPage(prev => prev + 1)}
+        className="px-4 py-2 border rounded-lg text-sm disabled:opacity-50"
+      >
+        Next
+      </button>
+
+    </div>
+  </div>
+</div>
           </>
         )}
       </div>

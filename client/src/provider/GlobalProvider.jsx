@@ -246,7 +246,7 @@ const GlobalProvider = ({children}) => {
     const fetchOrder = async()=>{
       try {
         const response = await Axios({
-          ...SummaryApi.getOrderItems,
+          ...SummaryApi.getorderItems,
         })
         const { data : responseData } = response
 

@@ -579,7 +579,7 @@ export async function registerUserController(request, response) {
         // 🔹 Verify Email
         await sendEmail({
             sendTo: email,
-            subject: "Verify email from binkeyit",
+            subject: "Verify email from K`s Mart",
             html: verifyEmailTemplate({
                 name,
                 url: VerifyEmailUrl
@@ -600,7 +600,7 @@ export async function registerUserController(request, response) {
         // 🔹 OTP Email (ONLY ADDITION)
         await sendEmail({
             sendTo: email,
-            subject: "Your OTP - Binkeyit",
+            subject: "Your OTP - K's Mart",
             html: forgotPasswordTemplate({
                 name,
                 otp

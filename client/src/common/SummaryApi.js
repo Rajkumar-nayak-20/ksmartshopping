@@ -173,7 +173,9 @@ const summaryApi = {
             method: 'post'
         },
         getorderItems :{
-            
+            url : "/api/order/order-list",
+            method: 'get' 
+
         }
   
 

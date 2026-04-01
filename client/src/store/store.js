@@ -14,11 +14,13 @@ import userReducer from "./userslice";
 import productReducer from "./productSlice";
 import addresReducer from "./addressSlice";
 import cartReducer from "./cartproduct";
+import orderReducer from "./orderSlice";
 export const store = configureStore({
   reducer: {
     user: userReducer,
     product: productReducer, 
     cartItem:cartReducer,// ✅ REQUIRED
-    addresses : addresReducer
+    addresses : addresReducer,
+    orders : orderReducer
   },
 });

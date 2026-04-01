@@ -52,24 +52,51 @@ const UploadProduct = () => {
     setData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleUploadImage = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
+  // const handleUploadImage = async (e) => {
+  //   const file = e.target.files[0]
+  //   if (!file) return
 
-    setUploadingImage(true)
-    try {
-      const response = await uploadImage(file)
-      const imageUrl = response?.data?.url || response?.data?.data?.url
+  //   setUploadingImage(true)
+  //   try {
+  //     const response = await uploadImage(file)
+  //     const imageUrl = response?.data?.url || response?.data?.data?.url
+  //     if (imageUrl) {
+  //       setData((prev) => ({ ...prev, image: [...prev.image, imageUrl] }))
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   } finally {
+  //     setUploadingImage(false)
+  //     e.target.value = null
+  //   }
+  // }
+  const handleUploadImage = async (e) => {
+  const files = Array.from(e.target.files); // 🔥 multiple files
+  if (!files.length) return;
+
+  setUploadingImage(true);
+
+  try {
+    for (let file of files) {
+      const response = await uploadImage(file); // same API
+
+      const imageUrl =
+        response?.data?.url || response?.data?.data?.url;
+
       if (imageUrl) {
-        setData((prev) => ({ ...prev, image: [...prev.image, imageUrl] }))
+        setData((prev) => ({
+          ...prev,
+          image: [...prev.image, imageUrl], // same logic
+        }));
       }
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setUploadingImage(false)
-      e.target.value = null
     }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setUploadingImage(false);
+    e.target.value = null;
   }
+};
 
   const handleDeleteImage = (index) => {
     const newImages = [...data.image]
@@ -211,6 +238,7 @@ const UploadProduct = () => {
                 )}
                 <input
                   type="file"
+                  multiple
                   hidden
                   accept="image/*"
                   onChange={handleUploadImage}

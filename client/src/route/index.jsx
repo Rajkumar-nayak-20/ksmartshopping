@@ -1,138 +1,151 @@
-import React from 'react'
+import React from "react";
 import { createBrowserRouter } from "react-router-dom";
-import App from '../App';
-import Home from '../pages/Home';
-import SearchPage from '../pages/SearchPage';
-import Login from '../pages/login';
-import Register from '../pages/Register';
-import ForgotPassword from '../pages/ForgotPassword';
-import Otpverification from '../pages/Otpverification';
-import ResetPassword from '../pages/ResetPassword';
-import UserMenuMobile from '../pages/UserMenuMobile';
-import Dashboard from '../layouts/Dashboard';
-import Profile from '../pages/profile';
-import Myorders from '../pages/Myorders';
-import Address from '../pages/Address';
-import CategoryPage from '../pages/CategoryPage';
-import SubCategoryPage from '../pages/SubCategoryPage';
-import UploadProduct from '../pages/UploadProduct';
-import ProductAdmin from '../pages/ProductAdmin';
-import AdminPermision from '../layouts/AdminPermision';
-import ProductListPage from '../pages/ProductListPage';
-import ProductDisplayPage from '../pages/ProductDisplayPage';
-import CartMobile from '../pages/CartMobile';
-import CheckoutPage from '../pages/CheckoutPage';
+import App from "../App";
+import Home from "../pages/Home";
+import SearchPage from "../pages/SearchPage";
+import Login from "../pages/login";
+import Register from "../pages/Register";
+import ForgotPassword from "../pages/ForgotPassword";
+import Otpverification from "../pages/Otpverification";
+import ResetPassword from "../pages/ResetPassword";
+import UserMenuMobile from "../pages/UserMenuMobile";
+import Dashboard from "../layouts/Dashboard";
+import Profile from "../pages/profile";
+import Myorders from "../pages/Myorders";
+import Address from "../pages/Address";
+import CategoryPage from "../pages/CategoryPage";
+import SubCategoryPage from "../pages/SubCategoryPage";
+import UploadProduct from "../pages/UploadProduct";
+import ProductAdmin from "../pages/ProductAdmin";
+import AdminPermision from "../layouts/AdminPermision";
+import ProductListPage from "../pages/ProductListPage";
+import ProductDisplayPage from "../pages/ProductDisplayPage";
+import CartMobile from "../pages/CartMobile";
+import CheckoutPage from "../pages/CheckoutPage";
+import Success from "../pages/Success";
+import Cancel from "../pages/Cancel";
 
-
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
     {
-        path: "/",
-        element: <App />,
-        children: [
-            {
-                path: "/",
-                element: <Home />
+      path: "/",
+      element: <App />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        }, //home page k liye
+        {
+          path: "search",
 
-            },//home page k liye
+          element: <SearchPage />,
+        }, //ka mtlb search page k liye
+        {
+          path: "login",
+          element: <Login />,
+        }, //ka mtlb login page k liye
+        {
+          path: "register",
+          element: <Register />,
+        }, //ka mtlb register page k liye
+        {
+          path: "forgot-password",
+          element: <ForgotPassword />,
+        },
+        {
+          path: "verification-otp",
+          element: <Otpverification />,
+        },
+        {
+          path: "reset-password",
+          element: <ResetPassword />,
+        },
+        {
+          path: "user",
+          element: <UserMenuMobile />,
+        },
+        {
+          path: "dashboard",
+          element: <Dashboard />,
+          children: [
             {
-                path: "search",
-
-                element: <SearchPage />
-
-            },//ka mtlb search page k liye
-            {
-
-                path: "login",
-                element: <Login />
-            },//ka mtlb login page k liye
-            {
-                path: "register",
-                element: <Register />
-            },  //ka mtlb register page k liye
-            {
-                path: "forgot-password",
-                element: <ForgotPassword />
+              path: "profile",
+              element: <Profile />,
             },
             {
-                path: "verification-otp",
-                element: <Otpverification />
+              path: "myorders",
+              element: <Myorders />,
             },
             {
-                path: "reset-password",
-                element: <ResetPassword />
-
+              path: "address",
+              element: <Address />,
             },
             {
-                path: "user",
-                element: <UserMenuMobile />
+              path: "Category",
+              element: (
+                <AdminPermision>
+                  <CategoryPage />{" "}
+                </AdminPermision>
+              ),
             },
             {
-                path: "dashboard",
-                element: <Dashboard />,
-                children: [
-                    {
-                        path: "profile",
-                        element: <Profile />
-                    },
-                    {
-                        path: "myorders",
-                        element: <Myorders />
-                    },
-                    {
-                        path: "address",
-                        element: <Address />
-                    },
-                    {
-                        path: "Category",
-                        element: <AdminPermision>
-
-                        <CategoryPage/> </AdminPermision> 
-
-
-                    },
-                    {
-                        path: "Subcategory",
-                        element: <AdminPermision><SubCategoryPage /></AdminPermision>
-                    },
-                    {
-                       path: "upload-product",
-                       element:  <AdminPermision><UploadProduct /></AdminPermision>
-                    },
-                    { 
-                        path: "Product",
-                        element: <AdminPermision><ProductAdmin/></AdminPermision>
-                    }
-                ]
+              path: "Subcategory",
+              element: (
+                <AdminPermision>
+                  <SubCategoryPage />
+                </AdminPermision>
+              ),
             },
             {
-                path:":category",
-                children:[
-                    {
-                        path: ":subCategory",
-                        element:<ProductListPage/>
-                    }
-
-                ]
+              path: "upload-product",
+              element: (
+                <AdminPermision>
+                  <UploadProduct />
+                </AdminPermision>
+              ),
             },
             {
-                path: "product/:product",
-                element: <ProductDisplayPage />
-
+              path: "Product",
+              element: (
+                <AdminPermision>
+                  <ProductAdmin />
+                </AdminPermision>
+              ),
             },
+          ],
+        },
+        {
+          path: ":category",
+          children: [
             {
-                path:'cart',
-                element: <CartMobile/>
+              path: ":subCategory",
+              element: <ProductListPage />,
             },
-            {
-                path : "checkout",
-                element:<CheckoutPage/> 
-            }
+          ],
+        },
+        {
+          path: "product/:product",
+          element: <ProductDisplayPage />,
+        },
+        {
+          path: "cart",
+          element: <CartMobile />,
+        },
+        {
+          path: "checkout",
+          element: <CheckoutPage />,
+        },
 
-
-
-
-        ]
-    }]//ka mtlb ye sare routes hain
-
-)
+        {
+          path: "success",
+          element: <Success/>,
+        },
+        {
+            path: "cancel",
+            element: <Cancel/>,
+        }
+      ],
+    },
+  ], //ka mtlb ye sare routes hain
+);
 export default router;

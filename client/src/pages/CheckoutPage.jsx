@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom'
 import { loadStripe } from '@stripe/stripe-js'
 import { DisplayPriceInRupees } from '../utils/DisplayPriceRupees'
 
+
+
 const CheckoutPage = () => {
 
   const { notDiscountTotalPrice, totalPrice, totalQty, fetchCartItem, fetchOrder } = useGlobalContext()
@@ -63,43 +65,132 @@ const CheckoutPage = () => {
   }
 
   // ✅ ONLINE PAYMENT
-  const handleOnlinePayment = async () => {
+  // const handleOnlinePayment = async () => {
 
-    if (!addressList[selectAddress]) {
-      toast.error("Please select address")
-      return
-    }
+  //   if (!addressList[selectAddress]) {
+  //     toast.error("Please select address")
+  //     return
+  //   }
 
-    try {
-      toast.loading("Redirecting to payment...")
+  //   try {
+  //     toast.loading("Redirecting to payment...")
 
-      const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY
-      const stripePromise = await loadStripe(stripePublicKey)
+  //     const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY
+  //     const stripePromise = await loadStripe(stripePublicKey)
 
-      const response = await Axios({
-        ...SummaryApi.payment_url,
-        data: {
-          list_items: cartItemsList,
-          addressId: addressList[selectAddress]?._id,
-          subTotalAmt: totalPrice,
-          totalAmt: totalPrice,
-        }
-      })
+  //     const response = await Axios({
+  //       ...SummaryApi.payment_url,
+  //       data: {
+  //         list_items: cartItemsList,
+  //         addressId: addressList[selectAddress]?._id,
+  //         subTotalAmt: totalPrice,
+  //         totalAmt: totalPrice,
+  //       }
+  //     })
 
-      const { data: responseData } = response
+  //     const { data: responseData } = response
 
-      await stripePromise.redirectToCheckout({
-        sessionId: responseData.id
-      })
+  //     await stripePromise.redirectToCheckout({
+  //       sessionId: responseData.id
+  //     })
+      
 
-      fetchCartItem && fetchCartItem()
-      fetchOrder && fetchOrder()
+  //     fetchCartItem && fetchCartItem()
+  //     fetchOrder && fetchOrder()
+  //     console.log("Stripe Response:", responseData);
 
-    } catch (error) {
-      AxiosToastError(error)
-    }
+  //   } catch (error) {
+  //     AxiosToastError(error)
+  //   }
+  // }
+
+//   const handleOnlinePayment = async () => {
+
+//   if (!addressList[selectAddress]) {
+//     toast.error("Please select address");
+//     return;
+//   }
+
+//   const toastId = toast.loading("Redirecting to payment...");
+
+//   try {
+//     const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
+//     const response = await Axios({
+//       ...SummaryApi.payment_url,
+//       data: {
+//         list_items: cartItemsList,
+//         addressId: addressList[selectAddress]?._id,
+//         subTotalAmt: totalPrice,
+//         totalAmt: totalPrice,
+//       }
+//     });
+
+//     const { data: responseData } = response;
+
+//     // ✅ LOG BEFORE redirect
+//     console.log("Stripe Response:", responseData);
+//     console.log("Session ID:", responseData?.id);
+
+//     if (!responseData?.id) {
+//       toast.error("Session ID missing ❌");
+//       return;
+//     }
+
+//     const result = await stripe.redirectToCheckout({
+//       sessionId: responseData.id
+//     });
+
+//     // ✅ Only runs if redirect fails
+//     if (result?.error) {
+//       console.log("Stripe Error:", result.error);
+//       toast.error(result.error.message);
+//     }
+
+//   } catch (error) {
+//     console.log("Catch Error:", error);
+//     AxiosToastError(error);
+//   } finally {
+//     toast.dismiss(toastId);
+//   }
+// };
+const handleOnlinePayment = async () => {
+
+  if (!addressList[selectAddress]) {
+    toast.error("Please select address");
+    return;
   }
 
+  const toastId = toast.loading("Redirecting to payment...");
+
+  try {
+    const response = await Axios({
+      ...SummaryApi.payment_url,
+      data: {
+        list_items: cartItemsList,
+        addressId: addressList[selectAddress]?._id,
+      }
+    });
+
+    const { data: responseData } = response;
+
+    console.log("Stripe Response:", responseData);
+
+    if (!responseData?.url) {
+      toast.error("Payment URL not found ❌");
+      return;
+    }
+
+    // ✅ NEW METHOD (WORKING)
+    window.location.href = responseData.url;
+
+  } catch (error) {
+    console.log("Error:", error);
+    AxiosToastError(error);
+  } finally {
+    toast.dismiss(toastId);
+  }
+};
   return (
     <section className='bg-blue-50 min-h-screen'>
       <div className='container mx-auto p-4 flex flex-col lg:flex-row w-full gap-5 justify-between'>

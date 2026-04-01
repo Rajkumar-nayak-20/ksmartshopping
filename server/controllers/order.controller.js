@@ -95,6 +95,7 @@ export async function paymentController(request,response){
             success_url : `${process.env.FRONTEND_URL}/success`,
             cancel_url : `${process.env.FRONTEND_URL}/cancel`
         }
+        
 
         const session = await Stripe.checkout.sessions.create(params)
 
@@ -145,10 +146,11 @@ const getOrderProductItems = async({
     return productList
 }
 
-//http://localhost:8080/api/order/webhook
+//http://localhost:8181/api/order/webhook
 export async function webhookStripe(request,response){
     const event = request.body;
-    const endPointSecret = process.env.STRIPE_ENPOINT_WEBHOOK_SECRET_KEY
+    const endPointSecret = process.env.
+STRIP_ENPOINT_WEBHOOK_SECRET_KEY
 
     console.log("event",event)
 

@@ -167,6 +167,10 @@ const summaryApi = {
         CashOnDeliveryOrderController : {
             url :"/api/order/cash-on-delivery",
             method: 'post' 
+        },
+        payment_url:{
+            url : "/api/order/checkout",
+            method: 'post'
         }
   
 

@@ -405,6 +405,51 @@ export const deleteProductDetails = async(request,response)=>{
 //     }
 // }
 
+// export const searchProduct = async (request, response) => {
+//     try {
+
+//         let { search, page, limit } = request.body
+
+//         page = Number(page) || 1
+//         limit = Number(limit) || 10
+
+//         const skip = (page - 1) * limit
+
+//         const query = search
+//             ? { $text: { $search: search } }
+//             : {}
+
+//         const [data, dataCount] = await Promise.all([
+//             ProductModel.find(query)
+//                 .sort({ createdAt: -1 })
+//                 .skip(skip)
+//                 .limit(limit)
+//                 .populate("category subCategory"),
+
+//             ProductModel.countDocuments(query)
+//         ])
+
+//         return response.json({
+//             message: "Product data",
+//             error: false,
+//             success: true,
+//             data: data,
+//             totalCount: dataCount,
+//             totalPage: Math.ceil(dataCount / limit),
+//             page: page,
+//             limit: limit
+//         })
+
+//     } catch (error) {
+//         return response.status(500).json({
+//             message: error.message || error,
+//             error: true,
+//             success: false
+//         })
+//     }
+// }
+
+
 export const searchProduct = async (request, response) => {
     try {
 
@@ -415,29 +460,42 @@ export const searchProduct = async (request, response) => {
 
         const skip = (page - 1) * limit
 
-        const query = search
-            ? { $text: { $search: search } }
-            : {}
+        let query = {}
+
+        if (search) {
+
+            const regex = new RegExp("^" + search, "i") // ✅ START WITH
+
+            query = {
+                $or: [
+                    { name: regex },
+                    { brand: regex },
+                    { tags: regex }
+                ]
+            }
+        }
 
         const [data, dataCount] = await Promise.all([
+
             ProductModel.find(query)
+                .populate("category subCategory")
                 .sort({ createdAt: -1 })
                 .skip(skip)
-                .limit(limit)
-                .populate("category subCategory"),
+                .limit(limit),
 
             ProductModel.countDocuments(query)
+
         ])
 
         return response.json({
             message: "Product data",
             error: false,
             success: true,
-            data: data,
+            data,
             totalCount: dataCount,
             totalPage: Math.ceil(dataCount / limit),
-            page: page,
-            limit: limit
+            page,
+            limit
         })
 
     } catch (error) {
@@ -448,9 +506,6 @@ export const searchProduct = async (request, response) => {
         })
     }
 }
-
-
-
 
 export const addProductReview = async (req,res)=>{
   try{

@@ -495,7 +495,7 @@ const ProductDisplayPage = () => {
           ))}
         </div>
 
-        <div className="mt-6 hidden lg:grid">
+        <div className="mt-6  lg:grid">
           <p className="font-semibold">Description</p>
           <p className="text-sm text-gray-600">{data.description}</p>
         </div>

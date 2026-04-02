@@ -404,8 +404,6 @@ import { setUserDetails } from '../store/userslice'
 const emailRegex =
   /^[a-z][a-z0-9._%+-]*@[a-z][a-z0-9-]*\.[a-z]{2,}(\.[a-z]{2,})?$/
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/
-/* =================================================== */
-
 const Login = () => {
   const [data, setData] = useState({
     email: "",

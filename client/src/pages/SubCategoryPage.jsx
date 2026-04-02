@@ -1,34 +1,50 @@
-import React, { useEffect, useState } from "react"
-import UploadSubCategoryModel from "../components/UploadsubCategoryModel"
-import DeleteCategory from "../components/DeletesubCategory"
-import Axios from "../utils/Axios"
-import SummaryApi from "../common/SummaryApi"
-import toast from "react-hot-toast"
-import { Plus, Search, Edit2, Trash2, Download, Filter, ChevronDown, ChevronUp, Layers, Package, X, ZoomIn } from "lucide-react"
-import DisplayTable from "../components/DisplayTable"
-import { createColumnHelper } from "@tanstack/react-table"
+import React, { useEffect, useState } from "react";
+import UploadSubCategoryModel from "../components/UploadsubCategoryModel";
+import DeleteCategory from "../components/DeletesubCategory";
+import Axios from "../utils/Axios";
+import SummaryApi from "../common/SummaryApi";
+import toast from "react-hot-toast";
+import {
+  Plus,
+  Search,
+  Edit2,
+  Trash2,
+  Download,
+  Filter,
+  ChevronDown,
+  ChevronUp,
+  Layers,
+  Package,
+  X,
+  ZoomIn,
+} from "lucide-react";
+import DisplayTable from "../components/DisplayTable";
+import { createColumnHelper } from "@tanstack/react-table";
 
 const SubCategoryPage = () => {
-  const [openModal, setOpenModal] = useState(false)
-  const [editData, setEditData] = useState(null)
-  const [openDelete, setOpenDelete] = useState(false)
-  const [deleteData, setDeleteData] = useState(null)
-  const [subCategoryData, setSubCategoryData] = useState([])
-  const [categoryList, setCategoryList] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [filteredData, setFilteredData] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [stats, setStats] = useState({ total: 0, active: 0 })
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
-  const [selectedImage, setSelectedImage] = useState(null) // ✅ New state for image modal
+  const [openModal, setOpenModal] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [deleteData, setDeleteData] = useState(null);
+  const [subCategoryData, setSubCategoryData] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({ total: 0, active: 0 });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [selectedImage, setSelectedImage] = useState(null); // ✅ New state for image modal
 
-  const columnHelper = createColumnHelper()
-  const [currentPage, setCurrentPage] = useState(1)
-const itemsPerPage = 10
-const totalPages = Math.ceil(filteredData.length / itemsPerPage)
+  const columnHelper = createColumnHelper();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-const startIndex = (currentPage - 1) * itemsPerPage
-const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedData = filteredData.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
 
   // Image Modal Component
   const ImageModal = ({ imageUrl, onClose }) => {
@@ -46,18 +62,18 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
               <X size={24} className="text-white" />
             </button>
           </div>
-          
+
           <div className="bg-white rounded-xl overflow-hidden shadow-2xl">
-            <img 
-              src={imageUrl} 
-              alt="Full Preview" 
+            <img
+              src={imageUrl}
+              alt="Full Preview"
               className="w-full h-auto max-h-[70vh] object-contain"
             />
-            
+
             <div className="p-4 bg-gray-900 flex justify-between items-center">
-              <a 
-                href={imageUrl} 
-                target="_blank" 
+              <a
+                href={imageUrl}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:text-blue-300 text-sm flex items-center gap-2"
               >
@@ -80,102 +96,104 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
   // Fetch data function
   const fetchData = async () => {
     try {
-      setLoading(true)
-      
+      setLoading(true);
+
       // Make API calls
       const [catRes, subRes] = await Promise.all([
         Axios(SummaryApi.getCategory),
-        Axios(SummaryApi.getSubCategory)
-      ])
+        Axios(SummaryApi.getSubCategory),
+      ]);
 
-      console.log("Categories API Response:", catRes.data)
-      console.log("SubCategories API Response:", subRes.data)
+      console.log("Categories API Response:", catRes.data);
+      console.log("SubCategories API Response:", subRes.data);
 
       // Set category list
       if (catRes.data?.success) {
-        setCategoryList(catRes.data.data || [])
+        setCategoryList(catRes.data.data || []);
       }
-      
+
       // Set sub-category data
       if (subRes.data?.success) {
-        const subData = subRes.data.data || []
-        console.log("SubCategory Data:", subData)
-        setSubCategoryData(subData)
-        setFilteredData(subData)
-        
+        const subData = subRes.data.data || [];
+        console.log("SubCategory Data:", subData);
+        setSubCategoryData(subData);
+        setFilteredData(subData);
+
         // Calculate stats
         setStats({
           total: subData.length,
-          active: subData.length // Update with actual active count if available
-        })
+          active: subData.length, // Update with actual active count if available
+        });
       }
     } catch (error) {
-      console.error("Fetch error:", error)
-      toast.error("Failed to fetch data")
+      console.error("Fetch error:", error);
+      toast.error("Failed to fetch data");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   // Fetch data on component mount
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   // Debug logs
   useEffect(() => {
-    console.log("Updated Category List:", categoryList)
-    console.log("Updated SubCategory Data:", subCategoryData)
-    
+    console.log("Updated Category List:", categoryList);
+    console.log("Updated SubCategory Data:", subCategoryData);
+
     // Check if category names are being found
     if (subCategoryData.length > 0 && categoryList.length > 0) {
-      console.log("Matching categories with subcategories:")
+      console.log("Matching categories with subcategories:");
       subCategoryData.forEach((subCat, index) => {
-        const foundCat = categoryList.find(cat => cat._id === subCat.categoryId)
+        const foundCat = categoryList.find(
+          (cat) => cat._id === subCat.categoryId,
+        );
         console.log(`SubCategory ${index + 1}:`, {
           subCategoryName: subCat.name,
           subCategoryId: subCat._id,
           categoryId: subCat.categoryId,
           foundCategoryName: foundCat?.name || "Not Found",
-          foundCategoryId: foundCat?._id
-        })
-      })
+          foundCategoryId: foundCat?._id,
+        });
+      });
     }
-  }, [categoryList, subCategoryData])
+  }, [categoryList, subCategoryData]);
 
   // Search functionality
   useEffect(() => {
     if (searchTerm.trim() === "") {
-      setFilteredData(subCategoryData)
+      setFilteredData(subCategoryData);
     } else {
-      const filtered = subCategoryData.filter(item =>
-        item.name?.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      setFilteredData(filtered)
+      const filtered = subCategoryData.filter((item) =>
+        item.name?.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+      setFilteredData(filtered);
     }
-  }, [searchTerm, subCategoryData])
+  }, [searchTerm, subCategoryData]);
 
   // Handle sort
   const handleSort = (key) => {
-    let direction = 'asc'
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc'
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
     }
-    
+
     const sorted = [...filteredData].sort((a, b) => {
-      if (a[key] < b[key]) return direction === 'asc' ? -1 : 1
-      if (a[key] > b[key]) return direction === 'asc' ? 1 : -1
-      return 0
-    })
-    
-    setFilteredData(sorted)
-    setSortConfig({ key, direction })
-  }
+      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
+      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
+
+    setFilteredData(sorted);
+    setSortConfig({ key, direction });
+  };
 
   // Handle delete success
   const handleDeleteSuccess = () => {
-    fetchData() // Refresh data after delete
-  }
+    fetchData(); // Refresh data after delete
+  };
 
   // Table columns - FIXED VERSION with image click
   const columns = [
@@ -184,11 +202,19 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
       header: () => (
         <div className="flex items-center gap-1">
           <span>NO</span>
-          <button onClick={() => handleSort('_id')} className="opacity-50 hover:opacity-100">
-            {sortConfig.key === '_id' ? 
-              (sortConfig.direction === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />) : 
+          <button
+            onClick={() => handleSort("_id")}
+            className="opacity-50 hover:opacity-100"
+          >
+            {sortConfig.key === "_id" ? (
+              sortConfig.direction === "asc" ? (
+                <ChevronUp size={14} />
+              ) : (
+                <ChevronDown size={14} />
+              )
+            ) : (
               <ChevronDown size={14} />
-            }
+            )}
           </button>
         </div>
       ),
@@ -200,24 +226,32 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
       header: () => (
         <div className="flex items-center gap-1">
           <span>Sub Category</span>
-          <button onClick={() => handleSort('name')} className="opacity-50 hover:opacity-100">
-            {sortConfig.key === 'name' ? 
-              (sortConfig.direction === 'asc' ? <ChevronUp size={14} /> : <ChevronDown size={14} />) : 
+          <button
+            onClick={() => handleSort("name")}
+            className="opacity-50 hover:opacity-100"
+          >
+            {sortConfig.key === "name" ? (
+              sortConfig.direction === "asc" ? (
+                <ChevronUp size={14} />
+              ) : (
+                <ChevronDown size={14} />
+              )
+            ) : (
               <ChevronDown size={14} />
-            }
+            )}
           </button>
         </div>
       ),
-      cell: info => (
+      cell: (info) => (
         <div className="flex items-center gap-3">
           {info.row.original.image && (
-            <div 
+            <div
               className="relative group cursor-pointer"
               onClick={() => setSelectedImage(info.row.original.image)}
             >
-              <img 
-                src={info.row.original.image} 
-                alt="" 
+              <img
+                src={info.row.original.image}
+                alt=""
                 className="h-10 w-10 rounded-lg object-cover border-2 border-gray-200 group-hover:border-orange-400 transition-all duration-200"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 rounded-lg transition-all duration-200 flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -229,8 +263,12 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
             </div>
           )}
           <div>
-            <div className="font-medium text-gray-900">{info.getValue() || "—"}</div>
-            <div className="text-xs text-gray-500">{info.row.original._id?.slice(-6)}</div>
+            <div className="font-medium text-gray-900">
+              {info.getValue() || "—"}
+            </div>
+            <div className="text-xs text-gray-500">
+              {info.row.original._id?.slice(-6)}
+            </div>
           </div>
         </div>
       ),
@@ -240,46 +278,50 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
       cell: (info) => {
         const categoryId = info.getValue();
         const rowData = info.row.original;
-        
+
         // First check embedded category object
-        if (rowData.category && typeof rowData.category === 'object') {
+        if (rowData.category && typeof rowData.category === "object") {
           return (
             <div className="flex items-center gap-2">
               <Package size={14} className="text-orange-500" />
-              <span className="font-medium">{rowData.category.name || "No Category"}</span>
+              <span className="font-medium">
+                {rowData.category.name || "No Category"}
+              </span>
             </div>
           );
         }
-        
+
         // Then find in categoryList
         if (categoryId && categoryList.length > 0) {
-          const category = categoryList.find(cat => cat._id === categoryId);
+          const category = categoryList.find((cat) => cat._id === categoryId);
           return category ? (
             <div className="flex items-center gap-2">
               <Package size={14} className="text-orange-500" />
               <span className="font-medium">{category.name}</span>
             </div>
-          ) : "No Category";
+          ) : (
+            "No Category"
+          );
         }
-        
+
         return "No Category";
       },
     }),
     columnHelper.accessor("image", {
       header: "Image Preview",
-      cell: info => {
+      cell: (info) => {
         const img = info.getValue();
         if (!img) return "No Image";
-        
+
         return (
-          <div 
+          <div
             className="group relative cursor-pointer inline-block"
             onClick={() => setSelectedImage(img)}
           >
             <div className="relative overflow-hidden rounded-lg border-2 border-gray-200 group-hover:border-orange-400 transition-all duration-200">
-              <img 
-                src={img} 
-                alt="Sub-category" 
+              <img
+                src={img}
+                alt="Sub-category"
                 className="h-16 w-16 object-cover group-hover:scale-105 transition-transform duration-200"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end justify-center p-2">
@@ -364,7 +406,9 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
           </div>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Sub Categories</h1>
-            <p className="text-gray-600">Manage your product sub-categories and hierarchy</p>
+            <p className="text-gray-600">
+              Manage your product sub-categories and hierarchy
+            </p>
           </div>
         </div>
       </div>
@@ -374,8 +418,12 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
         <div className="bg-white rounded-2xl p-6 shadow-lg border border-orange-100">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">Total Sub Categories</p>
-              <p className="text-3xl font-bold text-gray-900 mt-2">{stats.total}</p>
+              <p className="text-sm font-medium text-gray-500">
+                Total Sub Categories
+              </p>
+              <p className="text-3xl font-bold text-gray-900 mt-2">
+                {stats.total}
+              </p>
             </div>
             <div className="p-3 rounded-full bg-orange-100">
               <Package className="text-orange-600" size={24} />
@@ -390,12 +438,26 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
         <div className="bg-white rounded-2xl p-6 shadow-lg border border-orange-100">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-500">Active Sub Categories</p>
-              <p className="text-3xl font-bold text-gray-900 mt-2">{stats.active}</p>
+              <p className="text-sm font-medium text-gray-500">
+                Active Sub Categories
+              </p>
+              <p className="text-3xl font-bold text-gray-900 mt-2">
+                {stats.active}
+              </p>
             </div>
             <div className="p-3 rounded-full bg-green-100">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <svg
+                className="w-6 h-6 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
           </div>
@@ -409,18 +471,26 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
             <div>
               <p className="text-sm font-medium text-gray-500">With Images</p>
               <p className="text-3xl font-bold text-gray-900 mt-2">
-                {subCategoryData.filter(item => item.image).length}
+                {subCategoryData.filter((item) => item.image).length}
               </p>
             </div>
             <div className="p-3 rounded-full bg-blue-100">
-              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <svg
+                className="w-6 h-6 text-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
               </svg>
             </div>
           </div>
-          <div className="mt-4 text-sm text-gray-500">
-            Have image uploaded
-          </div>
+          <div className="mt-4 text-sm text-gray-500">Have image uploaded</div>
         </div>
       </div>
 
@@ -429,7 +499,10 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
         <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between">
           {/* Search */}
           <div className="relative flex-1 max-w-lg">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Search
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={20}
+            />
             <input
               type="text"
               placeholder="Search sub-categories by name..."
@@ -488,8 +561,12 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
         {loading ? (
           <div className="text-center py-16">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent"></div>
-            <p className="mt-4 text-gray-600 font-medium">Loading sub-categories...</p>
-            <p className="text-sm text-gray-500 mt-2">Please wait while we fetch your data</p>
+            <p className="mt-4 text-gray-600 font-medium">
+              Loading sub-categories...
+            </p>
+            <p className="text-sm text-gray-500 mt-2">
+              Please wait while we fetch your data
+            </p>
           </div>
         ) : filteredData.length === 0 ? (
           <div className="text-center py-16">
@@ -500,10 +577,9 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
               {searchTerm ? "No results found" : "No sub-categories yet"}
             </h3>
             <p className="text-gray-600 mb-6 max-w-md mx-auto">
-              {searchTerm 
-                ? "Try adjusting your search or filter to find what you're looking for." 
-                : "Get started by creating your first sub-category to organize your products better."
-              }
+              {searchTerm
+                ? "Try adjusting your search or filter to find what you're looking for."
+                : "Get started by creating your first sub-category to organize your products better."}
             </p>
             {!searchTerm && (
               <button
@@ -520,27 +596,32 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
             <div className="p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Sub Category List</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Sub Category List
+                  </h3>
                   <p className="text-sm text-gray-500">
-                    Showing <span className="font-semibold">{filteredData.length}</span> of{" "}
-                    <span className="font-semibold">{subCategoryData.length}</span> sub-categories
+                    Showing{" "}
+                    <span className="font-semibold">{filteredData.length}</span>{" "}
+                    of{" "}
+                    <span className="font-semibold">
+                      {subCategoryData.length}
+                    </span>{" "}
+                    sub-categories
                   </p>
                 </div>
-                <div className="text-sm text-gray-500">
-                  
-                </div>
+                <div className="text-sm text-gray-500"></div>
               </div>
             </div>
-            
+
             <div className="overflow-x-auto">
-              <DisplayTable 
+              <DisplayTable
                 data={paginatedData}
                 column={columns}
                 className="min-w-full"
                 rowClassName="hover:bg-orange-50/50 transition-colors duration-150"
               />
             </div>
-            
+
             {/* <div className="p-6 border-t border-gray-200 bg-gray-50/50">
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="text-sm text-gray-600">
@@ -560,59 +641,57 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
               </div>
             </div> */}
             <div className="p-6 border-t border-gray-200 bg-gray-50/50">
-  <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="text-sm text-gray-600">
+                  Page {currentPage} of {totalPages} • {filteredData.length}{" "}
+                  items
+                </div>
 
-    <div className="text-sm text-gray-600">
-      Page {currentPage} of {totalPages} • {filteredData.length} items
-    </div>
+                <div className="flex items-center gap-2">
+                  {/* Previous */}
+                  <button
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage((prev) => prev - 1)}
+                    className="px-4 py-2 border rounded-lg text-sm disabled:opacity-50"
+                  >
+                    Previous
+                  </button>
 
-    <div className="flex items-center gap-2">
+                  {/* Numbers */}
+                  {[...Array(totalPages)].map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentPage(i + 1)}
+                      className={`px-4 py-2 rounded-lg text-sm ${
+                        currentPage === i + 1
+                          ? "bg-orange-500 text-white"
+                          : "border"
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
 
-      {/* Previous */}
-      <button
-        disabled={currentPage === 1}
-        onClick={() => setCurrentPage(prev => prev - 1)}
-        className="px-4 py-2 border rounded-lg text-sm disabled:opacity-50"
-      >
-        Previous
-      </button>
-
-      {/* Numbers */}
-      {[...Array(totalPages)].map((_, i) => (
-        <button
-          key={i}
-          onClick={() => setCurrentPage(i + 1)}
-          className={`px-4 py-2 rounded-lg text-sm ${
-            currentPage === i + 1
-              ? "bg-orange-500 text-white"
-              : "border"
-          }`}
-        >
-          {i + 1}
-        </button>
-      ))}
-
-      {/* Next */}
-      <button
-        disabled={currentPage === totalPages}
-        onClick={() => setCurrentPage(prev => prev + 1)}
-        className="px-4 py-2 border rounded-lg text-sm disabled:opacity-50"
-      >
-        Next
-      </button>
-
-    </div>
-  </div>
-</div>
+                  {/* Next */}
+                  <button
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                    className="px-4 py-2 border rounded-lg text-sm disabled:opacity-50"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
           </>
         )}
       </div>
 
       {/* Image Preview Modal */}
       {selectedImage && (
-        <ImageModal 
-          imageUrl={selectedImage} 
-          onClose={() => setSelectedImage(null)} 
+        <ImageModal
+          imageUrl={selectedImage}
+          onClose={() => setSelectedImage(null)}
         />
       )}
 
@@ -629,7 +708,6 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
           categoryList={categoryList}
         />
       )}
-
       {/* Delete Modal */}
       {openDelete && deleteData && (
         <DeleteCategory
@@ -645,7 +723,7 @@ const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage)
         />
       )}
     </div>
-  )
-}
+  );
+};
 
-export default SubCategoryPage
+export default SubCategoryPage;

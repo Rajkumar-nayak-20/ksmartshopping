@@ -11,6 +11,8 @@ import UserMenu from "./usermenu";
 import { DisplayPriceInRupees } from "../utils/DisplayPriceRupees";
 import { useGlobalContext } from "../provider/GlobalProvider";
 import Displaycartitem from "./Displaycartitem";
+import { GiHamburgerMenu } from "react-icons/gi";
+
 
 const Header = () => {
   const [isMobile] = useMobile(); // device mobile hai ya nahi
@@ -96,7 +98,8 @@ const Header = () => {
               onClick={handleMobileUser}
               className="lg:hidden p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-xl transition-all duration-200"
             >
-              <FaRegUserCircle size={26} />
+              <GiHamburgerMenu size={26}  />
+
             </button>
 
             {/* Desktop User Area */}

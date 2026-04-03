@@ -108,7 +108,7 @@ import Footer from './components/Footer'
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
 import fetchUserDetails from './utils/fetchUserDetails';
-import { setUserDetails } from './store/userSlice.js';
+import { setUserDetails } from './store/userSlice';
 import { setAllCategory,setAllSubCategory,setLoadingCategory } from './store/productSlice';
 import { useDispatch } from 'react-redux';
 import Axios from './utils/Axios';

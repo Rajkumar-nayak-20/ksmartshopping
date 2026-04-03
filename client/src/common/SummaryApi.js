@@ -1,4 +1,4 @@
-export const baseURL = "http://localhost:8181"
+export const baseURL = import.meta.env.VITE_API_URL
 
 const summaryApi = {
     register: {

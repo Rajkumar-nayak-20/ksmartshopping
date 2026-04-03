@@ -41,6 +41,7 @@ import { Toaster } from "react-hot-toast";
 import fetchUserDetails from "./utils/fetchUserDetails";
 
 import { setUserDetails } from "./store/userSlice";
+
 import {
   setAllCategory,
   setAllSubCategory,
@@ -48,9 +49,7 @@ import {
 } from "./store/productSlice";
 import { useDispatch } from "react-redux";
 import { fetchCategory, fetchSubCategory } from "./utils/fetchCategory"; // Import from new file
-import Axios from "./utils/Axios";
-import summaryApi from "./common/SummaryApi";
-import { handleAddItemCart } from "./store/cartproduct";
+
 import GlobalProvider from "./provider/GlobalProvider.jsX";
 import { FaShoppingCart } from "react-icons/fa";
 import { useGlobalContext } from "./provider/GlobalProvider";

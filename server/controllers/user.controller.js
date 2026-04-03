@@ -530,7 +530,7 @@ import genertedRefreshToken from '../utils/generatedRefreshToken.js'
 import uploadImageClodinary from '../utils/uploadImageClodinary.js'
 import forgotPasswordTemplate from '../utils/forgotPasswordTemplate.js'
 import jwt from 'jsonwebtoken'
-import generateOTP from '../utils/generatedOTP.js'
+// import generateOTP from '../utils/generatedOTP.js'
 import forgotPasswordOTP from '../utils/forgotPasswordTemplate.js'
 
 // ================= REGISTER =================

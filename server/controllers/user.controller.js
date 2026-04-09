@@ -10,7 +10,7 @@ import generatedRefreshToken from "../utils/generatedRefreshToken.js"
 import uploadImageClodinary from '../utils/uploadImageClodinary.js'
 import forgotPasswordTemplate from '../utils/forgotPasswordTemplate.js'
 import jwt from 'jsonwebtoken'
-import generateOTP from '../utils/.js'
+import generateOTP from '../utils/generateOtp.js'
 import forgotPasswordOTP from '../utils/forgotPasswordTemplate.js'
 
 //  REGISTER

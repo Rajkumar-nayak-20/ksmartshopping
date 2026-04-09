@@ -108,17 +108,19 @@ import Footer from './components/Footer'
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
 import fetchUserDetails from './utils/fetchUserDetails';
-import { setUserDetails } from './store/userslice';
+import { setUserDetails } from './store/userlice';
 import { setAllCategory,setAllSubCategory,setLoadingCategory } from './store/productSlice';
 import { useDispatch } from 'react-redux';
 import Axios from './utils/Axios';
 import SummaryApi from './common/SummaryApi';
 import GlobalProvider from './provider/GlobalProvider';
 import { FaCartShopping } from "react-icons/fa6";
-import CartMobileLink from './components/CartMobileLink';
+import CartMobileLink from './components/cartmobile';
+
 
 function App() {
   const dispatch = useDispatch()
+  // console.log("app render");
   const location = useLocation()
   
 
@@ -134,6 +136,7 @@ function App() {
             ...SummaryApi.getCategory
         })
         const { data : responseData } = response
+        console.log("category response ", responseData);
 
         if(responseData.success){
            dispatch(setAllCategory(responseData.data.sort((a, b) => a.name.localeCompare(b.name)))) 

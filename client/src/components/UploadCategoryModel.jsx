@@ -1,11 +1,11 @@
 
 import React, { useEffect, useState } from 'react'
 import { IoClose } from "react-icons/io5"
-import uploadImage from "../utils/Uploadimage"
 import Axios from '../utils/Axios'
 import SummaryApi from '../common/SummaryApi'
 import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError'
+import Uploadimage from '../utils/Uploadimage'
 
 const UploadCategoryModel = ({
   close,
@@ -47,7 +47,7 @@ const UploadCategoryModel = ({
 
     try {
       setLoading(true)
-      const response = await uploadImage(file)
+      const response = await Uploadimage(file)
 
       const imageUrl = response?.data?.url
       if (!imageUrl) return toast.error("Upload failed")

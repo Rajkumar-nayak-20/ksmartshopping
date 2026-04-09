@@ -5,7 +5,7 @@ import { IoClose } from "react-icons/io5"
 import { useSelector, useDispatch } from "react-redux"
 import { motion, AnimatePresence } from "framer-motion"
 
-import uploadImage from "../utils/UploadImage"
+import uploadImage from "../utils/Uploadimage"
 import ViewImage from "../components/ViewImage"
 import AddFieldComponent from "../components/AddFieldComponent"
 import Axios from "../utils/Axios"

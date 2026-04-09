@@ -30,10 +30,10 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 
-import userReducer from "./ userSlice"
-import productReducer from "./productSlice";
+import userReducer from "./userSlice.js"
+import productReducer from "./productSlice.js";
 import addressReducer from "./addressSlice";
-import cartReducer from "./cartSlice"
+import cartReducer from "./cartSlice.js"
 import orderReducer from "./orderSlice";
 
 export const store = configureStore({

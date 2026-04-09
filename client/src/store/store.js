@@ -30,7 +30,7 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 
-import userReducer from "./userSlice.js"
+import userReducer from "./userslice.js"
 import productReducer from "./productSlice.js";
 import addressReducer from "./addressSlice";
 import cartReducer from "./cartSlice.js"

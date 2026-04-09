@@ -1,5 +1,5 @@
 import sendEmail from "../utils/sendEmail.js";
-import generatedOtp from "../utils/generatedOtp.js";
+import generateOtp from "../utils/generateOtp.js";
 import forgotPasswordTemplate from "../emailTemplates/forgotPasswordTemplate.js";
 import User from "../models/User.js";
 
@@ -15,7 +15,7 @@ export const forgotPassword = async (req, res) => {
     }
 
     // generate OTP
-    const otp = generatedOtp();
+    const otp = generateOtp();
 
     // save otp in DB
     user.forgotPasswordOtp = otp;

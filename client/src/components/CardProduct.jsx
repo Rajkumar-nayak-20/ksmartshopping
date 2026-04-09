@@ -6,7 +6,6 @@ import summaryApi from "../common/SummaryApi";
 import AxiosToastError from "../utils/AxiosToastError";
 import Axios from "../utils/Axios";
 import toast from "react-hot-toast";
-import { useGlobalContext } from "../provider/GlobalProvider.jsX";
 import AddToCartButton from "./AddToCartButton";
 
 const CardProduct = ({ data }) => {

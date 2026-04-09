@@ -530,10 +530,10 @@ import genertedRefreshToken from '../utils/generatedRefreshToken.js'
 import uploadImageClodinary from '../utils/uploadImageClodinary.js'
 import forgotPasswordTemplate from '../utils/forgotPasswordTemplate.js'
 import jwt from 'jsonwebtoken'
-// import generateOTP from '../utils/generatedOTP.js'
+import generateOTP from '../utils/generatedOTP.js'
 import forgotPasswordOTP from '../utils/forgotPasswordTemplate.js'
 
-// ================= REGISTER =================
+//  REGISTER
 export async function registerUserController(request, response) {
     try {
         const { name, email, password, mobile } = request.body
@@ -732,7 +732,127 @@ export async function loginController(request, response) {
     }
 }
 
+export async function authwithGoogle(request,response){
+    const {name,email,avatar,mobile,signUpwithGoogle,role} = request.body;
+    try {
+        const existingUser = await UserModel.findOne({ email: email });
+        if (!existingUser) {
+            const user=await UserModel.create({
+            
+            name:name,
+            email:email,
+            avatar:avatar,
+            mobile:mobile,
+            signUpwithGoogle:true,
+            role:role,
+            verify_email:true
+        
+            })
+            await user.save();
+           console.log("New user created with Google Sign-In:", user);
+           
+
+    }else{
+       const accesstoken = await generatedAccessToken(existingUser._id)
+        const refreshToken = await genertedRefreshToken(existingUser._id)
+
+        await UserModel.findByIdAndUpdate(existingUser._id, {
+            last_login_date: new Date()
+        })
+
+        const cookiesOption = {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None"
+   }
+
+        response.cookie('accessToken', accesstoken, cookiesOption)
+       response.cookie('refreshToken', refreshToken, cookiesOption)
+
+     return response.json({
+           message: "Login successfully",
+          error: false,
+          success: true,
+           data: {
+                accesstoken,
+             refreshToken
+             }
+         })
+     }
+        
+     } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+             success: false
+        })
+        
+    }
+
+ }
+
 // ================= LOGOUT =================
+// export async function authwithGoogle(req, res) {
+//   try {
+//     const { name, email, avatar, mobile } = req.body
+
+//     if (!email) {
+//       return res.status(400).json({
+//         success: false,
+//         error: true,
+//         message: "Email is required"
+//       })
+//     }
+
+//     let user = await UserModel.findOne({ email })
+
+//     if (!user) {
+//       user = new UserModel({
+//         name,
+//         email,
+//         avatar,
+//         mobile,
+//         password: null,
+//         signUpwithGoogle: true,
+//         role: "USER",
+//         verify_email: true
+//       })
+
+//       await user.save()
+//     }
+
+//     const accesstoken = await generatedAccessToken(user._id)
+//     const refreshToken = await genertedRefreshToken(user._id)
+
+//     user.last_login_date = new Date()
+//     await user.save()
+
+//     res.cookie("accessToken", accesstoken, {
+//       httpOnly: true,
+//       secure: true,
+//       sameSite: "None"
+//     })
+
+//     res.cookie("refreshToken", refreshToken, {
+//       httpOnly: true,
+//       secure: true,
+//       sameSite: "None"
+//     })
+
+//     return res.json({
+//       success: true,
+//       message: "Google login success",
+//       data: { user, accesstoken, refreshToken }
+//     })
+
+//   } catch (error) {
+//     return res.status(500).json({
+//       success: false,
+//       error: true,
+//       message: error.message
+//     })
+//   }
+// }
 export async function logoutController(request, response) {
     try {
         const userid = request.userId
@@ -763,6 +883,11 @@ export async function logoutController(request, response) {
         })
     }
 }
+
+
+
+
+
 
 // ================= UPLOAD AVATAR =================
 export async function uploadAvatar(request, response) {
@@ -838,36 +963,99 @@ export async function updateUserDetails(request, response) {
  * @param {*} req - { email }
  * @param {*} res - { success: true/false, data: {}, message: "OTP Sent to Email Successfully!" / "Error Sending OTP!" }
  */
-export async function forgotPasswordController (req, res) {
+// export async function forgotPasswordController (req, res) {
+//     try {
+//         // First Take the Email For the Request Body
+//         const { email } = req.body;
+
+//         // Find the email into the database
+//         const existingUser = await UserModel.findOne({ email });
+
+//         // If the User is not Found then we had to send the Response that User Not Found with this email
+//         if (!existingUser) {
+//             return res.status(404).json({
+//                 success: false,
+//                 data: {},
+//                 message: "User Not Found with this email!",
+//             });
+//         }
+
+//         // Now if the User is Found then we had to send the OTP to the user's email
+//         const otp = generateOTP();
+
+//         // Save the OTP to the database with the user id and expired that otp in just 5 minutes
+//         existingUser.forgot_password_otp = otp;
+//         existingUser.forgot_password_expiry = Date.now() + 5 * 60 * 1000; // OTP expires in 5 minutes
+
+//         // Send the OTP to the user's email
+//         await existingUser.save();
+
+//         // Send the email to the user after successful registration
+//         try {
+//             const sendOtpEmail = await sendEmail({
+//                 sendTo: existingUser.email,
+//                 subject: "Password Reset OTP",
+//                 html: forgotPasswordOTP({
+//                     name: existingUser.name,
+//                     otp,
+//                 }),
+//             });
+//             sendOtpEmail() && console.log("OTP Email Sent Successfully!");
+//         } catch (error) {
+//             console.error("Error sending email:", error);
+//         }
+
+//         // Return the response to the client
+//         return res.status(200).json({
+//             success: true,
+//             data: {},
+//             message: "OTP Sent to Email Successfully!",
+//         });
+//     } catch (error) {
+//         return res.status(500).json({
+//             success: false,
+//             data: {},
+//             message: "Error Sending OTP!",
+//             error: error.message,
+//         });
+//     }
+// };
+
+
+export async function forgotPasswordController(req, res) {
     try {
-        // First Take the Email For the Request Body
         const { email } = req.body;
 
-        // Find the email into the database
+        // 1. Validate email
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: "Email is required",
+            });
+        }
+
+        // 2. Check user
         const existingUser = await UserModel.findOne({ email });
 
-        // If the User is not Found then we had to send the Response that User Not Found with this email
         if (!existingUser) {
             return res.status(404).json({
                 success: false,
-                data: {},
                 message: "User Not Found with this email!",
             });
         }
 
-        // Now if the User is Found then we had to send the OTP to the user's email
+        // 3. Generate OTP
         const otp = generateOTP();
 
-        // Save the OTP to the database with the user id and expired that otp in just 5 minutes
+        // 4. Save OTP
         existingUser.forgot_password_otp = otp;
-        existingUser.forgot_password_expiry = Date.now() + 5 * 60 * 1000; // OTP expires in 5 minutes
+        existingUser.forgot_password_expiry = Date.now() + 5 * 60 * 1000;
 
-        // Send the OTP to the user's email
         await existingUser.save();
 
-        // Send the email to the user after successful registration
+        // 5. Send Email
         try {
-            const sendOtpEmail = await sendEmail({
+            await sendEmail({
                 sendTo: existingUser.email,
                 subject: "Password Reset OTP",
                 html: forgotPasswordOTP({
@@ -875,27 +1063,33 @@ export async function forgotPasswordController (req, res) {
                     otp,
                 }),
             });
-            sendOtpEmail() && console.log("OTP Email Sent Successfully!");
-        } catch (error) {
-            console.error("Error sending email:", error);
+
+            console.log("✅ OTP Email Sent Successfully");
+
+        } catch (emailError) {
+            console.log("❌ EMAIL ERROR:", emailError);
+
+            return res.status(500).json({
+                success: false,
+                message: "Failed to send OTP email",
+            });
         }
 
-        // Return the response to the client
+        // 6. Success response
         return res.status(200).json({
             success: true,
-            data: {},
             message: "OTP Sent to Email Successfully!",
         });
+
     } catch (error) {
+        console.log("🔥 FORGOT PASSWORD ERROR:", error);
+
         return res.status(500).json({
             success: false,
-            data: {},
-            message: "Error Sending OTP!",
-            error: error.message,
+            message: error.message,
         });
     }
-};
-
+}
 // ================= VERIFY FORGOT OTP =================
 export async function verifyForgotPasswordOtp(request, response) {
     try {

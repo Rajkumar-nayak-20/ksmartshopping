@@ -1,173 +1,4 @@
 
-//             <div>
-//               <label className="text-sm font-medium text-gray-600">Password</label>
-//               <div className="mt-1 flex items-center px-4 py-3 rounded-xl bg-gray-50 border border-transparent
-//                 focus-within:border-[#00a040] focus-within:ring-2 focus-within:ring-[#00a040]/40">
-//                 <input
-//                   type={showPassword ? "text" : "password"}
-//                   name="password"
-//                   value={data.password}
-//                   onChange={handlechange}
-//                   placeholder="Create password"
-//                   className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
-//                 />
-//                 <button type="button" onClick={() => setShowPassword(p => !p)}>
-//                   {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-//                 </button>
-//               </div>
-//               {data.password && !isValidPassword && (
-//                 <p className="text-xs text-red-500 mt-1">
-//                   8+ characters with uppercase & lowercase
-//                 </p>
-//               )}
-//             </div>
-
-//             {/* Confirm Password */}
-//             <div>
-//               <label className="text-sm font-medium text-gray-600">Confirm Password</label>
-//               <div className="mt-1 flex items-center px-4 py-3 rounded-xl bg-gray-50 border border-transparent
-//                 focus-within:border-[#00a040] focus-within:ring-2 focus-within:ring-[#00a040]/40">
-//                 <input
-//                   type={showConfirmPassword ? "text" : "password"}
-//                   name="confirmPassword"
-//                   value={data.confirmPassword}
-//                   onChange={handlechange}
-//                   placeholder="Confirm password"
-//                   className="w-full bg-transparent outline-none text-sm placeholder-gray-400"
-//                 />
-//                 <button type="button" onClick={() => setShowConfirmPassword(p => !p)}>
-//                   {showConfirmPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-//                 </button>
-//               </div>
-//               {data.confirmPassword && !isPasswordMatch && (
-//                 <p className="text-xs text-red-500 mt-1">
-//                   Passwords do not match
-//                 </p>
-//               )}
-//             </div>
-
-//             {/* SUBMIT */}
-//             <button
-//               disabled={!valideValue}
-//               className={`mt-3 w-full py-3 rounded-xl font-semibold text-white
-//                 ${valideValue
-//                   ? "bg-gradient-to-r from-[#00a040] to-green-600"
-//                   : "bg-gray-400 cursor-not-allowed"
-//                 }`}
-//             >
-//               Create Account
-//             </button>
-
-//           </form>
-
-//           {/* FOOTER */}
-//           <div className="px-8 py-4 border-t text-center text-sm text-gray-600">
-//             Already have an account?
-//             <Link to="/login" className="ml-1 text-[#00a040] font-semibold hover:underline">
-//               Login
-//             </Link>
-//           </div>
-
-//         </div>
-
-//         {/* RIGHT PANEL */}
-//         <div className="hidden md:flex flex-col items-center justify-center bg-[#328c44] text-white p-10">
-//           <h2 className="text-4xl font-extrabold leading-tight">
-//             K’s Shopping <br /> Mart
-//           </h2>
-//           <p className="mt-4 text-lg opacity-90">
-//             Smart shopping starts here
-//           </p>
-//         </div>
-
-//       </div>
-//     </section>
-//   )
-// }
-
-// export default Register
-
-// import React, { useState, useEffect } from 'react'
-// import { FaRegEyeSlash, FaRegEye } from "react-icons/fa"
-// import toast from 'react-hot-toast'
-// import Axios from '../utils/Axios'
-// import summaryApi from '../common/SummaryApi'
-// import AxiosToastError from '../utils/AxiosToastError'
-// import { useNavigate, Link } from 'react-router-dom'
-
-// /* ================= REGEX ================= */
-// const emailRegex =
-//   /^[a-z][a-z0-9._%+-]*@[a-z][a-z0-9-]*\.[a-z]{2,}(\.[a-z]{2,})?$/
-// const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/
-// const mobileRegex = /^[6-9]\d{9}$/
-// /* ======================================== */
-
-// const Register = () => {
-//   const [data, setData] = useState({
-//     name: "",
-//     email: "",
-//     mobile: "",
-//     password: "",
-//     confirmPassword: ""
-//   })
-
-//   const [errors, setErrors] = useState({})
-//   const [showPassword, setShowPassword] = useState(false)
-//   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-//   const navigate = useNavigate()
-
-//   /* ================= LIVE VALIDATION ================= */
-//   useEffect(() => {
-//     let newErrors = {}
-
-//     if (data.name && data.name.trim().length < 3)
-//       newErrors.name = "Minimum 3 characters required"
-
-//     if (data.email && !emailRegex.test(data.email))
-//       newErrors.email = "Enter valid email"
-
-//     if (data.mobile && !mobileRegex.test(data.mobile))
-//       newErrors.mobile = "Enter valid 10-digit mobile"
-
-//     if (data.password && !passwordRegex.test(data.password))
-//       newErrors.password = "8+ chars with uppercase & lowercase"
-
-//     if (data.confirmPassword && data.password !== data.confirmPassword)
-//       newErrors.confirmPassword = "Passwords do not match"
-
-//     setErrors(newErrors)
-//   }, [data])
-//   /* ================================================ */
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target
-//     setData(prev => ({ ...prev, [name]: value }))
-//   }
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault()
-
-//     if (Object.keys(errors).length > 0) {
-//       toast.error("Please fix errors")
-//       return
-//     }
-
-//     try {
-//       const response = await Axios({
-//         ...summaryApi.register,
-//         data
-//       })
-
-//       if (response.data?.error) {
-//         toast.error(response.data.message)
-//       }
-
-//       if (response.data?.success) {
-//         toast.success(r
-
-
-
-
 import React, { useState, useEffect } from 'react'
 import { FaRegEyeSlash, FaRegEye, FaUser, FaEnvelope, FaPhone, FaLock } from "react-icons/fa"
 import { RiShieldCheckLine, RiShoppingBag3Line } from "react-icons/ri"
@@ -177,6 +8,11 @@ import Axios from '../utils/Axios'
 import summaryApi from '../common/SummaryApi'
 import AxiosToastError from '../utils/AxiosToastError'
 import { useNavigate, Link } from 'react-router-dom'
+import {getAuth,signInWithPopup,GoogleAuthProvider} from "firebase/auth"
+import {firebaseapp} from "../firebase"
+
+const  auth = getAuth(firebaseapp)
+const provider = new GoogleAuthProvider()
 
 
 /* ================= REGEX ================= */
@@ -285,6 +121,112 @@ const Register = () => {
     { id: 3, text: "Contains uppercase letter", met: /[A-Z]/.test(data.password) },
     { id: 4, text: "Contains number", met: /[0-9]/.test(data.password) }
   ]
+
+
+//   const authwithgoogle=()=>{
+//    signInWithPopup(auth, provider)
+//   .then((result) => {
+//     // This gives you a Google Access Token. You can use it to access the Google API.
+//     const credential = GoogleAuthProvider.credentialFromResult(result);
+//     const token = credential.accessToken;
+//     console.log(token);
+    
+//     // The signed-in user info.
+//     const user = result.user;
+//     console.log(user);
+    
+//   const fields={
+//   name : user.providerData[0].displayName,
+//   email : user.providerData[0].email,
+//   password : null,
+//   avatar : user.providerData[0].photoURL,
+// mobile :user.providerData[0].phoneNumber,
+// role:"USER"
+//   }
+//   }).catch((error) => {
+//     // Handle Errors here.
+//     const errorCode = error.code;
+//     const errorMessage = error.message;
+//     // The email of the user's account used.
+//     const email = error.customData.email;
+//     // The AuthCredential type that was used.
+//     const credential = GoogleAuthProvider.credentialFromError(error);
+//     // ...
+//   });
+//   }
+const authwithgoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider)
+
+    const user = result.user
+
+    // ✅ rename this variable
+    const providerData = user.providerData?.[0]
+
+    // const fields = {
+    //   name: providerData?.displayName || user.displayName,
+    //   email: providerData?.email || user.email,
+    //   password: null,
+    //   avatar: providerData?.photoURL || user.photoURL,
+    //   mobile: providerData?.phoneNumber || user.phoneNumber || "",
+    //   role: "USER"
+    // }
+
+   
+
+    const response = await Axios({
+      ...summaryApi.authwithGoogle,
+      data
+    })
+
+    if (response.data.success) {
+      localStorage.setItem("user", JSON.stringify(response.data.data.user))
+      toast.success("Login success")
+      navigate("/")
+    }
+
+  } catch (error) {
+    console.log(error)
+    toast.error("Google login failed")
+  }
+}
+
+// const authwithgoogle = async () => {
+//   try {
+//     const result = await signInWithPopup(auth, provider)
+
+//     const user = result.user
+
+//     // ✅ correct data
+//     const fields = {
+//       name: user.providerData[0].displayName,
+//       email: user.providerData[0].email,
+//       password: null,
+//       avatar: user.providerData[0].photoURL,
+//       mobile: user.providerData[0].phoneNumber,
+//       role: "USER"
+//     }
+
+   
+
+//     // 🔥 API CALL (MOST IMPORTANT)
+//     const response = await Axios({
+//       ...summaryApi.authwithGoogle,
+//       data: fields
+//     })
+//      console.log("Google Data:", fields)
+
+//     if (response.data.success) {
+//       localStorage.setItem("user", JSON.stringify(response.data.data))
+//       toast.success("Login success")
+//       navigate("/")
+//     }
+
+//   } catch (error) {
+//     console.log(error)
+//     toast.error("Google login failed")
+//   }
+// }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-cyan-50 flex items-center justify-center p-4">
@@ -535,6 +477,28 @@ const Register = () => {
                 'Create Account'
               )}
             </button>
+            {/* Divider */}
+<div className="flex items-center gap-4 my-6">
+  <div className="flex-1 h-px bg-gray-200"></div>
+  <span className="text-sm text-gray-500 font-medium">OR</span>
+  <div className="flex-1 h-px bg-gray-200"></div>
+</div>
+
+{/* Google Button */}
+<button
+  type="button"
+  onClick={authwithgoogle}
+  className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 transition-all shadow-sm hover:shadow-md"
+>
+  <img
+    src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+    alt="google"
+    className="w-5 h-5"
+  />
+  <span className="font-semibold text-gray-700">
+    Continue with Google
+  </span>
+</button>
           </form>
 
           {/* Login Link */}

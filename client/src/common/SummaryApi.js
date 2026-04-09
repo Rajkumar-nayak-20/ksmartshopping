@@ -1,5 +1,7 @@
 export const baseURL = import.meta.env.VITE_API_URL
 
+// export const baseURL= "http://localhost:8181/"
+
 const summaryApi = {
     register: {
         url: 'api/user/register',
@@ -9,6 +11,10 @@ const summaryApi = {
         url: 'api/user/login',
         method: 'POST'
     },
+    authwithGoogle: {
+  url: "/api/user/authwithGoogle",
+  method: "POST"
+},
     forgot_Password: {
         url: 'api/user/forgot-password',
         method: 'PUT'

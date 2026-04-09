@@ -1,7 +1,7 @@
 import React from "react"
 import { IoClose } from "react-icons/io5"
 
-const ViewImage = ({ url, close }) => {
+const Viewimage = ({ url, close }) => {
   return (
     <section
       className="
@@ -51,4 +51,4 @@ const ViewImage = ({ url, close }) => {
   )
 }
 
-export default ViewImage
+export default Viewimage

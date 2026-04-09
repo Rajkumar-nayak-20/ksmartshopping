@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { motion, AnimatePresence } from "framer-motion"
 
 import uploadImage from "../utils/Uploadimage"
-import ViewImage from "../components/Viewimage"
+import ViewImage from "../components/viewimage"
 import AddFieldComponent from "../components/AddFieldComponent"
 import Axios from "../utils/Axios"
 import SummaryApi from "../common/SummaryApi"

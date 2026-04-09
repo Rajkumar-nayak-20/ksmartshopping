@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { X, Upload, Check, Plus as PlusIcon, Image as ImageIcon, FolderTree } from "lucide-react"
-import uploadImage  from "../utils/uploadImage"
+import UploadImage  from "../utils/Uploadimage"
 import Axios from "../utils/Axios"
 import SummaryApi from "../common/SummaryApi"
 import toast from "react-hot-toast"
@@ -68,7 +68,7 @@ const UploadSubCategoryModel = ({
 
     try {
       setUploading(true)
-      const response = await uploadImage(file)
+      const response = await UploadImage(file)
       const imageUrl = response?.data?.url
 
       if (imageUrl) {

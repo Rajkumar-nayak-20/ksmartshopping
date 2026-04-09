@@ -1,6 +1,6 @@
 // export const baseURL = import.meta.env.VITE_API_URL
 
-export const baseURL= "http://localhost:8181/"
+export const baseURL = "http://localhost:8181/"
 
 const summaryApi = {
     register: {
@@ -12,9 +12,9 @@ const summaryApi = {
         method: 'POST'
     },
     authwithGoogle: {
-  url: "/api/user/authwithGoogle",
-  method: "POST"
-},
+        url: "/api/user/authwithGoogle",
+        method: "POST"
+    },
     forgot_Password: {
         url: 'api/user/forgot-password',
         method: 'PUT'
@@ -142,48 +142,48 @@ const summaryApi = {
     },
     getCartItem: {
         url: '/api/cart/get',
-        method: 'get'   
+        method: 'get'
     },
-    updateCartItemQty :{
+    updateCartItemQty: {
         url: '/api/cart/update-qty',
         method: 'put'
     },
     deleteCartItem: {
         url: '/api/cart/delete-cart-item',
-        method: 'delete'  
-    } ,
-    createAddress : {
+        method: 'delete'
+    },
+    createAddress: {
         url: '/api/address/create',
         method: 'post'
-    
+
     },
-    getAddress : {
+    getAddress: {
         url: '/api/address/get',
         method: 'get'
-    }, 
-    updateAddress : {
+    },
+    updateAddress: {
         url: '/api/address/update',
         method: 'put'
     },
-    disableAddress : {
+    disableAddress: {
         url: '/api/address/disable',
         method: 'delete'
 
-        },
-        CashOnDeliveryOrderController : {
-            url :"/api/order/cash-on-delivery",
-            method: 'post' 
-        },
-        payment_url:{
-            url : "/api/order/checkout",
-            method: 'post'
-        },
-        getorderItems :{
-            url : "/api/order/order-list",
-            method: 'get' 
+    },
+    CashOnDeliveryOrderController: {
+        url: "/api/order/cash-on-delivery",
+        method: 'post'
+    },
+    payment_url: {
+        url: "/api/order/checkout",
+        method: 'post'
+    },
+    getorderItems: {
+        url: "/api/order/order-list",
+        method: 'get'
 
-        }
-  
+    }
+
 
 }
 export default summaryApi

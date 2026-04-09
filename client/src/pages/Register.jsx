@@ -154,43 +154,132 @@ const Register = () => {
 //     // ...
 //   });
 //   }
-const authwithgoogle = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider)
+// const authwithgoogle = async () => {
+//   try {
+//     const result = await signInWithPopup(auth, provider)
 
-    const user = result.user
+//     const user = result.user
 
-    // ✅ rename this variable
-    const providerData = user.providerData?.[0]
+//     // ✅ rename this variable
+//     const providerData = user.providerData?.[0]
 
-    // const fields = {
-    //   name: providerData?.displayName || user.displayName,
-    //   email: providerData?.email || user.email,
-    //   password: null,
-    //   avatar: providerData?.photoURL || user.photoURL,
-    //   mobile: providerData?.phoneNumber || user.phoneNumber || "",
-    //   role: "USER"
-    // }
+//     const fields = {
+//       name: providerData?.displayName || user.displayName,
+//       email: providerData?.email || user.email,
+//       password: null,
+//       avatar: providerData?.photoURL || user.photoURL,
+//       mobile: providerData?.phoneNumber || user.phoneNumber || "",
+//       role: "USER"
+//     }
 
    
 
+//     const response = await Axios({
+//       ...summaryApi.authwithGoogle,
+//       data
+//     })
+
+//     if (response.data.success) {
+//       localStorage.setItem("user", JSON.stringify(response.data.data.user))
+//       toast.success("Login success")
+//       navigate("/")
+//     }
+
+//   } catch (error) {
+//     console.log(error)
+//     toast.error("Google login failed")
+//   }
+// }
+const authwithgoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider)
+    const user = result.user
+
+    console.log("FIREBASE USER:", user)
+
+    const providerData = user.providerData?.[0]
+
+    const fields = {
+      name: providerData?.displayName || user.displayName,
+      email: providerData?.email || user.email,
+      password: null,
+      avatar: providerData?.photoURL || user.photoURL,
+      mobile: providerData?.phoneNumber || user.phoneNumber || "",
+      role: "USER"
+    }
+
+    console.log("SENDING DATA:", fields)
+
     const response = await Axios({
       ...summaryApi.authwithGoogle,
-      data
+      data: fields
     })
 
+    console.log("RESPONSE:", response.data)
+
     if (response.data.success) {
-      localStorage.setItem("user", JSON.stringify(response.data.data.user))
+      localStorage.setItem(
+        "user",
+        JSON.stringify(response.data.data.user)
+      )
+
+      localStorage.setItem(
+        "accesstoken",
+        response.data.data.accesstoken
+      )
+
       toast.success("Login success")
       navigate("/")
     }
 
   } catch (error) {
-    console.log(error)
-    toast.error("Google login failed")
+    console.log("ERROR:", error)
+    console.log("BACKEND:", error?.response?.data)
+
+    toast.error(error?.response?.data?.message || "Google login failed")
   }
 }
 
+// const authwithgoogle = async () => {
+//   try {
+//     const result = await signInWithPopup(auth, provider)
+
+//     const user = result.user
+
+//     // ✅ ADD HERE
+//     console.log("FIREBASE USER:", user)
+
+//     const providerData = user.providerData?.[0]
+
+//     const fields = {
+//       name: providerData?.displayName || user.displayName,
+//       email: providerData?.email || user.email,
+//       password: null,
+//       avatar: providerData?.photoURL || user.photoURL,
+//       mobile: providerData?.phoneNumber || user.phoneNumber || "",
+//       role: "USER"
+//     }
+
+//     console.log("SENDING DATA:", fields) // ✅ also add this
+
+//     const response = await Axios({
+//       ...summaryApi.authwithGoogle,
+//       data: fields
+//     })
+
+//     if (response.data.success) {
+//       localStorage.setItem("user", JSON.stringify(response.data.data.user))
+//       toast.success("Login success")
+//       navigate("/")
+//     }
+
+//   } catch (error) {
+//     console.log("ERROR:", error)
+//     console.log("BACKEND:", error?.response?.data)
+
+//     toast.error("Google login failed")
+//   }
+// }
 // const authwithgoogle = async () => {
 //   try {
 //     const result = await signInWithPopup(auth, provider)
@@ -230,10 +319,9 @@ const authwithgoogle = async () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-cyan-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 border border-gray-100">
-        
+<div className="w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 mx-auto">        
         {/* LEFT SIDE - FORM */}
-        <div className="p-8 lg:p-12">
+        <div className="p-6 lg:p-8">
           <div className="mb-10">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-3 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600">
@@ -516,58 +604,7 @@ const authwithgoogle = async () => {
         </div>
 
         {/* RIGHT SIDE - PROMO */}
-        <div className="hidden lg:flex flex-col justify-center p-12 bg-gradient-to-br from-emerald-500 via-green-600 to-emerald-700 text-white relative overflow-hidden">
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full -translate-x-32 -translate-y-32"></div>
-            <div className="absolute bottom-0 right-0 w-64 h-64 bg-white rounded-full translate-x-32 translate-y-32"></div>
-          </div>
-          
-          <div className="relative z-10">
-            <div className="mb-10">
-              <h2 className="text-4xl font-bold mb-4">Welcome to Premium Shopping</h2>
-              <p className="text-emerald-100 text-lg">
-                Join thousands of happy customers shopping with confidence
-              </p>
-            </div>
-            
-            {/* Features List */}
-            <div className="space-y-6 mb-10">
-              {[
-                { icon: '🚚', title: 'Fast Delivery', desc: 'Get your orders in minutes' },
-                { icon: '🛡️', title: 'Secure Payments', desc: '100% safe transactions' },
-                { icon: '⭐', title: 'Premium Quality', desc: 'Curated quality products' },
-                { icon: '🎁', title: 'Exclusive Offers', desc: 'Member-only discounts' }
-              ].map((feature, index) => (
-                <div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  key={index}
-                  className="flex items-center gap-4 p-4 rounded-2xl bg-white/10 backdrop-blur-sm"
-                >
-                  <div className="text-2xl">{feature.icon}</div>
-                  <div>
-                    <h3 className="font-bold text-lg">{feature.title}</h3>
-                    <p className="text-emerald-100">{feature.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="text-center p-4 rounded-2xl bg-white/10 backdrop-blur-sm">
-                <div className="text-2xl font-bold">10K+</div>
-                <div className="text-emerald-100">Happy Customers</div>
-              </div>
-              <div className="text-center p-4 rounded-2xl bg-white/10 backdrop-blur-sm">
-                <div className="text-2xl font-bold">4.8★</div>
-                <div className="text-emerald-100">Customer Rating</div>
-              </div>
-            </div>
-          </div>
-        </div>
+      
       </div>
     </div>
   )

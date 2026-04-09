@@ -33,7 +33,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userslice.js"
 import productReducer from "./productSlice.js";
 import addressReducer from "./addressSlice";
-import cartReducer from "./cartSlice.js"
+import cartReducer from "./cartslice.js"
 import orderReducer from "./orderSlice";
 
 export const store = configureStore({

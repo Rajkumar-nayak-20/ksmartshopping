@@ -141,7 +141,7 @@ import {
   User
 } from "lucide-react"
 
-const UserMenu = ({close}) => {
+const usermenu = ({close}) => {
    const user = useSelector((state)=> state.user)
    const dispatch = useDispatch()
    const navigate = useNavigate()
@@ -377,4 +377,4 @@ return (
 
 }
 
-export default UserMenu
+export default usermenu

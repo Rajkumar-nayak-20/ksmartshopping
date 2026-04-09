@@ -1,6 +1,6 @@
 import React from 'react'
-import UserMenu from '../components/usermenu'
 import { IoClose } from "react-icons/io5";
+import UserMenu from '../components/usermenu';
 
 const UserMenuMobile = () => {
   return (

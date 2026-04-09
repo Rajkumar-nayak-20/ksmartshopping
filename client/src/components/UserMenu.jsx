@@ -125,7 +125,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Divider from './Divider'
 import Axios from '../utils/Axios'
 import SummaryApi from '../common/SummaryApi'
-import { logout } from '../store/userSlice'
+import { logout } from '../store/userslice'
 import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError'
 import { HiOutlineExternalLink } from "react-icons/hi";

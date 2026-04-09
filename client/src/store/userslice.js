@@ -57,9 +57,7 @@ const userSlice = createSlice({
             state.role = ""
 
         }
-
     }
-        
 })
 export const { setUserDetails, logout , updatedAvatar } = userSlice.actions
 

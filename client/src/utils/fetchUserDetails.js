@@ -25,17 +25,35 @@
 import Axios from "./Axios"
 import summaryApi from "../common/SummaryApi"
 
+// const fetchUserDetails = async () => {
+//   try {
+//     const response = await Axios({
+//       ...summaryApi.userDetails
+//     })
+
+//     return response.data   // ✅ JSON
+//   } catch (error) {
+//     console.log("fetch user error:", error)
+//     return null
+//   }
+// }
+
+// export default fetchUserDetails
+
+
+
+
 const fetchUserDetails = async () => {
   try {
     const response = await Axios({
       ...summaryApi.userDetails
     })
 
-    return response.data   // ✅ JSON
+    return response.data?.data || null   // ✅ FIX
+
   } catch (error) {
     console.log("fetch user error:", error)
     return null
   }
 }
-
-export default fetchUserDetails
+ export default fetchUserDetails

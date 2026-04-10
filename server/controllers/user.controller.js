@@ -10,6 +10,7 @@ import generatedRefreshToken from "../utils/generatedRefreshToken.js"
 import uploadImageClodinary from '../utils/uploadImageClodinary.js'
 import forgotPasswordTemplate from '../utils/forgotPasswordTemplate.js'
 import jwt from 'jsonwebtoken'
+
 import generateOTP from '../utils/generateOtp.js'
 import forgotPasswordOTP from '../utils/forgotPasswordTemplate.js'
 
@@ -305,150 +306,6 @@ export async function loginController(request, response) {
     }
 }
 
-// export async function authwithGoogle(request,response){
-//     const {name,email,avatar,mobile,signUpwithGoogle,role} = request.body;
-//     try {
-//         const existingUser = await UserModel.findOne({ email: email });
-//         if (!existingUser) {
-//             const user=await UserModel.create({
-            
-//             name:name,
-//             email:email,
-//             avatar:avatar,
-//             mobile:mobile,
-//             signUpwithGoogle:true,
-//             role:role,
-//             verify_email:true
-        
-//             })
-//             await user.save();
-//            console.log("New user created with Google Sign-In:", user);
-           
-
-//     }else{
-//        const accesstoken = await generatedAccessToken(existingUser._id)
-//         const refreshToken = await genertedRefreshToken(existingUser._id)
-
-//         await UserModel.findByIdAndUpdate(existingUser._id, {
-//             last_login_date: new Date()
-//         })
-
-//         const cookiesOption = {
-//             httpOnly: true,
-//             secure: true,
-//             sameSite: "None"
-//    }
-
-//         response.cookie('accessToken', accesstoken, cookiesOption)
-//        response.cookie('refreshToken', refreshToken, cookiesOption)
-
-//      return response.json({
-//            message: "Login successfully",
-//           error: false,
-//           success: true,
-//            data: {
-//                 accesstoken,
-//              refreshToken
-//              }
-//          })
-//      }
-        
-//      } catch (error) {
-//         return response.status(500).json({
-//             message: error.message || error,
-//             error: true,
-//              success: false
-//         })
-        
-//     }
-
-//  }
-
-// export async function authwithGoogle(request, response) {
-//   const { name, email, avatar, mobile, role } = request.body
-
-//   try {
-//     console.log("REQ BODY:", request.body)
-
-//     const existingUser = await UserModel.findOne({ email })
-
-//     // ✅ NEW USER
-//     if (!existingUser) {
-//       const user = await UserModel.create({
-//         name,
-//         email,
-//         avatar,
-//         mobile,
-//         signUpwithGoogle: true,
-//         role,
-//         verify_email: true
-//       })
-
-//       const accesstoken = await generatedAccessToken(user._id)
-//       const refreshToken = await generatedRefreshToken(user._id)
-
-//       const cookiesOption = {
-//         httpOnly: true,
-//         secure: false,      // ✅ IMPORTANT for localhost
-//         sameSite: "Lax"
-//       }
-
-//       response.cookie("accessToken", accesstoken, cookiesOption)
-//       response.cookie("refreshToken", refreshToken, cookiesOption)
-
-//       return response.json({
-//         message: "Registered & Login success",
-//         error: false,
-//         success: true,
-//         data: {
-//           accesstoken,
-//           refreshToken,
-//           user   // ✅ FIXED
-//         }
-//       })
-//     }
-
-//     // ✅ EXISTING USER LOGIN
-//     else {
-//       const accesstoken = await generatedAccessToken(existingUser._id)
-//       const refreshToken = await generatedRefreshToken(existingUser._id)
-
-//       await UserModel.findByIdAndUpdate(existingUser._id, {
-//         last_login_date: new Date()
-//       })
-
-//       const cookiesOption = {
-//         httpOnly: true,
-//         secure: false,
-//         sameSite: "Lax"
-//       }
-
-//       response.cookie("accessToken", accesstoken, cookiesOption)
-//       response.cookie("refreshToken", refreshToken, cookiesOption)
-
-//       return response.json({
-//         message: "Login successfully",
-//         error: false,
-//         success: true,
-//         data: {
-//           accesstoken,
-//           refreshToken,
-//           user: existingUser   // ✅ FIXED
-//         }
-//       })
-//     }
-
-//   } catch (error) {
-//     console.log("ERROR:", error)
-
-//     return response.status(500).json({
-//       message: error.message,
-//       error: true,
-//       success: false
-//     })
-//   }
-// }
-
 export async function authwithGoogle(request, response) {
   const { name, email, avatar, mobile, role } = request.body
 
@@ -484,8 +341,8 @@ export async function authwithGoogle(request, response) {
       const accesstoken = await generatedAccessToken(user._id)
       console.log("🔑 Access Token Generated")
 
-      const refreshToken = await generatedRefreshToken(user._id)
-      console.log("🔄 Refresh Token Generated")
+const refreshToken = await generatedRefreshToken(user._id)    
+  console.log("🔄 Refresh Token Generated")
 
       const cookiesOption = {
         httpOnly: true,

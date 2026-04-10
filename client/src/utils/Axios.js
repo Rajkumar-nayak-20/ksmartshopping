@@ -138,7 +138,8 @@ const refreshAccessToken = async (refreshToken) => {
       }
     });
 
-    const accessToken = response.data.data.accessToken;
+    // const accessToken = response.data.data.accessToken;
+    const accessToken = response.data.data.accesstoken
 
     localStorage.setItem("accesstoken", accessToken);
 

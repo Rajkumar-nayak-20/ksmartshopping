@@ -7,7 +7,7 @@
 // import { logout } from "../store/userslice";
 // import toast from "react-hot-toast";
 // import AxiosToastError from "../utils/AxiosToastError";
-// import { 
+// import {
 //   HiOutlineLogout,
 //   HiOutlineUser,
 //   HiOutlineCube,
@@ -39,7 +39,7 @@
 //     }
 
 //     const handleClose = () => {
-//         if(close) close();  
+//         if(close) close();
 //     }
 
 //     const menuItems = [
@@ -63,8 +63,8 @@
 //                         <p className="font-semibold text-gray-900">{user.name || "User"}</p>
 //                         <p className="text-xs text-gray-600 truncate">{user.email || user.mobile}</p>
 //                     </div>
-//                     <Link 
-//                         onClick={handleClose} 
+//                     <Link
+//                         onClick={handleClose}
 //                         to={"/dashboard/profile"}
 //                         className="p-1.5 rounded-md hover:bg-white text-gray-500 hover:text-amber-600"
 //                         title="Profile Settings"
@@ -80,7 +80,7 @@
 //                     <h3 className="text-xs font-semibold text-gray-400 uppercase mb-2 px-2">
 //                         Menu
 //                     </h3>
-                    
+
 //                     <div className="space-y-1">
 //                         {menuItems.map((item, index) => (
 //                             <Link
@@ -118,18 +118,17 @@
 
 // export default UserMenu;
 
-
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import Divider from './Divider'
-import Axios from '../utils/Axios'
-import SummaryApi from '../common/SummaryApi'
-import { logout } from '../store/userslice'
-import toast from 'react-hot-toast'
-import AxiosToastError from '../utils/AxiosToastError'
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import Divider from "./Divider";
+import Axios from "../utils/Axios";
+import SummaryApi from "../common/SummaryApi";
+import { logout } from "../store/userslice";
+import toast from "react-hot-toast";
+import AxiosToastError from "../utils/AxiosToastError";
 import { HiOutlineExternalLink } from "react-icons/hi";
-import isAdmin from '../utils/isAdmin'
+import isAdmin from "../utils/isAdmin";
 import {
   LayoutGrid,
   Layers,
@@ -138,227 +137,241 @@ import {
   ShoppingBag,
   MapPin,
   LogOut,
-  User
-} from "lucide-react"
+  User,
+} from "lucide-react";
 
-const usermenu = ({close}) => {
-   const user = useSelector((state)=> state.user)
-   const dispatch = useDispatch()
-   const navigate = useNavigate()
+const usermenu = ({ close }) => {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-   const handleLogout = async()=>{
-        try {
-          const response = await Axios({
-             ...SummaryApi.logout
-          })
-          console.log("logout",response)
-          if(response.data.success){
-            if(close){
-              close()
-            }
-            dispatch(logout())
-            localStorage.clear()
-            toast.success(response.data.message)
-            navigate("/")
-          }
-        } catch (error) {
-          console.log(error)
-          AxiosToastError(error)
+  const handleLogout = async () => {
+    try {
+      const response = await Axios({
+        ...SummaryApi.logout,
+      });
+      console.log("logout", response);
+      if (response.data.success) {
+        if (close) {
+          close();
         }
-   }
-
-   const handleClose = ()=>{
-      if(close){
-        close()
+        dispatch(logout());
+        localStorage.clear();
+        toast.success(response.data.message);
+        navigate("/");
       }
-   }
-//   return (
-//     <div>
-//         <div className='font-semibold'>My Account</div>
-//         <div className='text-sm flex items-center gap-2'>
-//           <span className='max-w-52 text-ellipsis line-clamp-1'>{user.name || user.mobile} <span className='text-medium text-red-600'>{user.role === "ADMIN" ? "(Admin)" : "" }</span></span>
-//           <Link onClick={handleClose} to={"/dashboard/profile"} className='hover:text-primary-200'>
-//             <HiOutlineExternalLink size={15}/>
-//           </Link>
-//         </div>
+    } catch (error) {
+      console.log(error);
+      AxiosToastError(error);
+    }
+  };
 
-//         <Divider/>
+  const handleClose = () => {
+    if (close) {
+      close();
+    }
+  };
+  //   return (
+  //     <div>
+  //         <div className='font-semibold'>My Account</div>
+  //         <div className='text-sm flex items-center gap-2'>
+  //           <span className='max-w-52 text-ellipsis line-clamp-1'>{user.name || user.mobile} <span className='text-medium text-red-600'>{user.role === "ADMIN" ? "(Admin)" : "" }</span></span>
+  //           <Link onClick={handleClose} to={"/dashboard/profile"} className='hover:text-primary-200'>
+  //             <HiOutlineExternalLink size={15}/>
+  //           </Link>
+  //         </div>
 
-//         <div className='text-sm grid gap-1'>
-//             {
-//               isAdmin(user.role) && (
-//                 <Link onClick={handleClose} to={"/dashboard/category"} className='px-2 hover:bg-orange-200 py-1'>Category</Link>
-//               )
-//             }
+  //         <Divider/>
 
-//             {
-//               isAdmin(user.role) && (
-//                 <Link onClick={handleClose} to={"/dashboard/subcategory"} className='px-2 hover:bg-orange-200 py-1'>Sub Category</Link>
-//               )
-//             }
+  //         <div className='text-sm grid gap-1'>
+  //             {
+  //               isAdmin(user.role) && (
+  //                 <Link onClick={handleClose} to={"/dashboard/category"} className='px-2 hover:bg-orange-200 py-1'>Category</Link>
+  //               )
+  //             }
 
-//             {
-//               isAdmin(user.role) && (
-//                 <Link onClick={handleClose} to={"/dashboard/upload-product"} className='px-2 hover:bg-orange-200 py-1'>Upload Product</Link>
-//               )
-//             }
+  //             {
+  //               isAdmin(user.role) && (
+  //                 <Link onClick={handleClose} to={"/dashboard/subcategory"} className='px-2 hover:bg-orange-200 py-1'>Sub Category</Link>
+  //               )
+  //             }
 
-//             {
-//               isAdmin(user.role) && (
-//                 <Link onClick={handleClose} to={"/dashboard/product"} className='px-2 hover:bg-orange-200 py-1'>Product</Link>
-//               )
-//             }
+  //             {
+  //               isAdmin(user.role) && (
+  //                 <Link onClick={handleClose} to={"/dashboard/upload-product"} className='px-2 hover:bg-orange-200 py-1'>Upload Product</Link>
+  //               )
+  //             }
 
-//             <Link onClick={handleClose} to={"/dashboard/myorders"} className='px-2 hover:bg-orange-200 py-1'>My Orders</Link>
+  //             {
+  //               isAdmin(user.role) && (
+  //                 <Link onClick={handleClose} to={"/dashboard/product"} className='px-2 hover:bg-orange-200 py-1'>Product</Link>
+  //               )
+  //             }
 
-//             <Link onClick={handleClose} to={"/dashboard/address"} className='px-2 hover:bg-orange-200 py-1'>Save Address</Link>
+  //             <Link onClick={handleClose} to={"/dashboard/myorders"} className='px-2 hover:bg-orange-200 py-1'>My Orders</Link>
 
-//             <button onClick={handleLogout} className='text-left px-2 hover:bg-orange-200 py-1'>Log Out</button>
+  //             <Link onClick={handleClose} to={"/dashboard/address"} className='px-2 hover:bg-orange-200 py-1'>Save Address</Link>
 
-//         </div>
-//     </div>
-//   )
-return (
-  <div className="space-y-4">
+  //             <button onClick={handleLogout} className='text-left px-2 hover:bg-orange-200 py-1'>Log Out</button>
 
-    {/* ================= PROFILE CARD ================= */}
-    <div
-      className="
+  //         </div>
+  //     </div>
+  //   )
+  return (
+    <div className="space-y-4">
+      {/* ================= PROFILE CARD ================= */}
+      <div
+        className="
         relative overflow-hidden
         rounded-2xl p-4
         bg-gradient-to-br from-orange-500 via-orange-400 to-amber-400
         text-white shadow-lg
       "
-    >
-      <div className="absolute inset-0 bg-white/10 blur-2xl" />
+      >
+        <div className="absolute inset-0 bg-white/10 blur-2xl" />
 
-      <div className="relative z-10">
-        <div className="text-sm opacity-90">My Account</div>
+        <div className="relative z-10">
+          <div className="text-sm opacity-90">My Account</div>
 
-        <div className="mt-1 flex items-center gap-2">
-          <User size={18} className="opacity-90" />
+          <div className="mt-1 flex items-center gap-2">
+            <User size={18} className="opacity-90" />
 
-          <span className="max-w-40 truncate font-semibold text-base">
-            {user.name || user.mobile}
-          </span>
-
-          {user.role === "ADMIN" && (
-            <span className="text-[11px] px-2 py-0.5 rounded-full bg-black/30 font-bold tracking-wide">
-              ADMIN
+            <span className="max-w-40 truncate font-semibold text-base">
+              {user.name || user.mobile}
             </span>
-          )}
 
-          <Link
-            onClick={handleClose}
-            to={"/dashboard/profile"}
-            className="
+            {user.role === "ADMIN" && (
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-black/30 font-bold tracking-wide">
+                ADMIN
+              </span>
+            )}
+
+            <Link
+              onClick={handleClose}
+              to={"/dashboard/profile"}
+              className="
               ml-auto
               p-1.5 rounded-full
               bg-white/20 hover:bg-white/30
               transition
             "
-          >
-            <HiOutlineExternalLink size={14} />
-          </Link>
+            >
+              <HiOutlineExternalLink size={14} />
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
 
-    {/* ================= MENU ================= */}
-    <div className="space-y-1 text-sm">
-
-      {isAdmin(user.role) && (
-        <Link
-          onClick={handleClose}
-          to={"/dashboard/category"}
-          className="
+      {/* ================= MENU ================= */}
+      <div className="space-y-1 text-sm">
+        {isAdmin(user.role) && (
+          <Link
+            onClick={handleClose}
+            to={"/dashboard/category"}
+            className="
             group flex items-center gap-3
             px-4 py-2.5 rounded-xl
             hover:bg-orange-100 transition-all
           "
-        >
-          <LayoutGrid size={18} className="text-orange-500 group-hover:scale-110 transition" />
-          <span>Category</span>
-        </Link>
-      )}
+          >
+            <LayoutGrid
+              size={18}
+              className="text-orange-500 group-hover:scale-110 transition"
+            />
+            <span>Category</span>
+          </Link>
+        )}
 
-      {isAdmin(user.role) && (
-        <Link
-          onClick={handleClose}
-          to={"/dashboard/subcategory"}
-          className="
+        {isAdmin(user.role) && (
+          <Link
+            onClick={handleClose}
+            to={"/dashboard/subcategory"}
+            className="
             group flex items-center gap-3
             px-4 py-2.5 rounded-xl
             hover:bg-orange-100 transition
           "
-        >
-          <Layers size={18} className="text-orange-500 group-hover:scale-110 transition" />
-          <span>Sub Category</span>
-        </Link>
-      )}
+          >
+            <Layers
+              size={18}
+              className="text-orange-500 group-hover:scale-110 transition"
+            />
+            <span>Sub Category</span>
+          </Link>
+        )}
 
-      {isAdmin(user.role) && (
-        <Link
-          onClick={handleClose}
-          to={"/dashboard/upload-product"}
-          className="
+        {isAdmin(user.role) && (
+          <Link
+            onClick={handleClose}
+            to={"/dashboard/upload-product"}
+            className="
             group flex items-center gap-3
             px-4 py-2.5 rounded-xl
             hover:bg-orange-100 transition
           "
-        >
-          <Upload size={18} className="text-orange-500 group-hover:scale-110 transition" />
-          <span>Upload Product</span>
-        </Link>
-      )}
+          >
+            <Upload
+              size={18}
+              className="text-orange-500 group-hover:scale-110 transition"
+            />
+            <span>Upload Product</span>
+          </Link>
+        )}
 
-      {isAdmin(user.role) && (
-        <Link
-          onClick={handleClose}
-          to={"/dashboard/product"}
-          className="
+        {isAdmin(user.role) && (
+          <Link
+            onClick={handleClose}
+            to={"/dashboard/product"}
+            className="
             group flex items-center gap-3
             px-4 py-2.5 rounded-xl
             hover:bg-orange-100 transition
           "
-        >
-          <Package size={18} className="text-orange-500 group-hover:scale-110 transition" />
-          <span>Product</span>
-           
-        </Link>
-        
-      )}
+          >
+            <Package
+              size={18}
+              className="text-orange-500 group-hover:scale-110 transition"
+            />
+            <span>Product</span>
+          </Link>
+        )}
 
-      <Link
-        onClick={handleClose}
-        to={"/dashboard/myorders"}
-        className="
+        <Link
+          onClick={handleClose}
+          to={"/dashboard/myorders"}
+          className="
           group flex items-center gap-3
           px-4 py-2.5 rounded-xl
           hover:bg-orange-100 transition
         "
-      >
-        <ShoppingBag size={18} className="text-gray-500 group-hover:scale-110 transition" />
-        <span>My Orders</span>
-      </Link>
+        >
+          <ShoppingBag
+            size={18}
+            className="text-gray-500 group-hover:scale-110 transition"
+          />
+          <span>My Orders</span>
+        </Link>
 
-      <Link
-        onClick={handleClose}
-        to={"/dashboard/address"}
-        className="
+        <Link
+          onClick={handleClose}
+          to={"/dashboard/address"}
+          className="
           group flex items-center gap-3
           px-4 py-2.5 rounded-xl
           hover:bg-orange-100 transition
         "
-      >
-        <MapPin size={18} className="text-gray-500 group-hover:scale-110 transition" />
-        <span>Save Address</span>
-      </Link>
+        >
+          <MapPin
+            size={18}
+            className="text-gray-500 group-hover:scale-110 transition"
+          />
+          <span>Save Address</span>
+        </Link>
 
-      {/* ================= LOGOUT ================= */}
-      <button
-        onClick={handleLogout}
-        className="
+        {/* ================= LOGOUT ================= */}
+        <button
+          onClick={handleLogout}
+          className="
           mt-3 w-full flex items-center gap-3
           px-4 py-2.5 rounded-xl
           bg-gradient-to-r from-red-50 to-red-100
@@ -366,15 +379,13 @@ return (
           hover:from-red-100 hover:to-red-200
           transition
         "
-      >
-        <LogOut size={18} />
-        Log Out
-      </button>
-
+        >
+          <LogOut size={18} />
+          Log Out
+        </button>
+      </div>
     </div>
-  </div>
-)
+  );
+};
 
-}
-
-export default usermenu
+export default usermenu;

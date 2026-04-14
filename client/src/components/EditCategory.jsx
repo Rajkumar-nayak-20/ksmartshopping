@@ -1,100 +1,98 @@
-import React, { useEffect, useState } from 'react'
-import Axios from '../utils/Axios'
-import SummaryApi from '../common/SummaryApi'
-import toast from 'react-hot-toast'
-import AxiosToastError from '../utils/AxiosToastError'
-import { X, ImagePlus } from 'lucide-react'
+import React, { useEffect, useState } from "react";
+import Axios from "../utils/Axios";
+import SummaryApi from "../common/SummaryApi";
+import toast from "react-hot-toast";
+import AxiosToastError from "../utils/AxiosToastError";
+import { X, ImagePlus } from "lucide-react";
 
 const EditCategory = ({ close, data, fetchData }) => {
-
   const [formData, setFormData] = useState({
     name: "",
-    image: ""   // final uploaded image URL
-  })
+    image: "", // final uploaded image URL
+  });
 
-  const [preview, setPreview] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [preview, setPreview] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // ✅ Load old data when edit opens
   useEffect(() => {
     if (data) {
       setFormData({
         name: data.name || "",
-        image: data.image || ""
-      })
-      setPreview(data.image || "")
+        image: data.image || "",
+      });
+      setPreview(data.image || "");
     }
-  }, [data])
+  }, [data]);
 
   // ======================
   // IMAGE CHOOSE + UPLOAD
   // ======================
   const handleImageChange = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
+    const file = e.target.files[0];
+    if (!file) return;
 
     try {
-      const formDataImage = new FormData()
-      formDataImage.append("image", file)
+      const formDataImage = new FormData();
+      formDataImage.append("image", file);
 
-      setLoading(true)
+      setLoading(true);
 
       const response = await Axios({
         ...SummaryApi.uploadImage,
-        data: formDataImage
-      })
+        data: formDataImage,
+      });
 
       // 🔥 IMPORTANT (adjust if backend response differs)
-      const imageUrl = response.data?.data?.url
+      const imageUrl = response.data?.data?.url;
 
       if (imageUrl) {
-        setFormData(prev => ({ ...prev, image: imageUrl }))
-        setPreview(imageUrl)
+        setFormData((prev) => ({ ...prev, image: imageUrl }));
+        setPreview(imageUrl);
       } else {
-        console.log("Upload response:", response.data)
+        console.log("Upload response:", response.data);
       }
-
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   // ======================
   // UPDATE CATEGORY
   // ======================
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!formData.image) {
-      toast.error("Please select an image")
-      return
+      toast.error("Please select an image");
+      return;
     }
 
     try {
-      setLoading(true)
+      setLoading(true);
 
       const response = await Axios({
         ...SummaryApi.updateCategory,
         data: {
           _id: data._id,
           name: formData.name,
-          image: formData.image
-        }
-      })
+          image: formData.image,
+        },
+      });
 
       if (response.data.success) {
-        toast.success("Category updated")
-        fetchData()
-        close()
+        toast.success("Category updated");
+        fetchData();
+        close();
       }
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <section className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
@@ -117,7 +115,7 @@ const EditCategory = ({ close, data, fetchData }) => {
           type="text"
           value={formData.name}
           onChange={(e) =>
-            setFormData(prev => ({ ...prev, name: e.target.value }))
+            setFormData((prev) => ({ ...prev, name: e.target.value }))
           }
           placeholder="Category name"
           className="w-full border rounded-xl px-4 py-2"
@@ -159,7 +157,7 @@ const EditCategory = ({ close, data, fetchData }) => {
         </button>
       </form>
     </section>
-  )
-}
+  );
+};
 
-export default EditCategory
+export default EditCategory;

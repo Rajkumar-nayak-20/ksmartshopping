@@ -192,27 +192,6 @@
 //       ...SummaryApi.refreshToken
 //     });
 
-//     const newToken = response.data.accessToken;
-
-//     localStorage.setItem("accesstoken", newToken);
-
-//     return newToken;
-//   } catch (error) {
-//     return null;
-//   }
-// };
-
-// // ✅ Response interceptor
-// Axios.interceptors.response.use(
-//   (res) => res,
-//   async (error) => {
-//     const originalRequest = error.config;
-
-//     if (error.response?.status === 401 && !originalRequest._retry) {
-//       originalRequest._retry = true;
-
-//       const newToken = await refreshAccessToken();
-
 //       if (newToken) {
 //         originalRequest.headers.Authorization = `Bearer ${newToken}`;
 //         return Axios(originalRequest);
@@ -244,7 +223,7 @@ const refreshAxios = axios.create({
   withCredentials: true
 });
 
-// ✅ Refresh token function (cookie-based)
+// Refresh token function (cookie-based)
 const refreshAccessToken = async () => {
   try {
     await refreshAxios({
@@ -257,7 +236,7 @@ const refreshAccessToken = async () => {
   }
 };
 
-// ✅ Response interceptor (auto refresh)
+// Response interceptor (auto refresh)
 Axios.interceptors.response.use(
   (response) => response,
   async (error) => {

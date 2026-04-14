@@ -13,7 +13,8 @@ export const fetchCategory = async (dispatch) => {
     dispatch(setLoadingCategory(true))
 
     const response = await Axios({
-      ...SummaryApi.getCategory    })
+      ...SummaryApi.getCategory
+    })
 
     console.log("Category API Response:", response.data)
 

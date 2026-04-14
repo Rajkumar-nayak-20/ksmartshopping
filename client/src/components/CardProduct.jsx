@@ -17,7 +17,6 @@ const CardProduct = ({ data }) => {
   const url = `/product/${valideURLConvert(data.name)}-${data._id}`;
   const [loading, setLoading] = useState(false);
 
-
   // const increaseQty = ()=>{
 
   // }
@@ -77,7 +76,7 @@ const CardProduct = ({ data }) => {
             {data.stock == 0 ? (
               <p className="text-red-500 text-sm text-center">Out of Stock</p>
             ) : (
-             <AddToCartButton data={data}/>
+              <AddToCartButton data={data} />
             )}
           </div>
         </div>

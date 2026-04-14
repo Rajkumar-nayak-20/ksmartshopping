@@ -139,7 +139,6 @@
 
 // export default CategoryPage
 
-
 // import React, { useEffect, useState } from 'react'
 // import UploadCategoryModel from '../components/UploadCategoryModel'
 // import DeleteCategory from '../components/DeleteCategory'
@@ -280,7 +279,6 @@
 // }
 
 // export default CategoryPage
-
 
 // import React, { useEffect, useState } from 'react'
 // import UploadCategoryModel from '../components/UploadCategoryModel'
@@ -425,65 +423,65 @@
 
 // export default CategoryPage
 
-import React, { useEffect, useState } from 'react'
-import UploadCategoryModel from '../components/UploadCategoryModel'
-import DeleteCategory from '../components/DeleteCategory'
-import Loading from '../components/Loading'
-import NoData from '../components/NoData'
-import Axios from '../utils/Axios'
-import SummaryApi from '../common/SummaryApi'
-import AxiosToastError from '../utils/AxiosToastError'
-import { Edit2, Trash2, Plus, FolderOpen, Search, Filter } from 'lucide-react'
+import React, { useEffect, useState } from "react";
+import UploadCategoryModel from "../components/UploadCategoryModel";
+import DeleteCategory from "../components/DeleteCategory";
+import Loading from "../components/Loading";
+import NoData from "../components/NoData";
+import Axios from "../utils/Axios";
+import SummaryApi from "../common/SummaryApi";
+import AxiosToastError from "../utils/AxiosToastError";
+import { Edit2, Trash2, Plus, FolderOpen, Search, Filter } from "lucide-react";
 
 const CategoryPage = () => {
-  const [openUploadCategory, setOpenUploadCategory] = useState(false)
-  const [editData, setEditData] = useState(null)
+  const [openUploadCategory, setOpenUploadCategory] = useState(false);
+  const [editData, setEditData] = useState(null);
 
-  const [openDelete, setOpenDelete] = useState(false)
-  const [deleteData, setDeleteData] = useState(null)
+  const [openDelete, setOpenDelete] = useState(false);
+  const [deleteData, setDeleteData] = useState(null);
 
-  const [loading, setLoading] = useState(false)
-  const [categoryData, setCategoryData] = useState([])
+  const [loading, setLoading] = useState(false);
+  const [categoryData, setCategoryData] = useState([]);
 
   // Search and Filter States
-  const [searchTerm, setSearchTerm] = useState('')
-  const [filteredData, setFilteredData] = useState([])
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
 
   // ======================
   // FETCH CATEGORY
   // ======================
   const fetchCategory = async () => {
     try {
-      setLoading(true)
-      const response = await Axios({ ...SummaryApi.getCategory })
+      setLoading(true);
+      const response = await Axios({ ...SummaryApi.getCategory });
       if (response.data.success) {
-        setCategoryData(response.data.data)
-        setFilteredData(response.data.data)
+        setCategoryData(response.data.data);
+        setFilteredData(response.data.data);
       }
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   // ======================
   // SEARCH FUNCTIONALITY
   // ======================
   useEffect(() => {
-    if (searchTerm.trim() === '') {
-      setFilteredData(categoryData)
+    if (searchTerm.trim() === "") {
+      setFilteredData(categoryData);
     } else {
-      const filtered = categoryData.filter(category =>
-        category.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      setFilteredData(filtered)
+      const filtered = categoryData.filter((category) =>
+        category.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+      setFilteredData(filtered);
     }
-  }, [searchTerm, categoryData])
+  }, [searchTerm, categoryData]);
 
   useEffect(() => {
-    fetchCategory()
-  }, [])
+    fetchCategory();
+  }, []);
 
   return (
     <section className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
@@ -495,16 +493,25 @@ const CategoryPage = () => {
               <FolderOpen className="text-amber-600" size={24} />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">Category Collection</h1>
-              <p className="text-sm text-gray-500">Manage your product categories</p>
+              <h1 className="text-2xl font-bold text-gray-800">
+                Category Collection
+              </h1>
+              <p className="text-sm text-gray-500">
+                Manage your product categories
+              </p>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
             {/* SEARCH BAR */}
-            <div className="relative flex
-            ">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 " size={20} />
+            <div
+              className="relative flex
+            "
+            >
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 "
+                size={20}
+              />
               <input
                 type="text"
                 placeholder="Search categories..."
@@ -517,8 +524,8 @@ const CategoryPage = () => {
             {/* ADD CATEGORY BUTTON */}
             <button
               onClick={() => {
-                setEditData(null)
-                setOpenUploadCategory(true)
+                setEditData(null);
+                setOpenUploadCategory(true);
               }}
               className="flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-xl hover:from-amber-600 hover:to-amber-700 transition-all duration-200 shadow-md hover:shadow-lg"
             >
@@ -535,7 +542,10 @@ const CategoryPage = () => {
         {loading && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {[...Array(10)].map((_, i) => (
-              <div key={i} className="bg-white rounded-2xl shadow-md animate-pulse overflow-hidden">
+              <div
+                key={i}
+                className="bg-white rounded-2xl shadow-md animate-pulse overflow-hidden"
+              >
                 <div className="h-48 bg-gray-200"></div>
                 <div className="p-5 space-y-4">
                   <div className="h-4 bg-gray-200 rounded w-3/4"></div>
@@ -550,19 +560,22 @@ const CategoryPage = () => {
         )}
 
         {/* NO DATA STATE */}
-        {!loading && filteredData.length === 0 && searchTerm === '' && (
+        {!loading && filteredData.length === 0 && searchTerm === "" && (
           <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
             <div className="w-24 h-24 bg-amber-50 rounded-full flex items-center justify-center mb-6">
               <FolderOpen className="w-12 h-12 text-amber-400" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">No Categories Yet</h3>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">
+              No Categories Yet
+            </h3>
             <p className="text-gray-600 max-w-md mb-8">
-              Start organizing your products by adding categories. This will help customers navigate your store better.
+              Start organizing your products by adding categories. This will
+              help customers navigate your store better.
             </p>
             <button
               onClick={() => {
-                setEditData(null)
-                setOpenUploadCategory(true)
+                setEditData(null);
+                setOpenUploadCategory(true);
               }}
               className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-xl hover:from-amber-600 hover:to-amber-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
             >
@@ -572,15 +585,18 @@ const CategoryPage = () => {
         )}
 
         {/* NO SEARCH RESULTS */}
-        {!loading && filteredData.length === 0 && searchTerm !== '' && (
+        {!loading && filteredData.length === 0 && searchTerm !== "" && (
           <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
             <Search className="w-16 h-16 text-gray-300 mb-4" />
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">No Results Found</h3>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">
+              No Results Found
+            </h3>
             <p className="text-gray-600 mb-6">
-              No categories match "<span className="font-medium">{searchTerm}</span>"
+              No categories match "
+              <span className="font-medium">{searchTerm}</span>"
             </p>
             <button
-              onClick={() => setSearchTerm('')}
+              onClick={() => setSearchTerm("")}
               className="px-5 py-2 text-amber-600 hover:text-amber-700 font-medium"
             >
               Clear Search
@@ -594,17 +610,20 @@ const CategoryPage = () => {
             {/* STATS BAR */}
             <div className="flex items-center justify-between mb-6 px-2">
               <div className="text-sm text-gray-600">
-                Showing <span className="font-semibold">{filteredData.length}</span> of{' '}
-                <span className="font-semibold">{categoryData.length}</span> categories
+                Showing{" "}
+                <span className="font-semibold">{filteredData.length}</span> of{" "}
+                <span className="font-semibold">{categoryData.length}</span>{" "}
+                categories
                 {searchTerm && (
                   <span>
-                    {' '}for "<span className="font-medium">{searchTerm}</span>"
+                    {" "}
+                    for "<span className="font-medium">{searchTerm}</span>"
                   </span>
                 )}
               </div>
               {searchTerm && (
                 <button
-                  onClick={() => setSearchTerm('')}
+                  onClick={() => setSearchTerm("")}
                   className="text-sm text-amber-600 hover:text-amber-700 font-medium"
                 >
                   Clear Search
@@ -621,16 +640,13 @@ const CategoryPage = () => {
                 >
                   {/* IMAGE CONTAINER WITH HOVER EFFECT */}
                   <div className="relative h-48 w-full bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden ">
-                    
-                    
                     <div className="absolute inset-0 z-20 pointer-events-none">
-
-  <button
-    onClick={() => {
-      setDeleteData(category)
-      setOpenDelete(true)
-    }}
-    className="
+                      <button
+                        onClick={() => {
+                          setDeleteData(category);
+                          setOpenDelete(true);
+                        }}
+                        className="
       absolute top-3 right-3
       p-2
       bg-red-50 text-red-600
@@ -641,12 +657,11 @@ const CategoryPage = () => {
       transition-all duration-200
       pointer-events-auto
     "
-    title="Delete Category"
-  >
-    <Trash2 size={18} />
-  </button>
-
-</div>
+                        title="Delete Category"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
 
                     <img
                       src={category.image}
@@ -659,15 +674,14 @@ const CategoryPage = () => {
                         group-hover:scale-105
                       "
                       onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/300x200?text=No+Image'
+                        e.target.src =
+                          "https://via.placeholder.com/300x200?text=No+Image";
                       }}
                     />
                   </div>
 
-                  
                   {/* CONTENT */}
                   <div className="p-2 flex items-center justify-between gap-5">
-
                     {/* CATEGORY NAME */}
                     <h3
                       className="
@@ -684,11 +698,10 @@ const CategoryPage = () => {
 
                     {/* ACTION BUTTONS */}
                     <div className="flex items-center gap-8 shrink-0">
-
                       <button
                         onClick={() => {
-                          setEditData(category)
-                          setOpenUploadCategory(true)
+                          setEditData(category);
+                          setOpenUploadCategory(true);
                         }}
                         className="
         p-2.5
@@ -701,12 +714,8 @@ const CategoryPage = () => {
                       >
                         <Edit2 size={12} />
                       </button>
-
-
                     </div>
-
                   </div>
-
                 </div>
               ))}
             </div>
@@ -718,8 +727,8 @@ const CategoryPage = () => {
       {openUploadCategory && (
         <UploadCategoryModel
           close={() => {
-            setOpenUploadCategory(false)
-            setEditData(null)
+            setOpenUploadCategory(false);
+            setEditData(null);
           }}
           fetchData={fetchCategory}
           editData={editData}
@@ -736,10 +745,9 @@ const CategoryPage = () => {
         />
       )}
     </section>
-  )
-}
+  );
+};
 
-export default CategoryPage
-
+export default CategoryPage;
 
 //2:55

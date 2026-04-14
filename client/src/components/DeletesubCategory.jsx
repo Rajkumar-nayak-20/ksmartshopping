@@ -1,30 +1,29 @@
-import Axios from "../utils/Axios"
-import toast from "react-hot-toast"
-import React from "react"
+import Axios from "../utils/Axios";
+import toast from "react-hot-toast";
+import React from "react";
 
 const DeletesubCategory = ({ data, close, api, setList }) => {
-
   const handleDelete = async () => {
     try {
       const response = await Axios({
         url: api.url,
         method: api.method,
-        data: { _id: data._id }
-      })
+        data: { _id: data._id },
+      });
 
       if (response.data.success) {
-        toast.success("Deleted successfully")
+        toast.success("Deleted successfully");
 
         if (setList) {
-          setList(prev => prev.filter(item => item._id !== data._id))
+          setList((prev) => prev.filter((item) => item._id !== data._id));
         }
 
-        close()
+        close();
       }
     } catch {
-      toast.error("Delete failed")
+      toast.error("Delete failed");
     }
-  }
+  };
 
   return (
     <section className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
@@ -46,7 +45,7 @@ const DeletesubCategory = ({ data, close, api, setList }) => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default DeletesubCategory
+export default DeletesubCategory;

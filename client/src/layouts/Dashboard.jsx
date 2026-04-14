@@ -6,11 +6,10 @@
 // const Dashboard = () => {
 //   const user=useSelector(state =>state.user)
 //   console.log("user in dashboard layout",user);
-  
+
 //   return (
 //     <section className='bg-white'>
 //       <div className="p-3 grid lg:grid-cols-[250px_1fr] gap-4 mx-auto">
-
 
 //         {/*  left for menu */}
 //         <div className="p-2 mt-2 sticky top-24 overflow-y-none flex lg:block
@@ -29,25 +28,23 @@
 
 // export default Dashboard
 
-import React, { useState, useEffect } from 'react'
-import UserMenu from '../components/usermenu'
-import { Outlet } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { Menu, X } from 'lucide-react'
+import React, { useState, useEffect } from "react";
+import UserMenu from "../components/usermenu";
+import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Menu, X } from "lucide-react";
 
 const Dashboard = () => {
-  const user = useSelector(state => state.user)
-  const [openMenu, setOpenMenu] = useState(false)
+  const user = useSelector((state) => state.user);
+  const [openMenu, setOpenMenu] = useState(false);
 
   // Lock background scroll on mobile menu open
   useEffect(() => {
-    document.body.style.overflow = openMenu ? 'hidden' : 'auto'
-  }, [openMenu])
+    document.body.style.overflow = openMenu ? "hidden" : "auto";
+  }, [openMenu]);
 
   return (
     <section className="bg-white min-h-screen relative">
-
-   
       <div className="lg:hidden sticky top-0 z-30 bg-white border-b px-4 py-3 flex items-center gap-3">
         <button
           onClick={() => setOpenMenu(true)}
@@ -58,10 +55,7 @@ const Dashboard = () => {
         <h2 className="font-semibold text-lg">Dashboard</h2>
       </div>
 
-    
       <div className="p-3 lg:grid lg:grid-cols-[250px_1fr] gap-4 mx-auto">
-
-      
         <div
           className="
             hidden lg:block
@@ -73,7 +67,6 @@ const Dashboard = () => {
           <UserMenu />
         </div>
 
-       
         <main className="bg-white p-4 min-h-screen w-full">
           <Outlet />
         </main>
@@ -84,7 +77,7 @@ const Dashboard = () => {
         className={`
           fixed inset-0 z-40 bg-black/50 lg:hidden
           transition-opacity duration-300
-          ${openMenu ? 'opacity-100 visible' : 'opacity-0 invisible'}
+          ${openMenu ? "opacity-100 visible" : "opacity-0 invisible"}
         `}
         onClick={() => setOpenMenu(false)}
       >
@@ -96,7 +89,7 @@ const Dashboard = () => {
             w-[75%] max-w-[280px]
             bg-white shadow-xl
             transform transition-transform duration-300
-            ${openMenu ? 'translate-x-0' : '-translate-x-full'}
+            ${openMenu ? "translate-x-0" : "-translate-x-full"}
           `}
           onClick={(e) => e.stopPropagation()}
         >
@@ -114,11 +107,8 @@ const Dashboard = () => {
           </div>
         </aside>
       </div>
-
     </section>
-  )
-}
+  );
+};
 
-export default Dashboard
-
-
+export default Dashboard;

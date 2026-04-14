@@ -1,5 +1,5 @@
-import React from "react"
-import { IoClose } from "react-icons/io5"
+import React from "react";
+import { IoClose } from "react-icons/io5";
 
 const Viewimage = ({ url, close }) => {
   return (
@@ -48,7 +48,7 @@ const Viewimage = ({ url, close }) => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Viewimage
+export default Viewimage;

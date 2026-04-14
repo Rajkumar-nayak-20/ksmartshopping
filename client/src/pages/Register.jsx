@@ -517,7 +517,7 @@ const authwithgoogle = async () => {
 </div>
 
 {/* Google Button */}
-<button
+{/* <button
   type="button"
   onClick={authwithgoogle}
   className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 transition-all shadow-sm hover:shadow-md"
@@ -530,7 +530,7 @@ const authwithgoogle = async () => {
   <span className="font-semibold text-gray-700">
     Continue with Google
   </span>
-</button>
+</button> */}
           </form>
 
           {/* Login Link */}

@@ -138,12 +138,12 @@ const router = createBrowserRouter(
 
         {
           path: "success",
-          element: <Success/>,
+          element: <Success />,
         },
         {
-            path: "cancel",
-            element: <Cancel/>,
-        }
+          path: "cancel",
+          element: <Cancel />,
+        },
       ],
     },
   ], //ka mtlb ye sare routes hain

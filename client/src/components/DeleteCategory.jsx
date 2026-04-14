@@ -1,37 +1,36 @@
-import React, { useState } from "react"
-import Axios from "../utils/Axios"
-import SummaryApi from "../common/SummaryApi"
-import toast from "react-hot-toast"
-import AxiosToastError from "../utils/AxiosToastError"
-import { Trash2, X } from "lucide-react"
+import React, { useState } from "react";
+import Axios from "../utils/Axios";
+import SummaryApi from "../common/SummaryApi";
+import toast from "react-hot-toast";
+import AxiosToastError from "../utils/AxiosToastError";
+import { Trash2, X } from "lucide-react";
 
 const DeleteCategory = ({ data, close, fetchData }) => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await Axios({
         ...SummaryApi.deleteCategory,
-        data: { _id: data._id }
-      })
+        data: { _id: data._id },
+      });
 
       if (response.data.success) {
-        toast.success("Category deleted successfully")
-        fetchData()
-        close()
+        toast.success("Category deleted successfully");
+        fetchData();
+        close();
       }
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <section className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
       <div className="bg-white w-full max-w-md rounded-xl p-6 relative">
-
         <button onClick={close} className="absolute top-4 right-4">
           <X />
         </button>
@@ -46,10 +45,8 @@ const DeleteCategory = ({ data, close, fetchData }) => {
           </h2>
 
           <p className="text-sm text-gray-500 mt-2">
-            Are you sure you want to delete  
-            <span className="font-semibold text-gray-800">
-              {" "}“{data.name}”
-            </span>?
+            Are you sure you want to delete
+            <span className="font-semibold text-gray-800"> “{data.name}”</span>?
             <br />
             This action cannot be undone.
           </p>
@@ -73,7 +70,7 @@ const DeleteCategory = ({ data, close, fetchData }) => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default DeleteCategory
+export default DeleteCategory;

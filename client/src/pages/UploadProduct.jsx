@@ -1,25 +1,27 @@
-import React, { useState, useEffect } from "react"
-import { FaCloudUploadAlt, FaSpinner, FaPlus } from "react-icons/fa"
-import { MdDelete, MdOutlineAddCircleOutline } from "react-icons/md"
-import { IoClose } from "react-icons/io5"
-import { useSelector, useDispatch } from "react-redux"
-import { motion, AnimatePresence } from "framer-motion"
+import React, { useState, useEffect } from "react";
+import { FaCloudUploadAlt, FaSpinner, FaPlus } from "react-icons/fa";
+import { MdDelete, MdOutlineAddCircleOutline } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
+import { useSelector, useDispatch } from "react-redux";
+import { motion, AnimatePresence } from "framer-motion";
 
-import uploadImage from "../utils/Uploadimage"
-import ViewImage from "../components/viewimage"
-import AddFieldComponent from "../components/AddFieldComponent"
-import Axios from "../utils/Axios"
-import SummaryApi from "../common/SummaryApi"
-import AxiosToastError from "../utils/AxiosToastError"
-import successAlert from "../utils/SuccessAlert"
+import uploadImage from "../utils/Uploadimage";
+import ViewImage from "../components/viewimage";
+import AddFieldComponent from "../components/AddFieldComponent";
+import Axios from "../utils/Axios";
+import SummaryApi from "../common/SummaryApi";
+import AxiosToastError from "../utils/AxiosToastError";
+import successAlert from "../utils/SuccessAlert";
 
-import { fetchCategory, fetchSubCategory } from "../store/productAction"
+import { fetchCategory, fetchSubCategory } from "../store/productAction";
 
 const UploadProduct = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const allCategory = useSelector((state) => state.product?.allCategory || [])
-  const allSubCategory = useSelector((state) => state.product?.allSubCategory || [])
+  const allCategory = useSelector((state) => state.product?.allCategory || []);
+  const allSubCategory = useSelector(
+    (state) => state.product?.allSubCategory || [],
+  );
 
   const [data, setData] = useState({
     name: "",
@@ -32,25 +34,25 @@ const UploadProduct = () => {
     discount: "",
     description: "",
     more_details: {},
-  })
+  });
 
-  const [selectCategory, setSelectCategory] = useState("")
-  const [selectSubCategory, setSelectSubCategory] = useState("")
-  const [ViewImageURL, setViewImageURL] = useState("")
-  const [openAddField, setOpenAddField] = useState(false)
-  const [fieldName, setFieldName] = useState("")
-  const [uploadingImage, setUploadingImage] = useState(false)
-  const [submitting, setSubmitting] = useState(false)
+  const [selectCategory, setSelectCategory] = useState("");
+  const [selectSubCategory, setSelectSubCategory] = useState("");
+  const [ViewImageURL, setViewImageURL] = useState("");
+  const [openAddField, setOpenAddField] = useState(false);
+  const [fieldName, setFieldName] = useState("");
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    fetchCategory(dispatch)
-    fetchSubCategory(dispatch)
-  }, [dispatch])
+    fetchCategory(dispatch);
+    fetchSubCategory(dispatch);
+  }, [dispatch]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+  };
 
   // const handleUploadImage = async (e) => {
   //   const file = e.target.files[0]
@@ -71,85 +73,84 @@ const UploadProduct = () => {
   //   }
   // }
   const handleUploadImage = async (e) => {
-  const files = Array.from(e.target.files); // 🔥 multiple files
-  if (!files.length) return;
+    const files = Array.from(e.target.files); // 🔥 multiple files
+    if (!files.length) return;
 
-  setUploadingImage(true);
+    setUploadingImage(true);
 
-  try {
-    for (let file of files) {
-      const response = await uploadImage(file); // same API
+    try {
+      for (let file of files) {
+        const response = await uploadImage(file); // same API
 
-      const imageUrl =
-        response?.data?.url || response?.data?.data?.url;
+        const imageUrl = response?.data?.url || response?.data?.data?.url;
 
-      if (imageUrl) {
-        setData((prev) => ({
-          ...prev,
-          image: [...prev.image, imageUrl], // same logic
-        }));
+        if (imageUrl) {
+          setData((prev) => ({
+            ...prev,
+            image: [...prev.image, imageUrl], // same logic
+          }));
+        }
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUploadingImage(false);
+      e.target.value = null;
     }
-  } catch (error) {
-    console.log(error);
-  } finally {
-    setUploadingImage(false);
-    e.target.value = null;
-  }
-};
+  };
 
   const handleDeleteImage = (index) => {
-    const newImages = [...data.image]
-    newImages.splice(index, 1)
-    setData({ ...data, image: newImages })
-  }
+    const newImages = [...data.image];
+    newImages.splice(index, 1);
+    setData({ ...data, image: newImages });
+  };
 
   const handleCategorySelect = (value) => {
-    if (!value || data.category.includes(value)) return
-    setData((prev) => ({ ...prev, category: [...prev.category, value] }))
-    setSelectCategory("")
-  }
+    if (!value || data.category.includes(value)) return;
+    setData((prev) => ({ ...prev, category: [...prev.category, value] }));
+    setSelectCategory("");
+  };
 
   const handleSubCategorySelect = (value) => {
-    if (!value || data.subCategory.includes(value)) return
-    setData((prev) => ({ ...prev, subCategory: [...prev.subCategory, value] }))
-    setSelectSubCategory("")
-  }
+    if (!value || data.subCategory.includes(value)) return;
+    setData((prev) => ({ ...prev, subCategory: [...prev.subCategory, value] }));
+    setSelectSubCategory("");
+  };
 
   const handleRemoveCategory = (index) => {
-    const updated = [...data.category]
-    updated.splice(index, 1)
-    setData({ ...data, category: updated })
-  }
+    const updated = [...data.category];
+    updated.splice(index, 1);
+    setData({ ...data, category: updated });
+  };
 
   const handleRemoveSubCategory = (index) => {
-    const updated = [...data.subCategory]
-    updated.splice(index, 1)
-    setData({ ...data, subCategory: updated })
-  }
+    const updated = [...data.subCategory];
+    updated.splice(index, 1);
+    setData({ ...data, subCategory: updated });
+  };
 
   const handleAddField = () => {
-    if (!fieldName.trim()) return
+    if (!fieldName.trim()) return;
     setData((prev) => ({
       ...prev,
       more_details: { ...prev.more_details, [fieldName]: "" },
-    }))
-    setFieldName("")
-    setOpenAddField(false)
-  }
+    }));
+    setFieldName("");
+    setOpenAddField(false);
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (data.image.length === 0) {
-      AxiosToastError({ message: "Please upload at least one image" })
-      return
+      AxiosToastError({ message: "Please upload at least one image" });
+      return;
     }
 
-    setSubmitting(true)
+    setSubmitting(true);
     try {
-      const response = await Axios({ ...SummaryApi.createProduct, data })
+      const response = await Axios({ ...SummaryApi.createProduct, data });
       if (response.data.success) {
-        successAlert(response.data.message)
+        successAlert(response.data.message);
         setData({
           name: "",
           image: [],
@@ -161,14 +162,14 @@ const UploadProduct = () => {
           discount: "",
           description: "",
           more_details: {},
-        })
+        });
       }
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen p-3">
@@ -222,7 +223,9 @@ const UploadProduct = () => {
               <div className="p-1.5 bg-green-100 rounded-lg">
                 <FaCloudUploadAlt className="text-green-600 text-sm" />
               </div>
-              <span className="text-xs font-medium text-gray-700">Product Images</span>
+              <span className="text-xs font-medium text-gray-700">
+                Product Images
+              </span>
             </div>
 
             <div className="flex gap-2 flex-wrap">
@@ -233,7 +236,9 @@ const UploadProduct = () => {
                 ) : (
                   <>
                     <FaCloudUploadAlt className="text-gray-400 text-lg" />
-                    <span className="text-[10px] text-gray-500 mt-0.5">Upload</span>
+                    <span className="text-[10px] text-gray-500 mt-0.5">
+                      Upload
+                    </span>
                   </>
                 )}
                 <input
@@ -285,20 +290,31 @@ const UploadProduct = () => {
                   onChange={(e) => handleCategorySelect(e.target.value)}
                   className="w-full px-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-blue-500"
                 >
-                  <option value="" disabled>Category</option>
+                  <option value="" disabled>
+                    Category
+                  </option>
                   {allCategory.map((c) => (
-                    <option key={c._id} value={c._id}>{c.name}</option>
+                    <option key={c._id} value={c._id}>
+                      {c.name}
+                    </option>
                   ))}
                 </select>
                 <div className="flex flex-wrap gap-1 mt-1.5">
                   {data.category.map((id, index) => {
-                    const cat = allCategory.find(c => c._id === id)
+                    const cat = allCategory.find((c) => c._id === id);
                     return (
-                      <span key={index} className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px]">
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px]"
+                      >
                         {cat?.name}
-                        <IoClose size={12} onClick={() => handleRemoveCategory(index)} className="cursor-pointer" />
+                        <IoClose
+                          size={12}
+                          onClick={() => handleRemoveCategory(index)}
+                          className="cursor-pointer"
+                        />
                       </span>
-                    )
+                    );
                   })}
                 </div>
               </div>
@@ -310,20 +326,31 @@ const UploadProduct = () => {
                   onChange={(e) => handleSubCategorySelect(e.target.value)}
                   className="w-full px-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-blue-500"
                 >
-                  <option value="" disabled>SubCategory</option>
+                  <option value="" disabled>
+                    SubCategory
+                  </option>
                   {allSubCategory.map((c) => (
-                    <option key={c._id} value={c._id}>{c.name}</option>
+                    <option key={c._id} value={c._id}>
+                      {c.name}
+                    </option>
                   ))}
                 </select>
                 <div className="flex flex-wrap gap-1 mt-1.5">
                   {data.subCategory.map((id, index) => {
-                    const sub = allSubCategory.find(s => s._id === id)
+                    const sub = allSubCategory.find((s) => s._id === id);
                     return (
-                      <span key={index} className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-green-50 text-green-700 rounded text-[10px]">
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-green-50 text-green-700 rounded text-[10px]"
+                      >
                         {sub?.name}
-                        <IoClose size={12} onClick={() => handleRemoveSubCategory(index)} className="cursor-pointer" />
+                        <IoClose
+                          size={12}
+                          onClick={() => handleRemoveSubCategory(index)}
+                          className="cursor-pointer"
+                        />
                       </span>
-                    )
+                    );
                   })}
                 </div>
               </div>
@@ -334,31 +361,28 @@ const UploadProduct = () => {
           <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm border border-gray-100 p-4">
             <div className="grid grid-cols-4 gap-2">
               <div className="grid gap-1">
- 
+                <input
+                  list="unit-options"
+                  name="unit"
+                  value={data.unit}
+                  onChange={handleChange}
+                  placeholder="Select or type unit"
+                  required
+                  className="w-full px-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-blue-500"
+                />
 
- <input
-  list="unit-options"
-  name="unit"
-  value={data.unit}
-  onChange={handleChange}
-  placeholder="Select or type unit"
-  required
-  className="w-full px-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg focus:ring-1 focus:ring-blue-500"
-/>
-
-<datalist id="unit-options">
-  <option value="kg" />
-  <option value="g" />
-  <option value="L" />
-  <option value="ml" />
-  <option value="pcs" />
-  <option value="pack" />
-  <option value="box" />
-  <option value="bottle" />
-  <option value="dozen" />
-</datalist>
-
-</div>
+                <datalist id="unit-options">
+                  <option value="kg" />
+                  <option value="g" />
+                  <option value="L" />
+                  <option value="ml" />
+                  <option value="pcs" />
+                  <option value="pack" />
+                  <option value="box" />
+                  <option value="bottle" />
+                  <option value="dozen" />
+                </datalist>
+              </div>
 
               <div>
                 <input
@@ -409,19 +433,24 @@ const UploadProduct = () => {
                   >
                     <input
                       type="text"
-                      placeholder={key.replace(/_/g, ' ')}
+                      placeholder={key.replace(/_/g, " ")}
                       value={value}
-                      onChange={(e) => setData(prev => ({
-                        ...prev,
-                        more_details: { ...prev.more_details, [key]: e.target.value }
-                      }))}
+                      onChange={(e) =>
+                        setData((prev) => ({
+                          ...prev,
+                          more_details: {
+                            ...prev.more_details,
+                            [key]: e.target.value,
+                          },
+                        }))
+                      }
                       className="flex-1 px-2 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg"
                     />
                     <button
                       type="button"
                       onClick={() => {
-                        const { [key]: _, ...rest } = data.more_details
-                        setData(prev => ({ ...prev, more_details: rest }))
+                        const { [key]: _, ...rest } = data.more_details;
+                        setData((prev) => ({ ...prev, more_details: rest }));
                       }}
                       className="px-2 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100"
                     >
@@ -480,14 +509,14 @@ const UploadProduct = () => {
             onChange={(e) => setFieldName(e.target.value)}
             submit={handleAddField}
             close={() => {
-              setOpenAddField(false)
-              setFieldName("")
+              setOpenAddField(false);
+              setFieldName("");
             }}
           />
         )}
       </AnimatePresence>
     </div>
-  )
-}
+  );
+};
 
-export default UploadProduct
+export default UploadProduct;

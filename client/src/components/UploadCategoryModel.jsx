@@ -1,108 +1,104 @@
-
-import React, { useEffect, useState } from 'react'
-import { IoClose } from "react-icons/io5"
-import Axios from '../utils/Axios'
-import SummaryApi from '../common/SummaryApi'
-import toast from 'react-hot-toast'
-import AxiosToastError from '../utils/AxiosToastError'
-import Uploadimage from '../utils/Uploadimage'
+import React, { useEffect, useState } from "react";
+import { IoClose } from "react-icons/io5";
+import Axios from "../utils/Axios";
+import SummaryApi from "../common/SummaryApi";
+import toast from "react-hot-toast";
+import AxiosToastError from "../utils/AxiosToastError";
+import Uploadimage from "../utils/Uploadimage";
 
 const UploadCategoryModel = ({
   close,
   fetchData,
   editData,
-  categoryList // ✅ ADDED (for validation only)
+  categoryList, //  ADDED (for validation only)
 }) => {
-
-  const isEdit = Boolean(editData)
+  const isEdit = Boolean(editData);
 
   const [data, setData] = useState({
     name: "",
-    image: ""
-  })
+    image: "",
+  });
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   // EDIT MODE DATA LOAD
   useEffect(() => {
     if (editData) {
       setData({
         name: editData.name || "",
-        image: editData.image || ""
-      })
+        image: editData.image || "",
+      });
     } else {
-      setData({ name: "", image: "" })
+      setData({ name: "", image: "" });
     }
-  }, [editData])
+  }, [editData]);
 
   const handleOnChange = (e) => {
-    const { name, value } = e.target
-    setData(prev => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+  };
 
   // IMAGE UPLOAD
   const handleUploadCategoryImage = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
+    const file = e.target.files[0];
+    if (!file) return;
 
     try {
-      setLoading(true)
-      const response = await Uploadimage(file)
+      setLoading(true);
+      const response = await Uploadimage(file);
 
-      const imageUrl = response?.data?.url
-      if (!imageUrl) return toast.error("Upload failed")
+      const imageUrl = response?.data?.url;
+      if (!imageUrl) return toast.error("Upload failed");
 
-      setData(prev => ({ ...prev, image: imageUrl }))
+      setData((prev) => ({ ...prev, image: imageUrl }));
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   // SUBMIT
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     // ==========================
     // ✅ DUPLICATE NAME VALIDATION
     // ==========================
-    const isDuplicate = categoryList?.some(cat =>
-      cat.name.trim().toLowerCase() === data.name.trim().toLowerCase() &&
-      cat._id !== editData?._id
-    )
+    const isDuplicate = categoryList?.some(
+      (cat) =>
+        cat.name.trim().toLowerCase() === data.name.trim().toLowerCase() &&
+        cat._id !== editData?._id,
+    );
 
     if (isDuplicate) {
-      toast.error("Category already exists")
-      return
+      toast.error("Category already exists");
+      return;
     }
     // ==========================
 
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await Axios({
         ...(isEdit ? SummaryApi.updateCategory : SummaryApi.addCategory),
-        data: isEdit
-          ? { ...data, _id: editData._id }
-          : data
-      })
+        data: isEdit ? { ...data, _id: editData._id } : data,
+      });
 
       if (response.data.success) {
-        toast.success(isEdit ? "Category updated" : "Category added")
-        close()
-        fetchData()
+        toast.success(isEdit ? "Category updated" : "Category added");
+        close();
+        fetchData();
       }
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <section className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
       <div className="bg-white w-full max-w-4xl rounded-2xl p-6 shadow-2xl">
-
         {/* HEADER */}
         <div className="flex justify-between items-center border-b pb-3">
           <h1 className="text-lg font-semibold">
@@ -114,7 +110,6 @@ const UploadCategoryModel = ({
         </div>
 
         <form onSubmit={handleSubmit} className="mt-4 grid gap-4">
-
           <input
             type="text"
             name="name"
@@ -141,11 +136,7 @@ const UploadCategoryModel = ({
               <div className="px-5 py-2 rounded-xl bg-primary-200 cursor-pointer">
                 Upload Image
               </div>
-              <input
-                type="file"
-                hidden
-                onChange={handleUploadCategoryImage}
-              />
+              <input type="file" hidden onChange={handleUploadCategoryImage} />
             </label>
           </div>
 
@@ -159,14 +150,14 @@ const UploadCategoryModel = ({
           >
             {loading
               ? "Please wait..."
-              : isEdit ? "Update Category" : "Add Category"}
+              : isEdit
+                ? "Update Category"
+                : "Add Category"}
           </button>
-
         </form>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default UploadCategoryModel
-
+export default UploadCategoryModel;

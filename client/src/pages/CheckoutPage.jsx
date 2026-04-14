@@ -10,8 +10,6 @@
 // import { loadStripe } from '@stripe/stripe-js'
 // import { DisplayPriceInRupees } from '../utils/DisplayPriceRupees'
 
-
-
 // const CheckoutPage = () => {
 
 //   const { notDiscountTotalPrice, totalPrice, totalQty, fetchCartItem, fetchOrder } = useGlobalContext()
@@ -93,7 +91,6 @@
 //   //     await stripePromise.redirectToCheckout({
 //   //       sessionId: responseData.id
 //   //     })
-      
 
 //   //     fetchCartItem && fetchCartItem()
 //   //     fetchOrder && fetchOrder()
@@ -333,7 +330,7 @@
 // //                 <label key={index} htmlFor={"address" + index}>
 
 // //                   <div
-// //                     className={`border rounded-xl p-4 flex gap-4 cursor-pointer transition 
+// //                     className={`border rounded-xl p-4 flex gap-4 cursor-pointer transition
 // //                     ${isSelected ? "border-primary-200 bg-blue-50 shadow-sm" : "hover:bg-gray-50"}`}
 // //                   >
 
@@ -458,7 +455,7 @@
 // // return (
 // //   <section className="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen py-8">
 // //     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
+
 // //       {/* Page Header */}
 // //       <div className="mb-8">
 // //         <h1 className="text-3xl font-bold text-gray-900">Checkout</h1>
@@ -466,7 +463,7 @@
 // //       </div>
 
 // //       <div className="flex flex-col lg:flex-row gap-8">
-        
+
 // //         {/* LEFT - ADDRESS SECTION */}
 // //         <div className="flex-1">
 // //           <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
@@ -479,19 +476,19 @@
 // //                 Select Delivery Address
 // //               </h3>
 // //             </div>
-            
+
 // //             <div className="p-6 space-y-4">
 // //               {addressList?.length > 0 ? (
 // //                 addressList.map((address, index) => {
 // //                   if (!address.status) return null;
 // //                   const isSelected = selectAddress === index;
-                  
+
 // //                   return (
 // //                     <label key={index} htmlFor={`address-${index}`} className="block cursor-pointer group">
 // //                       <div
 // //                         className={`relative rounded-xl border-2 transition-all duration-200 overflow-hidden
-// //                           ${isSelected 
-// //                             ? 'border-blue-500 bg-blue-50/30 shadow-md' 
+// //                           ${isSelected
+// //                             ? 'border-blue-500 bg-blue-50/30 shadow-md'
 // //                             : 'border-gray-200 hover:border-gray-300 hover:shadow-sm bg-white'
 // //                           }`}
 // //                       >
@@ -508,7 +505,7 @@
 // //                                 className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 focus:ring-2"
 // //                               />
 // //                             </div>
-                            
+
 // //                             <div className="flex-1">
 // //                               <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
 // //                                 <p className="font-semibold text-gray-900 text-lg">
@@ -523,7 +520,7 @@
 // //                                   </span>
 // //                                 )}
 // //                               </div>
-                              
+
 // //                               <div className="space-y-1 text-sm text-gray-600">
 // //                                 <p className="flex items-center gap-2">
 // //                                   <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -561,7 +558,7 @@
 // //                   <p className="text-sm text-gray-400 mt-1">Add a new address to continue</p>
 // //                 </div>
 // //               )}
-              
+
 // //               {/* ADD ADDRESS CARD */}
 // //               <button
 // //                 onClick={() => setOpenAddress(true)}
@@ -581,7 +578,7 @@
 // //             </div>
 // //           </div>
 // //         </div>
-        
+
 // //         {/* RIGHT - ORDER SUMMARY */}
 // //         <div className="lg:w-96">
 // //           <div className="sticky top-8">
@@ -594,7 +591,7 @@
 // //                   Order Summary
 // //                 </h3>
 // //               </div>
-              
+
 // //               <div className="p-6 space-y-4">
 // //                 {/* Price Breakdown */}
 // //                 <div className="space-y-3">
@@ -609,14 +606,14 @@
 // //                       </span>
 // //                     </div>
 // //                   </div>
-                  
+
 // //                   <div className="flex justify-between text-sm">
 // //                     <span className="text-gray-600">Quantity</span>
 // //                     <span className="font-medium text-gray-900">
 // //                       {totalQty} {totalQty === 1 ? 'item' : 'items'}
 // //                     </span>
 // //                   </div>
-                  
+
 // //                   <div className="flex justify-between text-sm">
 // //                     <span className="text-gray-600">Delivery</span>
 // //                     <span className="text-green-600 font-medium flex items-center gap-1">
@@ -626,7 +623,7 @@
 // //                       FREE
 // //                     </span>
 // //                   </div>
-                  
+
 // //                   <div className="border-t border-gray-200 pt-3 mt-2">
 // //                     <div className="flex justify-between items-center">
 // //                       <span className="text-base font-semibold text-gray-900">Total Amount</span>
@@ -636,7 +633,7 @@
 // //                     </div>
 // //                   </div>
 // //                 </div>
-                
+
 // //                 {/* Payment Buttons */}
 // //                 <div className="space-y-3 pt-2">
 // //                   <button
@@ -650,7 +647,7 @@
 // //                       Pay Online
 // //                     </div>
 // //                   </button>
-                  
+
 // //                   <button
 // //                     onClick={handleCashOnDelivery}
 // //                     className="w-full py-3.5 px-4 border-2 border-blue-600 text-blue-600 rounded-xl font-semibold hover:bg-blue-600 hover:text-white transition-all duration-200"
@@ -663,7 +660,7 @@
 // //                     </div>
 // //                   </button>
 // //                 </div>
-                
+
 // //                 {/* Secure Payment Badge */}
 // //                 <div className="flex items-center justify-center gap-2 pt-4 text-xs text-gray-500">
 // //                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -677,7 +674,7 @@
 // //         </div>
 // //       </div>
 // //     </div>
-    
+
 // //     {/* MODAL */}
 // //     {openAddress && (
 // //       <AddAddress close={() => setOpenAddress(false)} />
@@ -688,36 +685,42 @@
 
 // export default CheckoutPage
 
-import React, { useState } from 'react'
-import { useGlobalContext } from '../provider/GlobalProvider'
-import AddAddress from '../components/AddAddress'
-import { useSelector } from 'react-redux'
-import AxiosToastError from '../utils/AxiosToastError'
-import Axios from '../utils/Axios'
-import SummaryApi from '../common/SummaryApi'
-import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
-import { DisplayPriceInRupees } from '../utils/DisplayPriceRupees'
+import React, { useState } from "react";
+import { useGlobalContext } from "../provider/GlobalProvider";
+import AddAddress from "../components/AddAddress";
+import { useSelector } from "react-redux";
+import AxiosToastError from "../utils/AxiosToastError";
+import Axios from "../utils/Axios";
+import SummaryApi from "../common/SummaryApi";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { DisplayPriceInRupees } from "../utils/DisplayPriceRupees";
 
 const CheckoutPage = () => {
+  const {
+    notDiscountTotalPrice,
+    totalPrice,
+    totalQty,
+    fetchCartItem,
+    fetchOrder,
+  } = useGlobalContext();
 
-  const { notDiscountTotalPrice, totalPrice, totalQty, fetchCartItem, fetchOrder } = useGlobalContext()
+  const [openAddress, setOpenAddress] = useState(false);
 
-  const [openAddress, setOpenAddress] = useState(false)
+  const addressList = useSelector(
+    (state) => state.addresses?.addressList || [],
+  );
+  const [selectAddress, setSelectAddress] = useState(0);
 
-  const addressList = useSelector(state => state.addresses?.addressList || [])
-  const [selectAddress, setSelectAddress] = useState(0)
+  const cartItemsList = useSelector((state) => state.cartItem?.cart || []);
 
-  const cartItemsList = useSelector(state => state.cartItem?.cart || [])
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // CASH ON DELIVERY
   const handleCashOnDelivery = async () => {
-
     if (!addressList[selectAddress]) {
-      toast.error("Please select address")
-      return
+      toast.error("Please select address");
+      return;
     }
 
     try {
@@ -728,34 +731,32 @@ const CheckoutPage = () => {
           addressId: addressList[selectAddress]?._id,
           subTotalAmt: totalPrice,
           totalAmt: totalPrice,
-        }
-      })
+        },
+      });
 
-      const { data: responseData } = response
+      const { data: responseData } = response;
 
       if (responseData.success) {
-        toast.success(responseData.message)
+        toast.success(responseData.message);
 
-        fetchCartItem && fetchCartItem()
-        fetchOrder && fetchOrder()
+        fetchCartItem && fetchCartItem();
+        fetchOrder && fetchOrder();
 
-        navigate('/success', { state: { text: "Order" } })
+        navigate("/success", { state: { text: "Order" } });
       }
-
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     }
-  }
+  };
 
   // ONLINE PAYMENT
   const handleOnlinePayment = async () => {
-
     if (!addressList[selectAddress]) {
-      toast.error("Please select address")
-      return
+      toast.error("Please select address");
+      return;
     }
 
-    const toastId = toast.loading("Redirecting to payment...")
+    const toastId = toast.loading("Redirecting to payment...");
 
     try {
       const response = await Axios({
@@ -763,64 +764,59 @@ const CheckoutPage = () => {
         data: {
           list_items: cartItemsList,
           addressId: addressList[selectAddress]?._id,
-        }
-      })
+        },
+      });
 
-      const { data: responseData } = response
+      const { data: responseData } = response;
 
       if (!responseData?.url) {
-        toast.error("Payment URL not found ❌")
-        return
+        toast.error("Payment URL not found ❌");
+        return;
       }
 
-      window.location.href = responseData.url
-
+      window.location.href = responseData.url;
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     } finally {
-      toast.dismiss(toastId)
+      toast.dismiss(toastId);
     }
-  }
+  };
 
   return (
     <section className="bg-gray-50 min-h-screen py-4">
-
       <div className="max-w-7xl mx-auto px-3 sm:px-5 lg:px-8 flex flex-col lg:flex-row gap-6">
-
         {/* LEFT */}
         <div className="flex-1">
-
           <h2 className="text-lg sm:text-xl font-semibold mb-3">
             Select Delivery Address
           </h2>
 
           <div className="bg-white rounded-xl shadow-sm p-3 sm:p-4 space-y-3">
-
             {addressList.length > 0 ? (
               addressList.map((address, index) => {
-
-                if (!address.status) return null
-                const isSelected = selectAddress === index
+                if (!address.status) return null;
+                const isSelected = selectAddress === index;
 
                 return (
                   <label key={index} htmlFor={`address-${index}`}>
-
-                    <div className={`border rounded-lg p-3 flex gap-3 cursor-pointer transition
+                    <div
+                      className={`border rounded-lg p-3 flex gap-3 cursor-pointer transition
                       ${isSelected ? "border-green-500 bg-green-50" : "hover:bg-gray-50"}
-                    `}>
-
+                    `}
+                    >
                       <input
                         id={`address-${index}`}
                         type="radio"
                         value={index}
                         checked={isSelected}
-                        onChange={(e) => setSelectAddress(Number(e.target.value))}
+                        onChange={(e) =>
+                          setSelectAddress(Number(e.target.value))
+                        }
                         name="address"
                         className="mt-1"
                       />
 
                       <div className="text-sm w-full">
-
                         <div className="flex justify-between items-center">
                           <p className="font-medium">{address.address_line}</p>
 
@@ -842,17 +838,13 @@ const CheckoutPage = () => {
                         <p className="text-gray-500 text-xs">
                           📞 {address.mobile}
                         </p>
-
                       </div>
                     </div>
-
                   </label>
-                )
+                );
               })
             ) : (
-              <p className="text-gray-400 text-center py-6">
-                No Address Found
-              </p>
+              <p className="text-gray-400 text-center py-6">No Address Found</p>
             )}
 
             {/* ADD ADDRESS */}
@@ -863,21 +855,15 @@ const CheckoutPage = () => {
               <p className="text-lg">+</p>
               <p className="text-sm text-gray-600">Add New Address</p>
             </div>
-
           </div>
         </div>
 
         {/* RIGHT */}
         <div className="w-full lg:max-w-md">
-
           <div className="bg-white rounded-xl shadow-sm p-4 sticky top-4">
-
-            <h2 className="text-lg font-semibold mb-3">
-              Order Summary
-            </h2>
+            <h2 className="text-lg font-semibold mb-3">Order Summary</h2>
 
             <div className="space-y-2 text-sm">
-
               <div className="flex justify-between">
                 <p>Items Total</p>
                 <p className="flex gap-2">
@@ -904,12 +890,10 @@ const CheckoutPage = () => {
                 <p>Total</p>
                 <p>{DisplayPriceInRupees(totalPrice)}</p>
               </div>
-
             </div>
 
             {/* BUTTONS */}
             <div className="mt-4 flex flex-col gap-3">
-
               <button
                 onClick={handleOnlinePayment}
                 className="w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition"
@@ -923,21 +907,15 @@ const CheckoutPage = () => {
               >
                 Cash on Delivery
               </button>
-
             </div>
-
           </div>
         </div>
-
       </div>
 
       {/* MODAL */}
-      {openAddress && (
-        <AddAddress close={() => setOpenAddress(false)} />
-      )}
-
+      {openAddress && <AddAddress close={() => setOpenAddress(false)} />}
     </section>
-  )
-}
+  );
+};
 
-export default CheckoutPage
+export default CheckoutPage;

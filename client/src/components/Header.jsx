@@ -13,7 +13,6 @@ import { useGlobalContext } from "../provider/GlobalProvider";
 import Displaycartitem from "./Displaycartitem";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-
 const Header = () => {
   const [isMobile] = useMobile(); // device mobile hai ya nahi
   const location = useLocation(); // current route
@@ -24,9 +23,8 @@ const Header = () => {
   const cartItem = useSelector((state) => state?.cartItem.cart);
   // const [totalPrice, setTotalPrice] = useState(0);
   // const [totalQty,setTotalQty] = useState(0)
-  const { totalPrice, totalQty}=useGlobalContext()
+  const { totalPrice, totalQty } = useGlobalContext();
   const [openCartsection, setOpenCartSection] = useState(false);
-  
 
   // redirect to login page
   const redirectTOLoginPage = () => {
@@ -43,23 +41,22 @@ const Header = () => {
     navigate("/user");
   };
 
-  // toast; items and total price 
+  // toast; items and total price
 
-// useEffect(() => {
-//   const qty = cartItem.reduce((preve,curr)=>{
-//     return preve + curr.quantity
+  // useEffect(() => {
+  //   const qty = cartItem.reduce((preve,curr)=>{
+  //     return preve + curr.quantity
 
-//   },0)
-//   setTotalQty(qty)
-//  const  tprice = cartItem.reduce((preve,curr)=>{
-//   return preve + (curr.productId.price * curr.quantity)
-//  },0)
-//  setTotalPrice(tprice)
-  
-// console.log("total price",tprice);
+  //   },0)
+  //   setTotalQty(qty)
+  //  const  tprice = cartItem.reduce((preve,curr)=>{
+  //   return preve + (curr.productId.price * curr.quantity)
+  //  },0)
+  //  setTotalPrice(tprice)
 
-// },[cartItem])
+  // console.log("total price",tprice);
 
+  // },[cartItem])
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-200/80 shadow-lg">
@@ -98,8 +95,7 @@ const Header = () => {
               onClick={handleMobileUser}
               className="lg:hidden p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-xl transition-all duration-200"
             >
-              <GiHamburgerMenu size={26}  />
-
+              <GiHamburgerMenu size={26} />
             </button>
 
             {/* Desktop User Area */}
@@ -157,16 +153,24 @@ const Header = () => {
               )}
 
               {/* Cart Button */}
-              <button onClick={()=>setOpenCartSection(true)} className="relative group ">
+              <button
+                onClick={() => setOpenCartSection(true)}
+                className="relative group "
+              >
                 <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
                   <BsCart4
                     size={20}
                     className="text-white/90 group-hover:scale-110 transition-transform animate-bounce"
                   />
                   {cartItem[0] ? (
-                    <div><p className="font-semibold text-white">
-                      {totalQty} items</p>
-                      <p className="text-white">{DisplayPriceInRupees(totalPrice)}</p></div>
+                    <div>
+                      <p className="font-semibold text-white">
+                        {totalQty} items
+                      </p>
+                      <p className="text-white">
+                        {DisplayPriceInRupees(totalPrice)}
+                      </p>
+                    </div>
                   ) : (
                     <span className="font-semibold text-white">My Cart</span>
                   )}
@@ -185,11 +189,9 @@ const Header = () => {
           <Search />
         </div>
       )}
-      {
-        openCartsection && (
-          <Displaycartitem close={()=>setOpenCartSection(false)}/>
-        )
-      }
+      {openCartsection && (
+        <Displaycartitem close={() => setOpenCartSection(false)} />
+      )}
     </header>
   );
 };

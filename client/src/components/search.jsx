@@ -1,48 +1,41 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { TypeAnimation } from 'react-type-animation';
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { TypeAnimation } from "react-type-animation";
 import { FaArrowLeft } from "react-icons/fa";
-import useMobile from '../hooks/useMobile';
+import useMobile from "../hooks/useMobile";
 
 const Search = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const navigate = useNavigate()
-  const location = useLocation()
-
-  const [isSearchPage, setIsSearchPage] = useState(false)
-  const [isMobile] = useMobile()
-  const [search, setSearch] = useState("")
-  const params = useLocation()
-  const searchText = params.search.slice(3)
+  const [isSearchPage, setIsSearchPage] = useState(false);
+  const [isMobile] = useMobile();
+  const [search, setSearch] = useState("");
+  const params = useLocation();
+  const searchText = params.search.slice(3);
 
   // detect search page
   useEffect(() => {
-    const isSearch = location.pathname === "/search"
-    setIsSearchPage(isSearch)
+    const isSearch = location.pathname === "/search";
+    setIsSearchPage(isSearch);
 
-    const params = new URLSearchParams(location.search)
-    const query = params.get("q") || ""
-    setSearch(query)
-
-  }, [location])
-
+    const params = new URLSearchParams(location.search);
+    const query = params.get("q") || "";
+    setSearch(query);
+  }, [location]);
 
   const redirectTosearchPage = () => {
-    navigate('/search')
-  }
-
+    navigate("/search");
+  };
 
   const handleOnChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
 
-    const value = e.target.value
-    setSearch(value)
-
-    const url = `/search?q=${value}`
-    navigate(url)
-
-  }
-
+    const url = `/search?q=${value}`;
+    navigate(url);
+  };
 
   return (
     <div
@@ -60,11 +53,9 @@ const Search = () => {
       group
     "
     >
-
       {/* Left Icon */}
       <div className="flex items-center pl-2">
-
-        {(isMobile && isSearchPage) ? (
+        {isMobile && isSearchPage ? (
           <Link
             to="/"
             className="
@@ -94,15 +85,11 @@ const Search = () => {
             <IoIosSearch size={22} />
           </button>
         )}
-
       </div>
-
 
       {/* Input / Animation */}
       <div className="w-full px-3 text-sm">
-
         {!isSearchPage ? (
-
           <div
             onClick={redirectTosearchPage}
             className="
@@ -115,24 +102,31 @@ const Search = () => {
           >
             <TypeAnimation
               sequence={[
-                'Search "milk"', 1000,
-                'Search "bread"', 1000,
-                'Search "sugar"', 1000,
-                'Search "paneer"', 1000,
-                'Search "rice"', 1000,
-                'Search "curd"', 1000,
-                'Search "egg"', 1000,
-                'Search "chips"', 1000,
-                'Search "chocolate"', 1000,
+                'Search "milk"',
+                1000,
+                'Search "bread"',
+                1000,
+                'Search "sugar"',
+                1000,
+                'Search "paneer"',
+                1000,
+                'Search "rice"',
+                1000,
+                'Search "curd"',
+                1000,
+                'Search "egg"',
+                1000,
+                'Search "chips"',
+                1000,
+                'Search "chocolate"',
+                1000,
               ]}
               wrapper="span"
               speed={55}
               repeat={Infinity}
             />
           </div>
-
         ) : (
-
           <input
             type="text"
             value={search}
@@ -148,13 +142,10 @@ const Search = () => {
             "
             onChange={handleOnChange}
           />
-
         )}
-
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;

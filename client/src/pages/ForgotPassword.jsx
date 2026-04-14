@@ -11,9 +11,7 @@
 
 //     email: "",
 
-
 //   })
-
 
 //   const navigate = useNavigate()
 
@@ -26,7 +24,6 @@
 
 //   const handlesubmit = async (e) => {
 //     e.preventDefault()
-
 
 //     try {
 //       const response = await Axios({
@@ -45,20 +42,15 @@
 
 //           email: "",
 
-
 //         })
 
 //       }
 
-
-
 //     } catch (error) {
 //       AxiosToastError(error)
 
-
 //     }
 //   }
-
 
 //   return (<section className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-green-100 px-3">
 //     <div className="w-full max-w-lg bg-white/80 backdrop-blur-xl shadow-2xl rounded-3xl p-8 border border-gray-200">
@@ -136,9 +128,6 @@
 
 // export default ForgotPassword
 // //3:20
-
-
-
 
 // import React, { useState } from 'react'
 // import toast from 'react-hot-toast'
@@ -268,77 +257,70 @@
 
 // export default ForgotPassword
 
-
-
-
-import React, { useState } from 'react'
-import toast from 'react-hot-toast'
-import Axios from '../utils/Axios'
-import summaryApi from '../common/SummaryApi'
-import AxiosToastError from '../utils/AxiosToastError'
-import { useNavigate, Link } from 'react-router-dom'
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import Axios from "../utils/Axios";
+import summaryApi from "../common/SummaryApi";
+import AxiosToastError from "../utils/AxiosToastError";
+import { useNavigate, Link } from "react-router-dom";
 
 /* ================= EMAIL VALIDATION ================= */
 const emailRegex =
-  /^[a-z][a-z0-9._%+-]*@[a-z][a-z0-9-]*\.[a-z]{2,}(\.[a-z]{2,})?$/
+  /^[a-z][a-z0-9._%+-]*@[a-z][a-z0-9-]*\.[a-z]{2,}(\.[a-z]{2,})?$/;
 /* =================================================== */
 
 const ForgotPassword = () => {
   const [data, setData] = useState({
     email: "",
-  })
+  });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   /* ================= VALIDATION FLAG ================= */
-  const isValidEmail = emailRegex.test(data.email)
+  const isValidEmail = emailRegex.test(data.email);
   /* ================================================== */
 
   const handlechange = (e) => {
-    const { name, value } = e.target
-    setData(prev => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const valideValue = Object.values(data).every(el => el)
+  const valideValue = Object.values(data).every((el) => el);
 
   const handlesubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!isValidEmail) {
-      toast.error("Please enter a valid email address")
-      return
+      toast.error("Please enter a valid email address");
+      return;
     }
 
     try {
       const response = await Axios({
         ...summaryApi.forgot_Password,
-        data: data
-      })
+        data: data,
+      });
 
       if (response.data.error) {
-        toast.error(response.data.message)
+        toast.error(response.data.message);
       }
 
       if (response.data.success) {
-        toast.success(response.data.message)
-        navigate("/verification-otp", { state: data })
-        setData({ email: "" })
+        toast.success(response.data.message);
+        navigate("/verification-otp", { state: data });
+        setData({ email: "" });
       }
-
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     }
-  }
+  };
 
   return (
     <section className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-yellow-100 via-yellow-50 to-white px-4">
-
       {/* MAIN CONTAINER */}
       <div className="w-full max-w-5xl bg-white rounded-3xl shadow-2xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
-
         {/* LEFT : FORGOT PASSWORD FORM */}
         <div className="p-8 flex flex-col justify-center">
-
           {/* Header */}
           <div className="mb-6 space-y-1">
             <h2 className="text-2xl font-extrabold text-gray-900">
@@ -350,7 +332,6 @@ const ForgotPassword = () => {
           </div>
 
           <form className="grid gap-5" onSubmit={handlesubmit}>
-
             {/* Email */}
             <div>
               <label className="block text-sm font-medium text-gray-600 mb-1">
@@ -385,9 +366,11 @@ const ForgotPassword = () => {
             <button
               disabled={!valideValue}
               className={`w-full py-3 rounded-xl font-semibold transition-all text-white
-                ${valideValue
-                  ? "bg-gradient-to-r from-[#00a040] to-green-600 hover:scale-[1.02]"
-                  : "bg-gray-400 cursor-not-allowed"}
+                ${
+                  valideValue
+                    ? "bg-gradient-to-r from-[#00a040] to-green-600 hover:scale-[1.02]"
+                    : "bg-gray-400 cursor-not-allowed"
+                }
               `}
             >
               Send OTP
@@ -397,14 +380,17 @@ const ForgotPassword = () => {
           {/* Footer */}
           <p className="text-sm text-gray-600 text-center mt-6">
             Already have an account?
-            <Link to="/login" className="ml-1 text-[#00a040] font-semibold hover:underline">
+            <Link
+              to="/login"
+              className="ml-1 text-[#00a040] font-semibold hover:underline"
+            >
               Login
             </Link>
           </p>
         </div>
 
         {/* RIGHT PANEL (SAME AS LOGIN / REGISTER) */}
-       <div className="hidden md:flex items-center justify-center bg-[#328c44] text-white p-6">
+        <div className="hidden md:flex items-center justify-center bg-[#328c44] text-white p-6">
           <div className="text-center">
             <h2 className="text-2xl font-extrabold mb-2">K’s Shopping Mart</h2>
             <p className="text-sm text-green-100">
@@ -412,10 +398,9 @@ const ForgotPassword = () => {
             </p>
           </div>
         </div>
-
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default ForgotPassword
+export default ForgotPassword;

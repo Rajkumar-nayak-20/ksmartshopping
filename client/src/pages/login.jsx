@@ -368,7 +368,7 @@ return (
       </div>
 
       {/* GOOGLE BUTTON */}
-      <button
+      {/* <button
         onClick={handleGoogleLogin}
         className="w-full py-3 rounded-xl border border-gray-300 flex items-center justify-center gap-3 
         hover:bg-gray-100 transition-all shadow-sm hover:shadow-md"
@@ -381,7 +381,7 @@ return (
         <span className="font-medium text-gray-700">
           Continue with Google
         </span>
-      </button>
+      </button> */}
 
       {/* FOOTER */}
       <p className="text-center text-sm text-gray-600 mt-6">

@@ -279,7 +279,7 @@ export async function loginController(request, response) {
             httpOnly: true,
             secure: true,        // HTTPS required (Vercel/Render)
             sameSite: "None",
-            path: "/"
+        
         }
 
         // ✅ Set cookies

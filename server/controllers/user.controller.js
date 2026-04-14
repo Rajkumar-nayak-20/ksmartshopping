@@ -347,7 +347,7 @@ const refreshToken = await generatedRefreshToken(user._id)
      httpOnly: true,
      secure: true,       // 🔥 MUST (HTTPS)
      sameSite: "None",   // 🔥 MUST (cross-origin)
-      path: "/"
+      // path: "/"
 };
 
       response.cookie("accessToken", accesstoken, cookiesOption)

@@ -236,7 +236,7 @@ export async function loginController(request, response) {
             })
         }
 
-        // ✅ Check user status
+        // Check user status
         if (user.status !== "Active") {
             return response.status(400).json({
                 message: "Contact Admin",
@@ -245,7 +245,7 @@ export async function loginController(request, response) {
             })
         }
 
-        // ✅ Handle Google login users (no password)
+        //  Handle Google login users (no password)
         if (!user.password) {
             return response.status(400).json({
                 message: "Use Google Login",

@@ -306,119 +306,177 @@ export async function loginController(request, response) {
     }
 }
 
-export async function authwithGoogle(request, response) {
-  const { name, email, avatar, mobile, role } = request.body
+
+
+export async function authwithGoogle(req, res) {
+  const { name, email, avatar, mobile, role } = req.body;
 
   try {
-    console.log("📥 REQ BODY:", request.body)
+    let user = await UserModel.findOne({ email });
 
-    // 🔍 Debug functions
-    console.log("🔧 AccessToken FN:", generatedAccessToken)
-    console.log("🔧 RefreshToken FN:", generatedRefreshToken)
-
-    const existingUser = await UserModel.findOne({ email })
-
-    console.log("👤 Existing User:", existingUser)
-
-    // =========================
-    // ✅ NEW USER
-    // =========================
-    if (!existingUser) {
-      console.log("🆕 Creating new user...")
-
-      const user = await UserModel.create({
+    // ✅ Create user if not exists
+    if (!user) {
+      user = await UserModel.create({
         name,
         email,
         avatar,
         mobile,
-        signUpwithGoogle: true,
         role,
-        verify_email: true
-      })
-
-      console.log("✅ New User Created:", user)
-
-      const accesstoken = await generatedAccessToken(user._id)
-      console.log("🔑 Access Token Generated")
-
-const refreshToken = await generatedRefreshToken(user._id)    
-  console.log("🔄 Refresh Token Generated")
-   const cookiesOption = {
-     httpOnly: true,
-     secure: true,       // 🔥 MUST (HTTPS)
-     sameSite: "None",   // 🔥 MUST (cross-origin)
-      
-}; 
-
-      response.cookie("accessToken", accesstoken, cookiesOption)
-      response.cookie("refreshToken", refreshToken, cookiesOption)
-
-      console.log("🍪 Cookies Set")
-
-      return response.json({
-        message: "Registered & Login success",
-        error: false,
-        success: true,
-        data: {
-          accesstoken,
-          refreshToken,
-          user
-        }
-      })
-    }
-
-    // =========================
-    // ✅ EXISTING USER LOGIN
-    // =========================
-    else {
-      console.log("🔁 Existing user login...")
-
-      const accesstoken = await generatedAccessToken(existingUser._id)
-      console.log("🔑 Access Token Generated")
-
-      const refreshToken = await generatedRefreshToken(existingUser._id)
-      console.log("🔄 Refresh Token Generated")
-
-      await UserModel.findByIdAndUpdate(existingUser._id, {
+        verify_email: true,
+        signUpwithGoogle: true
+      });
+    } else {
+      // ✅ update last login
+      await UserModel.findByIdAndUpdate(user._id, {
         last_login_date: new Date()
-      })
-
-      console.log("📅 Updated last login")
-
-      const cookiesOption = {
-        httpOnly: true,
-        secure: false,
-        sameSite: "Lax"
-      }
-
-      response.cookie("accessToken", accesstoken, cookiesOption)
-      response.cookie("refreshToken", refreshToken, cookiesOption)
-
-      console.log("🍪 Cookies Set")
-
-      return response.json({
-        message: "Login successfully",
-        error: false,
-        success: true,
-        data: {
-          accesstoken,
-          refreshToken,
-          user: existingUser
-        }
-      })
+      });
     }
+
+    // ✅ Generate tokens
+    const accessToken = await generatedAccessToken(user._id);
+    const refreshToken = await generatedRefreshToken(user._id);
+
+    // ✅ COMMON COOKIE CONFIG (VERY IMPORTANT)
+    const cookiesOption = {
+      httpOnly: true,
+      secure: true,       // 🔥 MUST (HTTPS)
+      sameSite: "None",   // 🔥 MUST (cross-origin)
+      path: "/"
+    };
+
+    // ✅ Set cookies
+    res.cookie("accessToken", accessToken, cookiesOption);
+    res.cookie("refreshToken", refreshToken, cookiesOption);
+
+    // ✅ CLEAN RESPONSE (no token needed)
+    return res.status(200).json({
+      message: "Google login success",
+      success: true,
+      user
+    });
 
   } catch (error) {
-    console.log("❌ ERROR OCCURRED:")
-    console.log(error)
+    console.log("❌ Google Auth Error:", error);
 
-    return response.status(500).json({
+    return res.status(500).json({
       message: error.message,
       error: true,
       success: false
-    })
+    });
   }
 }
+// export async function authwithGoogle(request, response) {
+//   const { name, email, avatar, mobile, role } = request.body
+
+//   try {
+//     console.log("📥 REQ BODY:", request.body)
+
+//     // 🔍 Debug functions
+//     console.log("🔧 AccessToken FN:", generatedAccessToken)
+//     console.log("🔧 RefreshToken FN:", generatedRefreshToken)
+
+//     const existingUser = await UserModel.findOne({ email })
+
+//     console.log("👤 Existing User:", existingUser)
+
+//     // =========================
+//     // ✅ NEW USER
+//     // =========================
+//     if (!existingUser) {
+//       console.log("🆕 Creating new user...")
+
+//       const user = await UserModel.create({
+//         name,
+//         email,
+//         avatar,
+//         mobile,
+//         signUpwithGoogle: true,
+//         role,
+//         verify_email: true
+//       })
+
+//       console.log("✅ New User Created:", user)
+
+//       const accesstoken = await generatedAccessToken(user._id)
+//       console.log("🔑 Access Token Generated")
+
+// const refreshToken = await generatedRefreshToken(user._id)    
+//   console.log("🔄 Refresh Token Generated")
+//    const cookiesOption = {
+//      httpOnly: true,
+//      secure: true,       // 🔥 MUST (HTTPS)
+//       sameSite: "None",   // 🔥 MUST (cross-origin)
+// }; 
+
+//       response.cookie("accessToken", accesstoken, cookiesOption)
+//       response.cookie("refreshToken", refreshToken, cookiesOption)
+
+//       console.log("🍪 Cookies Set")
+
+//       return response.json({
+//         message: "Registered & Login success",
+//         error: false,
+//         success: true,
+//         data: {
+//           accesstoken,
+//           refreshToken,
+//           user
+//         }
+//       })
+//     }
+
+//     // =========================
+//     // ✅ EXISTING USER LOGIN
+//     // =========================
+//     else {
+//       console.log("🔁 Existing user login...")
+
+//       const accesstoken = await generatedAccessToken(existingUser._id)
+//       console.log("🔑 Access Token Generated")
+
+//       const refreshToken = await generatedRefreshToken(existingUser._id)
+//       console.log("🔄 Refresh Token Generated")
+
+//       await UserModel.findByIdAndUpdate(existingUser._id, {
+//         last_login_date: new Date()
+//       })
+
+//       console.log("📅 Updated last login")
+
+//       const cookiesOption = {
+//         httpOnly: true,
+//         secure: false,
+//         sameSite: "Lax"
+//       }
+
+//       response.cookie("accessToken", accesstoken, cookiesOption)
+//       response.cookie("refreshToken", refreshToken, cookiesOption)
+
+//       console.log("🍪 Cookies Set")
+
+//       return response.json({
+//         message: "Login successfully",
+//         error: false,
+//         success: true,
+//         data: {
+//           accesstoken,
+//           refreshToken,
+//           user: existingUser
+//         }
+//       })
+//     }
+
+//   } catch (error) {
+//     console.log("❌ ERROR OCCURRED:")
+//     console.log(error)
+
+//     return response.status(500).json({
+//       message: error.message,
+//       error: true,
+//       success: false
+//     })
+//   }
+// }
 // ================= LOGOUT =================
 // export async function authwithGoogle(req, res) {
 //   try {

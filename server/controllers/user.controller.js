@@ -346,8 +346,8 @@ const refreshToken = await generatedRefreshToken(user._id)
 
       const cookiesOption = {
         httpOnly: true,
-        secure: false, // localhost
-        sameSite: "Lax"
+        secure: true, // localhost
+        sameSite: "none"
       }
 
       response.cookie("accessToken", accesstoken, cookiesOption)

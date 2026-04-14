@@ -306,8 +306,7 @@ export async function loginController(request, response) {
     }
 }
 
-<<<<<<< HEAD
-=======
+
 // export async function authwithGoogle(request, response) {
 //   const { name, email, avatar, mobile, role } = request.body
 
@@ -423,7 +422,6 @@ export async function loginController(request, response) {
 // }
 
 
->>>>>>> 11f5e2548f7ecd4ee6fe9010688eab51da0c9c9c
 
 
 export async function authwithGoogle(req, res) {

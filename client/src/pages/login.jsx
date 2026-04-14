@@ -367,8 +367,33 @@ const Login = () => {
           <div className="flex-1 h-[1px] bg-gray-300"></div>
         </div>
 
+<<<<<<< HEAD
         {/* GOOGLE BUTTON */}
         {/* <button
+=======
+        {/* LOGIN BUTTON */}
+        <button
+          disabled={!valideValue}
+          className={`w-full py-3 rounded-xl font-semibold transition-all
+            ${valideValue
+              ? "bg-gradient-to-r from-green-700 to-green-600 hover:scale-[1.03] shadow-md"
+              : "bg-gray-400 cursor-not-allowed"}
+            text-white`}
+        >
+          Login
+        </button>
+      </form>
+
+      {/* DIVIDER */}
+      <div className="flex items-center gap-3 my-5">
+        <div className="flex-1 h-[1px] bg-gray-300"></div>
+        <span className="text-sm text-gray-500">OR</span>
+        <div className="flex-1 h-[1px] bg-gray-300"></div>
+      </div>
+
+      {/* GOOGLE BUTTON */}
+      {/* <button
+>>>>>>> 11f5e2548f7ecd4ee6fe9010688eab51da0c9c9c
         onClick={handleGoogleLogin}
         className="w-full py-3 rounded-xl border border-gray-300 flex items-center justify-center gap-3 
         hover:bg-gray-100 transition-all shadow-sm hover:shadow-md"

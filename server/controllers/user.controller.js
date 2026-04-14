@@ -343,12 +343,12 @@ export async function authwithGoogle(request, response) {
 
 const refreshToken = await generatedRefreshToken(user._id)    
   console.log("🔄 Refresh Token Generated")
-
-      const cookiesOption = {
-        httpOnly: true,
-        secure: true, // localhost
-        sameSite: "none"
-      }
+   const cookiesOption = {
+     httpOnly: true,
+     secure: true,       // 🔥 MUST (HTTPS)
+     sameSite: "None",   // 🔥 MUST (cross-origin)
+      path: "/"
+};
 
       response.cookie("accessToken", accesstoken, cookiesOption)
       response.cookie("refreshToken", refreshToken, cookiesOption)

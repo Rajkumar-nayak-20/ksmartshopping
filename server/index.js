@@ -113,9 +113,7 @@ app.use(
 
 app.options("*", cors())
 
-/* ======================
-   ROUTES
-====================== */
+/*ROUTE*/
 
 const PORT = process.env.PORT || 8181
 
@@ -134,9 +132,7 @@ app.use("/api/cart", cartRouter)
 app.use("/api/address", addressRouter)
 app.use('/api/order', orderRouter)
 
-/* ======================
-   SERVER START
-====================== */
+/* SERVER START */
 
 connectDB().then(() => {
   app.listen(PORT, () => {

@@ -66,8 +66,11 @@ const Login = () => {
       if (response.data.success) {
         toast.success(response.data.message)
 
-        localStorage.setItem('accesstoken', response.data.data.accesstoken)
-        localStorage.setItem('refreshToken', response.data.data.refreshToken)
+localStorage.setItem('accessToken', response.data.data.accessToken),
+        console.log(localStorage.getItem("accessToken"))
+
+
+localStorage.setItem('refreshToken', response.data.data.refreshToken)
 
         // const userDetails = await fetchUserDetails()
         // dispatch(setUserDetails(userDetails.data))
@@ -83,51 +86,52 @@ dispatch(setUserDetails(userDetails))
     }
   }
 
-  const handleGoogleLogin = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider)
-    const user = result.user
+//   const handleGoogleLogin = async () => {
+//   try {
+//     const result = await signInWithPopup(auth, provider)
+//     const user = result.user
 
-    console.log("FIREBASE USER:", user)
+//     console.log("FIREBASE USER:", user)
 
-    const payload = {
-      name: user.displayName,
-      email: user.email,
-      password: null,
-      avatar: user.photoURL,
-      mobile: user.phoneNumber || "",
-      role: "USER"
-    }
+//     const payload = {
+//       name: user.displayName,
+//       email: user.email,
+//       password: null,
+//       avatar: user.photoURL,
+//       mobile: user.phoneNumber || "",
+//       role: "USER"
+//     }
 
-    console.log("SENDING DATA:", payload)
+//     console.log("SENDING DATA:", payload)
 
-    const response = await Axios({
-      ...SummaryApi.authwithGoogle,
-      data: payload
-    })
+//     const response = await Axios({
+//       ...SummaryApi.authwithGoogle,
+//       data: payload
+//     })
 
-    if (response.data.success) {
-      toast.success("Login success")
+//     if (response.data.success) {
+//       toast.success("Login success")
 
-      localStorage.setItem('accesstoken', response.data.data.accesstoken)
-      localStorage.setItem('refreshToken', response.data.data.refreshToken)
+//       localStorage.setItem('accesstoken', response.data.data.accessToken)
+//       console.log(localStorage.getItem("accessToken"));
+//       localStorage.setItem('refreshToken', response.data.data.refreshToken)
 
-      // const userDetails = await fetchUserDetails()
-      // dispatch(setUserDetails(userDetails.data))
-      const userDetails = await fetchUserDetails()
+//       // const userDetails = await fetchUserDetails()
+//       // dispatch(setUserDetails(userDetails.data))
+//       const userDetails = await fetchUserDetails()
 
-dispatch(setUserDetails(userDetails))
+// dispatch(setUserDetails(userDetails.data))
 
-      navigate("/")
-    }
+//       navigate("/")
+//     }
 
-  } catch (error) {
-    console.log("ERROR:", error)
-    console.log("BACKEND:", error?.response?.data)
+//   } catch (error) {
+//     console.log("ERROR:", error)
+//     console.log("BACKEND:", error?.response?.data)
 
-    toast.error(error?.response?.data?.message || "Google login failed")
-  }
-}
+//     toast.error(error?.response?.data?.message || "Google login failed")
+//   }
+// }
 
 //   return (
 //     <section className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-yellow-100 via-yellow-50 to-white px-4">

@@ -87,7 +87,7 @@ const Profile = () => {
       if (response.data.success) {
         toast.success(response.data.message)
         const userData = await fetchUserDetails()
-        dispatch(setUserDetails(userData.data))
+        dispatch(setUserDetails(userData))
       }
     } catch (error) {
       AxiosToastError(error)

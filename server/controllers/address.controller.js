@@ -22,7 +22,7 @@ export const addAddressController = async(request,response)=>{
                 address_details : saveAddress._id
             }
         })
-
+ 
         return response.json({
             message : "Address Created Successfully",
             error : false,
@@ -39,9 +39,9 @@ export const addAddressController = async(request,response)=>{
     }
 }
 
-export const getAddressController = async(request,response)=>{
+export const getAddressController = async(requauthest,response)=>{
     try {
-        const userId = request.userId // middleware auth
+        const userId = request.userId // middleware 
 
         const data = await AddressModel.find({ userId : userId }).sort({ createdAt : -1})
 
@@ -62,7 +62,7 @@ export const getAddressController = async(request,response)=>{
 
 export const updateAddressController = async(request,response)=>{
     try {
-        const userId = request.userId // middleware auth 
+        const userId = request.userId // middleware  
         const { _id, address_line,city,state,country,pincode, mobile } = request.body 
 
         const updateAddress = await AddressModel.updateOne({ _id : _id, userId : userId },{

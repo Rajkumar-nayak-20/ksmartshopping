@@ -72,8 +72,8 @@ export async function registerUserController(request, response) {
 
         const cookiesOption = {
             httpOnly: true,
-            secure: false, // true in production
-            sameSite: "Lax"
+            secure: true, // true in production
+            sameSite: "None"
         }
 
         response.cookie("accessToken", accessToken, cookiesOption)

@@ -39,27 +39,51 @@ export const addAddressController = async(request,response)=>{
     }
 }
 
-export const getAddressController = async(requauthest,response)=>{
-    try {
-        const userId = request.userId // middleware 
+// export const getAddressController = async(requauthest,response)=>{
+//     try {
+//         const userId = request.userId // middleware 
 
-        const data = await AddressModel.find({ userId : userId }).sort({ createdAt : -1})
+//         const data = await AddressModel.find({ userId : userId }).sort({ createdAt : -1})
+
+//         return response.json({
+//             data : data,
+//             message : "List of address",
+//             error : false,
+//             success : true
+//         })
+//     } catch (error) {
+//         return response.status(500).json({
+//             message : error.message || error ,
+//             error : true,
+//             success : false
+//         })
+//     }
+// }
+export const getAddressController = async (request, response) => {
+    try {
+        const userId = request.userId; // from middleware
+
+        const data = await AddressModel
+            .find({ userId: userId })
+            .sort({ createdAt: -1 });
 
         return response.json({
-            data : data,
-            message : "List of address",
-            error : false,
-            success : true
-        })
-    } catch (error) {
-        return response.status(500).json({
-            message : error.message || error ,
-            error : true,
-            success : false
-        })
-    }
-}
+            data: data,
+            message: "List of address",
+            error: false,
+            success: true
+        });
 
+    } catch (error) {
+        console.error("GET ADDRESS ERROR:", error); // 🔥 add this
+
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        });
+    }
+};
 export const updateAddressController = async(request,response)=>{
     try {
         const userId = request.userId // middleware  

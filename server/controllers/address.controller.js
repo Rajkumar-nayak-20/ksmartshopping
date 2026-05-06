@@ -15,13 +15,13 @@ export const addAddressController = async(request,response)=>{
             mobile,
             userId : userId 
         })
-        const saveAddress = await createAddress.save()
+        const saveAddress = await createAddress.save()//save the address to the database
 
         const addUserAddressId = await UserModel.findByIdAndUpdate(userId,{
             $push : {
                 address_details : saveAddress._id
             }
-        })
+        })//push the address id to the user's address_details array
  
         return response.json({
             message : "Address Created Successfully",

@@ -17,6 +17,6 @@ const cartProductSchema = new mongoose.Schema({
     timestamps : true
 })
 
-const CartProductModel = mongoose.model('cartProduct',cartProductSchema)
+const CartProductModel = mongoose.model('cartProduct',cartProductSchema)//cartProductSchema ko cartProductModel me convert kar rahe hai using mongoose.model function. Iska matlab hai ki hum cartProduct collection me documents ko store karenge jo ki cartProductSchema ke structure ko follow karte hai. Ye model hume database me cart products ko create, read, update, delete karne ke liye methods provide karega.
 
 export default CartProductModel

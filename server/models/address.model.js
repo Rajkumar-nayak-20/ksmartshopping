@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+//schema for address details of the user
 const addressSchema = new mongoose.Schema({
     address_line : {
         type : String,

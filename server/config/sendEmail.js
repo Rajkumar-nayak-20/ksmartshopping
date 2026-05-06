@@ -15,7 +15,7 @@ const sendEmail = async ({ sendTo, subject, html }) => {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASSWORD,
             },
-        });
+        });//node mailer he gmail ke sath kaam karne ke liye transporter create karta hai jisme service gmail hota hai aur auth me email user aur password hota hai jo .env file se aata hai
 
         // 2. Define the email options
         const mailOptions = {
@@ -26,7 +26,7 @@ const sendEmail = async ({ sendTo, subject, html }) => {
         };
 
         // 3. Send the actual email
-        const info = await transporter.sendMail(mailOptions);
+        const info = await transporter.sendMail(mailOptions);//transporter ke sendMail method se mailOptions pass karke email
         
         console.log("Email sent successfully: ", info.messageId);
         return info;

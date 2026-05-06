@@ -28,7 +28,7 @@ const Header = () => {
 
   // redirect to login page
   const redirectTOLoginPage = () => {
-    navigate("/login");
+    navigate("/login");//navigate ka use isliye karte hai taki hum user ko login page pe redirect kar sake
   };
   const handlecloseUserMenu = () => {
     setOpenUserMenu(false);
@@ -39,11 +39,12 @@ const Header = () => {
       return;
     }
     navigate("/user");
+    //useeffect ka use isliye karte hai taki hum user ke data me changes aane pe usko update kar sake taki hum usko app ke kisi bhi component me use kar sake
   };
 
   // toast; items and total price
 
-  // useEffect(() => {
+  // useEffect(() => {//cart item me changes aane pe total price aur total quantity ko update karne ke liye useEffect ka use karte hai
   //   const qty = cartItem.reduce((preve,curr)=>{
   //     return preve + curr.quantity
 

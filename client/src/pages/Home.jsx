@@ -1,314 +1,28 @@
-// import React, { use } from "react";
-// import banner from "../assets/banner.jpg";
-// import bannerMobile from "../assets/banner-mobile.jpg";
-// import { useSelector } from "react-redux";
-
-// const Home = () => {
-//   const loadingCategory = useSelector((state) => state.product.loadingCategory)
-//   const categoryData =useSelector((state)=>state.product.allCategory)
-//   return (
-//     <section className="bg-white">
-//       <div className="container mx-auto   ">
-//         <div
-//           className={`min-h-48 bg-blue-100 w-full h-full rounded ${!banner && "animate-pulse"}
-//          my-2`}
-//         >
-//           <img
-//             src={banner}
-//             className=" w-full h-full hidden lg:block "
-//             alt=""
-//           />
-//           <img
-//             src={bannerMobile}
-//             className=" w-full h-full  lg:hidden "
-//             alt=""
-//           />
-//         </div>
-//       </div>
-//       <div className="container mx-auto  px-4 my-2 grid grid-cols-2  md:grid-cols-4 lg:grid-cols-6 gap-5">
-//         {
-//           loadingCategory ? (
-//              new Array(12).fill(null).map((c, index) => {
-//           return (
-//             <div className="bg-white rounded p-4 min-h-36 grid  gap-2 shadow animate-pulse " >
-//               <div className="bg-blue-100 min-h-24 rounded"></div>
-
-//               <div className="bg-blue-100 h-8 rounded"></div>
-
-//             </div>
-
-//           )
-//         })
-//           ) :(
-
-//             categoryData.map((cat)=>{
-//               return (
-//                  <div>
-//                 <div>
-//                   <img
-//                    src={cat.image}
-//                   />
-//                 </div>
-//             </div>
-//               )
-//             })
-
-//           )
-//        }
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Home;
-
-// import React from "react";
-// import banner from "../assets/banner.jpg";
-// import b1 from "../assets/b1.jpg";
-// import b2 from "../assets/b2.jpg";
-// import b3 from "../assets/b3.png";
-
-// import bannerMobile from "../assets/banner-mobile.jpg";
-// import { useSelector } from "react-redux";
-// import { valideURLConvert } from "../utils/valideURLConvert";
-// import { Link, useNavigate } from "react-router-dom";
-// import CategoryWiseProductDisplay from "../components/CategoryWiseProductDisplay";
-// import { Swiper, SwiperSlide } from "swiper/react";
-// import "swiper/css";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
-
-// import { Navigation, Pagination, Autoplay } from "swiper/modules";
-
-// const Home = () => {
-//   const loadingCategory = useSelector(
-//     (state) => state.product?.loadingCategory,
-//   );
-//   const categoryData = useSelector((state) => state.product?.allCategory || []);
-//   const subcategoryData = useSelector(
-//     (state) => state.product?.allSubCategory || [],
-//   );
-//   const navigate = useNavigate();
-//   const handleRedirectProductListpage = (id, cat) => {
-//     console.log("redirect to product list page with category id ", id, cat);
-//     // const subcategory =subcategoryData.find(sub =>{
-//     //    const filterData = sub.category.some(c =>{
-//     //     return c._id == id
-//     //    })
-//     //    return filterData ? true : null
-//     // })
-//     const subcategory = subcategoryData.find((sub) => {
-//       if (Array.isArray(sub.category)) {
-//         return sub.category.some((c) => c._id === id);
-//       }
-
-//       return sub.category?._id === id;
-//     })
-
-//     const url = `/${valideURLConvert(cat)}-${id}/${valideURLConvert(subcategory.name)}-${subcategory._id}`;
-//       navigate(url);
-//     console.log(url);
-//   }
-
-//   return (
-//     <section className="bg-gray-50 min-h-screen">
-//       {/* Banner Section */}
-//       {/* <div className="container mx-auto px-4">
-//         <div className="rounded-xl overflow-hidden my-4 shadow-md">
-//           <img src={banner} className="w-full hidden lg:block" alt="banner" />
-//           <img
-//             src={bannerMobile}
-//             className="w-full lg:hidden"
-//             alt="banner mobile"
-//           />
-//         </div>
-//       </div> */}
-
-//       <div className="container mx-auto px-4">
-//   <div className="rounded-xl overflow-hidden my-4 shadow-md">
-
-//     <Swiper
-//       modules={[Navigation, Pagination, Autoplay]}
-//       navigation
-//       pagination={{ clickable: true }}
-//       autoplay={{ delay: 3000 }}
-//       loop={true}
-//       className="w-full h-full"
-//     >
-
-//       {/* Slide 1 */}
-//       <SwiperSlide>
-//         <img
-//           src={b2}
-//             className="w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-[450px] object-cover rounded-xl"
-
-//           alt="banner"
-//         />
-//         <img
-//           src={bannerMobile}
-//           className="w-full lg:hidden"
-//           alt="banner mobile"
-//         />
-//       </SwiperSlide>
-
-//       {/* Slide 2 */}
-//       <SwiperSlide>
-//         <img
-//           src={b1}
-//           className="w-full hidden lg:block"
-//           alt="banner"
-//         />
-//         <img
-//           src={bannerMobile}
-//           className="w-full lg:hidden"
-//           alt="banner mobile"
-//         />
-//       </SwiperSlide>
-
-//       {/* Slide 3 */}
-//       <SwiperSlide>
-//         <img
-//           src={b2}
-//           className="w-full hidden lg:block"
-//           alt="banner"
-//         />
-//         <img
-//           src={bannerMobile}
-//           className="w-full lg:hidden"
-//           alt="banner mobile"
-//         />
-//       </SwiperSlide>
-
-//     </Swiper>
-
-//   </div>
-// </div>
-
-//       {/* Category Section */}
-//       {/* <div className="container mx-auto px-4 my-6">
-//         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-//           {loadingCategory
-//             ? new Array(12).fill(null).map((_, index) => (
-//                 <div
-//                   key={index}
-//                   className="bg-white rounded-xl p-4 shadow animate-pulse"
-//                 >
-//                   <div className="bg-gray-200 h-24 rounded-lg mb-3"></div>
-//                   <div className="bg-gray-200 h-6 rounded"></div>
-//                 </div>
-//               ))
-//             : categoryData.map((cat) => (
-//                 <div
-//                   key={cat._id}
-//                   className="bg-white rounded-xl p-4 shadow hover:shadow-lg transition duration-300 cursor-pointer text-center"
-//                   onClick={() =>
-//                     handleRedirectProductListpage(cat._id, cat.name)
-//                   }
-//                 >
-//                   <div className="flex justify-center items-center">
-//                     <img
-//                       src={cat.image}
-//                       alt={cat.name}
-//                       className="h-24 object-contain transition-transform duration-300 hover:scale-105"
-//                     />
-//                   </div>
-
-//                   <h3 className="mt-3 text-sm font-medium text-gray-700">
-//                     {cat.name}
-//                   </h3>
-//                 </div>
-//               ))}
-//         </div>
-//       </div> */}
-
-//       {/* Unique Category Section */}
-// <div className="container mx-auto px-4 my-8">
-//   <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 gap-4">
-
-//     {categoryData.map((cat) => (
-//       <div
-//         key={cat._id}
-//         onClick={() =>
-//           handleRedirectProductListpage(cat._id, cat.name)
-//         }
-//         className="group relative flex flex-col items-center justify-center
-//                    bg-gradient-to-br from-white to-gray-50
-//                    rounded-2xl p-3
-//                    shadow-sm hover:shadow-xl
-//                    transition-all duration-300
-//                    cursor-pointer
-//                    overflow-hidden"
-//       >
-
-//         {/* Soft Glow Background */}
-//         <div className="absolute inset-0 opacity-0 group-hover:opacity-100
-//                         bg-gradient-to-br from-green-100 to-emerald-50
-//                         transition duration-300 rounded-2xl"></div>
-
-//         {/* Image */}
-//         <div className="relative z-10 flex items-center justify-center h-20">
-//           <img
-//             src={cat.image}
-//             alt={cat.name}
-//             className="h-16 object-contain
-//                        transition-transform duration-300
-//                        group-hover:scale-110"
-//           />
-//         </div>
-
-//         {/* Title */}
-//         <h3 className="relative z-10 mt-2 text-xs font-semibold text-gray-700 text-center">
-//           {cat.name}
-//         </h3>
-
-//       </div>
-//     ))}
-//   </div>
-// </div>
-// {/*
-//       display category product */}
-//       {
-//         categoryData.map((c,index)=>{
-//           return(
-
-//                 <CategoryWiseProductDisplay  key={c?._id+"categoryWiseProduct"} id={c._id}name={c.name}/>
-
-//           )
-//         })
-//       }
-//     </section>
-//   );
-// };
-
-// export default Home;
-
-//42:00
 import React from "react";
-import bannerMobile from "../assets/banner-mobile.jpg";
-import b1 from "../assets/b1.jpg";
-import b2 from "../assets/b2.jpg";
+import bannerMobile from "../assets/banner-mobile.jpg"
+import b1 from "../assets/6976007.jpg"
+import b2 from "../assets/8633609.jpg"
+import { useSelector } from "react-redux"
+import { valideURLConvert } from "../utils/valideURLConvert"
+import { useNavigate } from "react-router-dom"
+import CategoryWiseProductDisplay from "../components/CategoryWiseProductDisplay"
+import { Swiper, SwiperSlide } from "swiper/react"
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
+import { Navigation, Pagination, Autoplay } from "swiper/modules"
 
-import { useSelector } from "react-redux";
-import { valideURLConvert } from "../utils/valideURLConvert";
-import { useNavigate } from "react-router-dom";
-import CategoryWiseProductDisplay from "../components/CategoryWiseProductDisplay";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-
+//patch ka mtlb ki hum data ko partially update karna chahte hai server pe, agar hum put request bhejte hai to pura data update hoga chahe humne kuch fields hi bheje ho, lekin agar hum patch request bhejte hai to sirf wo fields update honge jo humne bheje hai
 const Home = () => {
   const loadingCategory = useSelector(
     (state) => state.product?.loadingCategory,
-  );
-  const categoryData = useSelector((state) => state.product?.allCategory || []);
+  );//use selector ka use isliye karte hai taki hum redux store se data fetch kar sake aur usko component me use kar sake
+  const categoryData = useSelector((state) => state.product?.allCategory || []);//agar state.product.allCategory undefined hua to empty array return karega taki code me error na aaye
   const subcategoryData = useSelector(
     (state) => state.product?.allSubCategory || [],
   );
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleRedirectProductListpage = (id, cat) => {
     const subcategory = subcategoryData.find((sub) => {
@@ -345,7 +59,7 @@ const Home = () => {
               <picture>
                 <source media="(min-width:1024px)" srcSet={b1} />
                 <img
-                  src={bannerMobile}
+                  src={b1}
                   alt="banner"
                   className="w-full h-[180px] sm:h-[260px] md:h-[350px] lg:h-[420px] object-cover"
                 />
@@ -357,7 +71,7 @@ const Home = () => {
               <picture>
                 <source media="(min-width:1024px)" srcSet={b2} />
                 <img
-                  src={bannerMobile}
+                  src={b2}
                   alt="banner"
                   className="w-full h-[180px] sm:h-[260px] md:h-[350px] lg:h-[420px] object-cover"
                 />

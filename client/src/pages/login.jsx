@@ -39,7 +39,7 @@ const Login = () => {
   const valideValue = Object.values(data).every(el => el)
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault()//form submit hone pe page reload nahi hoga
 
     if (!isValidEmail) {
       toast.error("Please enter a valid email address")
@@ -76,13 +76,13 @@ localStorage.setItem('refreshToken', response.data.data.refreshToken)
         // dispatch(setUserDetails(userDetails.data))
         const userDetails = await fetchUserDetails()
 
-dispatch(setUserDetails(userDetails))
+dispatch(setUserDetails(userDetails))//dispatch ka use isliye karte hai taki hum redux store me user ke details ko update kar sake taki hum usko app ke kisi bhi component me use kar sake
 
         setData({ email: "", password: "" })
         navigate("/")
       }
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error)//AxiosToastError ka use isliye karte hai taki hum axios ke error ko toast me show kar sake
     }
   }
 

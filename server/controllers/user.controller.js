@@ -1,6 +1,3 @@
-
-
-
 import sendEmail from '../config/sendEmail.js'
 import UserModel from '../models/user.model.js'
 import bcryptjs from 'bcryptjs'
@@ -15,7 +12,7 @@ import generateOTP from '../utils/generateOtp.js'
 import forgotPasswordOTP from '../utils/forgotPasswordTemplate.js'
 
 //  REGISTER
-export async function registerUserController(request, response) {
+export async function registerUserController(request, response) {//async function ko hum controller ke andar isliye use karte hai taki hum database se data fetch kar sake aur uske according response de sake
     try {
         const { name, email, password, mobile } = request.body
 
@@ -44,7 +41,7 @@ export async function registerUserController(request, response) {
         const otp = generateOTP()
         const otpExpiry = new Date(Date.now() + 10 * 60 * 1000)
 
-        const payload = {
+        const payload = {// payload me hum user ke data ko store karte hai taki hum usko email bhejte time use kar sake
             name,
             email,
             password: hashPassword,
@@ -67,7 +64,7 @@ export async function registerUserController(request, response) {
             })
         })
     
-  const accessToken = generatedAccessToken(newUser._id)
+  const accessToken = generatedAccessToken(newUser._id)//access token generate karne ke liye hum user ke id ko use karte hai taki hum usko email bhejte time use kar sake
       const refreshToken = await generatedRefreshToken(newUser._id)
 
         const cookiesOption = {
@@ -109,9 +106,9 @@ export async function verifyEmailController(request, response) {
     try {
         const { code } = request.body
 
-        const user = await UserModel.findOne({ _id: code })
+        const user = await UserModel.findOne({ _id: code })// await ka use isliye karte hai taki hum database se data fetch kar sake aur uske according response de sake, yaha pe hum user ke id ko use karte hai taki hum usko email bhejte time use kar sake
 
-        if (!user) {
+        if (!user){
             return response.status(400).json({
                 message: "Invalid code",
                 error: true,

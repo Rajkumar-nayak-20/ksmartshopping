@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({//schema me hum user ke data ko store karte hai taki hum usko database me save kar sake
     name : {
         type : String,
         required : [true,"Provide name"]
@@ -77,7 +77,7 @@ const userSchema = new mongoose.Schema({
         default : false
     }
 },{
-    timestamps : true
+    timestamps : true//timestamps ka use isliye karte hai taki hum user ke data ko create aur update karne ke time ko track kar sake
 })
 
 const UserModel = mongoose.model("User",userSchema)

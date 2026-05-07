@@ -1,25 +1,3 @@
-// import React from 'react'
-// import { FaFacebook } from "react-icons/fa";
-// import { FaInstagram } from "react-icons/fa";
-// import { FaLinkedin } from "react-icons/fa";
-// import { Link } from "react-router-dom"
-
-// const Footer = () => {
-//     // return (
-//     //     <footer className='border-t'>
-//     //         <div className='container mx-auto py-4 text-center flex flex-col gap-2'>
-//     //             <p>© 2025 k-cart. All rights reserved. Designed and developed by Rajkumar Nayak.</p>
-//     //             <div className='flex items-center gap-4 justify-center text-2xl'>
-//     //                 <a href='' className='hover:text-blue-600'>
-//     //                     <FaFacebook />
-//     //                 </a>
-//     //                 <a href='' className='hover:text-pink-500'>
-//     //                     <FaInstagram />
-//     //                 </a>
-//     //                   <a href='' className='hover:text-blue-800'>
-//     //                    <FaLinkedin />
-//     //                 </a>
-//     //             </div>
 
 
 //     //         </div>
@@ -139,32 +117,93 @@
 
 
 
-
-import React from 'react'
+import React from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className='border-none'>
-        <div className='container mx-auto p-4 text-center flex flex-col lg:flex-row lg:justify-between gap-2'>
-            <p>© All Rights Reserved 2026.</p>
+    <footer className="w-full bg-white border-t border-gray-200 mt-auto overflow-hidden">
+      
+      <div
+        className="
+        max-w-7xl
+        mx-auto
+        px-4
+        sm:px-6
+        lg:px-8
+        py-4
+        flex
+        flex-col
+        sm:flex-row
+        items-center
+        justify-between
+        gap-3
+      "
+      >
+        
+        {/* LEFT */}
+        <p
+          className="
+          text-sm
+          text-gray-600
+          text-center
+          sm:text-left
+        "
+        >
+          © All Rights Reserved 2026.
+        </p>
 
-            <div className='flex items-center gap-4 justify-center text-2xl'>
-                <a href='' className='hover:text-primary-100'>
-                    <FaFacebook/>
-                </a>
-                <a href='' className='hover:text-primary-100'>
-                    <FaInstagram/>
-                </a>
-                <a href='' className='hover:text-primary-100'>
-                    <FaLinkedin/>
-                </a>
-            </div>
+        {/* RIGHT */}
+        <div
+          className="
+          flex
+          items-center
+          justify-center
+          gap-4
+          text-xl
+        "
+        >
+          <a
+            href="#"
+            className="
+            text-gray-500
+            hover:text-primary-600
+            transition
+            duration-200
+          "
+          >
+            <FaFacebook />
+          </a>
+
+          <a
+            href="#"
+            className="
+            text-gray-500
+            hover:text-pink-500
+            transition
+            duration-200
+          "
+          >
+            <FaInstagram />
+          </a>
+
+          <a
+            href="#"
+            className="
+            text-gray-500
+            hover:text-blue-600
+            transition
+            duration-200
+          "
+          >
+            <FaLinkedin />
+          </a>
         </div>
+      </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
